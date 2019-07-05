@@ -1,7 +1,13 @@
 YEAR_0 = 2012
 YEAR_LAST = 2017
-TIMESTAMPS = {2012:20190329, 2017:20190423}
+TIMESTAMPS = {2012:20190329, 
+              2013:20190331,
+              2014:20190411,
+              2015:20190411,
+              2016:20190411,
+              2017:20190423}
 
+# TODO: download must fail on small fail on small file or  HTML file
 
 def is_valid(year):
     return (YEAR_0 <= year <= YEAR_LAST) or year == 0

@@ -15,3 +15,5 @@ REM csvgrep -c unit -m 383 p2012.csv | wc -l
 REM csvgrep -c inn -m 3123077591 p2012.csv
 
 REM to json!
+
+REM to sql!

@@ -1,3 +1,5 @@
+# TODO: pip install boo
+
 import pandas as pd
 from columns import shorten, COLUMNS_SHORT, DTYPES_SHORT
 from file import curl, yield_rows, save_rows
@@ -20,14 +22,10 @@ def download(year: int, force=False):
     print("Saved as", path)
 
      
-def cut(year: int, force=False):
-    cut_columns(year, force=force)
-
-
 def cut_columns(year, worker=shorten, column_names=COLUMNS_SHORT, force=False):
     """Create smaller local file with fewer columns. 
-       *worker* function trims columns.
-       *COLUMNS_SHORT* are outcoming column names.
+       Columns will be named with *COLUMNS_SHORT*.
+       Rows will be modified by *worker* function.
     """    
     src, dst = raw(year), processed(year)
     preclean(dst, force)
@@ -49,10 +47,6 @@ def read_intermediate_df(year: int):
     return dataframe(src, DTYPES_SHORT)
 
 
-def put(year: int, force=False):
-    make_canonical_df(year, force)
-    
-    
 def make_canonical_df(year: int, worker, column_names, force=False):
     df = read_intermediate_df(year)    
     # TODO: add parsing logic here from row.py
@@ -65,6 +59,17 @@ def read_df(year):
     src = canonical(year)
     # TODO: use types list
     return dataframe(src)
+
+
+# Shorthand notation
+
+    
+def cut(year: int, force=False):
+    cut_columns(year, force=force)
+
+
+def put(year: int, force=False):
+    make_canonical_df(year, force)
 
 
 def acquire(year: int):

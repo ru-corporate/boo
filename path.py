@@ -25,5 +25,5 @@ def raw(year):
 def processed(year):
     return file("trimmed", year)
 
-def canonical(year):
-    return file("canonical", year)
+def canonic(year):
+    return file("canonic", year)

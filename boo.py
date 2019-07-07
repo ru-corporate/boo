@@ -55,8 +55,9 @@ def read_intermediate_df(year: int):
 def make_canonical_df(year: int, force=False):
     dst = canonical(year)
     preclean(dst, force)
+    print (f"Reading intermediate dataframe for {year}...")
     df = canonic_df(read_intermediate_df(year))
-    print (f"Created canonic dataframe for year {year}")
+    print (f"Created final dataframe for {year}")
     df.to_csv(dst, index=False)
     print (f"Saved to file {dst}")
     
@@ -81,11 +82,11 @@ def put(year: int):
     make_canonical_df(year, force=False)
 
 
-def putf(year: int, force=False):
+def putf(year: int):
     make_canonical_df(year, force=True)
 
 
-def df(year: int):
+def frame(year: int):
     return read_canonical_df(year)
 
 
@@ -96,14 +97,17 @@ def acquire(year: int):
     return df(year)
 
 
-def acquire_all(force=False):
+def acquire_all():
     for year in YEARS:
-        acquire(year, True)  
+        acquire(year)  
 
+# TODO: acquire all at Google Colab
     
 if __name__ == "__main__":
     dfs = {}
     for year in YEARS:        
         print(year)
-        put(year)
-        df[year] = df(year)      
+        putf(year)
+        dfs[year] = frame(year)      
+        
+# ERROR: trimmed_2016.csv is an anomaly        

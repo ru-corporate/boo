@@ -199,7 +199,7 @@ class Columns:
     def dtypes(self): 
         def switch(item):
             return numpy.int64 if (item in self.numeric) else str
-        return [switch(item) for item in self.all]
+        return {c:switch(c) for c in self.all}
 
 
 class Converter:

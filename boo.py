@@ -1,10 +1,13 @@
 # TODO: pip install boo
 
 import pandas as pd
-from columns import CONVERTER_FUNC as shorten, SHORT_COLUMNS
+
+from year import YEARS
 from file import curl, yield_rows, save_rows
 from path import raw, processed, canonical
 from year import make_url
+from columns import CONVERTER_FUNC as shorten, SHORT_COLUMNS
+
 
 def preclean(path, force: bool):
     """Delete an exisiting file if *force* flag is set to True"""
@@ -15,10 +18,11 @@ def download(year: int, force=False):
     """Download file from Rosstat."""
     path, url = raw(year), make_url(year), 
     preclean(path, force)
-    print("Downloading", url)
+    print("Downloading", url, f"for {year}")
     curl(path, url)
     print("Saved as", path)
     # MAYBE: show line count  
+    # TODO: download must fail on small fail on small file or HTML file
 
      
 def cut_columns(year, worker=shorten, column_names=SHORT_COLUMNS.all, 
@@ -58,7 +62,7 @@ def make_canonical_df(year: int, worker, column_names, force=False):
 def read_df(year):
     src = canonical(year)
     # TODO: use types list
-    return dataframe(src)
+    return datafraвщцтдщфвme(src)
 
 
 # Shorthand functions
@@ -73,11 +77,16 @@ def put(year: int, force=False):
 
 
 def acquire(year: int, force=False):
-    download(year)
-    cut(year)
-    put(year)    
-    
-if __main__ == "__name__":
-    from year import YEARS
+    download(year, force)
+    cut(year, force)
+    put(year, force)    
+
+
+def acquire_all(force=False):
     for year in YEARS:
-        acquire(year, True)    
+        acquire(year, True)  
+
+    
+if __name__ == "__main__":
+    for year in YEARS:        
+       cut(year, True)  

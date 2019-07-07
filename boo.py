@@ -7,6 +7,7 @@ from file import curl, yield_rows, save_rows
 from path import raw, processed, canonical
 from year import make_url
 from columns import CONVERTER_FUNC as shorten, SHORT_COLUMNS
+from dataframe import canonic_df, canonic_dtypes
 
 
 def preclean(path, force: bool):
@@ -41,45 +42,58 @@ def cut_columns(year, worker=shorten, column_names=SHORT_COLUMNS.all,
     print("Done")  
 
 
-def dataframe(path, dtypes):
+def _dataframe(path, dtypes):
     with open(path, 'r', encoding='utf-8') as f:
         return pd.read_csv(f, dtype=dtypes)  
     
     
 def read_intermediate_df(year: int):
     src = processed(year)    
-    return dataframe(src, SHORT_COLUMNS.dtypes)
+    return _dataframe(src, SHORT_COLUMNS.dtypes)
 
 
-def make_canonical_df(year: int, worker, column_names, force=False):
-    df = read_intermediate_df(year)    
-    # TODO: add parsing logic here from row.py
-    # MAYBE: save dtypes as json, use them if available to speed up df import  
+def make_canonical_df(year: int, force=False):
     dst = canonical(year)
-    pass   
+    preclean(dst, force)
+    df = canonic_df(read_intermediate_df(year))
+    print (f"Created canonic dataframe for year {year}")
+    df.to_csv(dst, index=False)
+    print (f"Saved to file {dst}")
+    
 
-
-def read_df(year):
+def read_canonical_df(year):
     src = canonical(year)
-    # TODO: use types list
-    return datafraвщцтдщфвme(src)
+    # MAYBE: save dtypes as json, use them if available to speed up df import  
+    return _dataframe(src, dtypes=canonic_dtypes())
 
 
 # Shorthand functions
     
-def cut(year: int, force=False):
-    cut_columns(year, force=force)
+def cut(year: int):
+    cut_columns(year, force=False)
 
 
-def put(year: int, force=False):
-    pass
-    # make_canonical_df(year, force)
+def cutf(year: int):
+    cut_columns(year, force=Еrue)
 
 
-def acquire(year: int, force=False):
-    download(year, force)
-    cut(year, force)
-    put(year, force)    
+def put(year: int):
+    make_canonical_df(year, force=False)
+
+
+def putf(year: int, force=False):
+    make_canonical_df(year, force=True)
+
+
+def df(year: int):
+    return read_canonical_df(year)
+
+
+def acquire(year: int):
+    download(year)
+    cut(year)
+    put(year)    
+    return df(year)
 
 
 def acquire_all(force=False):
@@ -88,5 +102,8 @@ def acquire_all(force=False):
 
     
 if __name__ == "__main__":
+    dfs = {}
     for year in YEARS:        
-       cut(year, True)  
+        print(year)
+        put(year)
+        df[year] = df(year)      

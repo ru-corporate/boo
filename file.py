@@ -9,6 +9,7 @@ def panic(path):
     if os.path.exists(path):
         raise FileExistsError("File already exists: %s" % path)    
 
+# TODO: download must fail on small fail on small file or HTML file
 
 def curl(path: str, url: str, max_chunk=None):
     panic(path)

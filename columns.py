@@ -7,6 +7,7 @@
 #
 
 from collections import OrderedDict
+from dataclasses import dataclass
 import numpy
 
 # Column names as provided at Rosstat web site
@@ -137,61 +138,101 @@ def split(text: str):
             is_lagged = True
     return code, is_lagged        
 
-class Column:
-    def __init__(self, text: str):
-        self.code, self.lag = split(text)
-        self._start_code = self.code
-        
-    def is_renamed(self):
-        return self._start_code != self.code        
-       
-    def rename(self, lookup_dict):
-        self.code = lookup_dict.get(self.code, self.code)
-        return self 
-    
-    def __eq__(self, x):
-        return str(self) == str(x)
 
+
+class Label:    
+    def __init__(self, text):
+        self.code, self.lag = split(text)
+        self.previous_code = ""
+    
+    def rename_with(self, mapper_dict):
+        self.previous_code = self.code
+        self.code = mapper_dict.get(self.code, self.code)
+        return self          
+        
+    def is_changed(self):
+        return self.code != self.previous_code         
+    
+    def __repr__(self):
+        return "Label({}, {})".format(self.code, self.lag)
+        
     def __str__(self):
         return self.code + ("_lag" if self.lag else "")
     
-    def __repr__(self):
-        return (self.code, self.lag).__str__()
+    def __eq__(self, x):
+        return (self.code, self.lag) == (x.code, x.lag)
+   
+       
+@dataclass    
+class Mapper:
+    data : dict
+    text : dict   
     
-    def is_text(self):
-        return self.code in TEXT_FIELDS.values()
+    def combined(self):
+        return {**self.data, **self.text}
     
-    def is_numeric(self):
-        return self.code in DATA_FIELDS.values()
+    def rename(self, label):
+        return label.rename_with(self.combined())
     
-    def dtype(self):
-        return numpy.int64 if self.is_numeric() else str
+    def is_text(self, label):
+        return label.code in self.text.values()
 
-def as_str(xs):
-    return [str(x) for x in xs] 
-
-
-all_dicts = {**DATA_FIELDS, **TEXT_FIELDS}
+    def is_data(self, label):
+        return label.code in self.data.values()    
 
 
+def convert(mapper, text):
+    label = Label(text)
+    return mapper.rename(label)
+    
+
+@dataclass
 class Columns:
-    long = [Column(text).rename(all_dicts) for text in TTL_COLUMNS]
-    short = [c for c in long if c.is_renamed()]
-    short_text = [c for c in short if c.is_text()]
-    short_data = [c for c in short if c.is_numeric()]
-
-COLUMNS_LONG = as_str(Columns.long)
-COLUMNS_SHORT =  as_str(Columns.short)
-COLUMNS_SHORT_DATA = as_str(Columns.short_data)
-DTYPES_SHORT = {str(c):c.dtype() for c in Columns.short}
-ix = [i for (i, col) in enumerate(COLUMNS_LONG) if (col in COLUMNS_SHORT)]
-
-
-def shorten(row):
-    return [row[i] for i in ix] 
+    all : [str]
+    numeric : [str]
+    
+    @property
+    def text(self):
+        return [item for item in self.all if item not in self.data]
+    
+    @property    
+    def dtypes(self): 
+        def switch(item):
+            return numpy.int64 if (item in self.numeric) else str
+        return [switch(item) for item in self.all]
 
 
-def get_unit(row, ix=COLUMNS_SHORT.index("unit")):    
+class Converter:
+    def __init__(self, colnames=TTL_COLUMNS,
+                  data_mapper=DATA_FIELDS, 
+                  text_mapper=TEXT_FIELDS):
+        self.mapper = Mapper(data=data_mapper, text=text_mapper)
+        self.long_names = [convert(self.mapper, text) for text in colnames]
+        self.short_names = [c for c in self.long_names if c.is_changed()]
+    
+    def short_columns(self):
+        _a = [str(c) for c in self.short_names]
+        _n = [str(c) for c in self.short_names if self.mapper.is_data(c)]
+        return Columns(all = _a, numeric = _n)    
+    
+    def _index(self):
+        for (i, col) in enumerate(self.long_names):
+            if col in self.short_names:
+                yield i
+    
+    def make_shortener(self):
+        index = list(self._index())
+        def shorten(row):
+            return [row[i] for i in index] 
+        return shorten
+    
+_c = Converter(TTL_COLUMNS, DATA_FIELDS, TEXT_FIELDS)    
+SHORT_COLUMNS = _c.short_columns()
+CONVERTER_FUNC = _c.make_shortener()
+
+assert SHORT_COLUMNS.all == Converter(CONVERTER_FUNC(TTL_COLUMNS)).short_columns().all
+
+# to be removed:
+
+def get_unit(row, ix=SHORT_COLUMNS.all.index("unit")):    
     return row[ix]
-
-assert shorten(TTL_COLUMNS)

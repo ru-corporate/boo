@@ -1,5 +1,3 @@
-YEAR_0 = 2012
-YEAR_LAST = 2017
 TIMESTAMPS = {2012:20190329, 
               2013:20190331,
               2014:20190411,
@@ -7,17 +5,17 @@ TIMESTAMPS = {2012:20190329,
               2016:20190411,
               2017:20190423}
 
-# TODO: download must fail on small fail on small file or  HTML file
+YEARS = list(TIMESTAMPS.keys())
 
 def is_valid(year):
-    return (YEAR_0 <= year <= YEAR_LAST) or year == 0
+    return (year in YEARS) or year == 0
 
 
 def validate(year):
     if is_valid(year):
         print("Year:", year)    
     else:    
-        raise ValueError(f"Year not supported: {year}. Must be {YEAR_0}-{YEAR_LAST}")
+        raise ValueError(f"Year not supported: {year}. Must be one of {YEARS}")
 
 
 def make_url(year):

@@ -1,6 +1,7 @@
 [![colab](https://img.shields.io/badge/colab-launch-blue.svg)](https://colab.research.google.com/drive/1BGLalP4rr5FdtXsEzb5oG4sHL5qmgbAS#scrollTo=YuW47K8E4IBZ)
 
 # boo
+
 Python client for Rosstat open data corporate reports. Creates a local CSV file with column names, importable as pandas dataframe.
 
 ## Goal
@@ -9,6 +10,12 @@ Access balance sheet, profit and loss and cash flow statements of Russian firms 
 
 
 ## Install
+
+```
+pip install boo
+```
+
+For development version:
 
 ```
 pip install git+https://github.com/ru-corporate/boo.git@master
@@ -88,3 +95,9 @@ cut(2012)
 - No timeseries: we can access all data for each year, but not several years for each firm,
   even though the data is available. 
 - No database: we store files as CSV, not in a database.
+
+## Contributors
+
+The package is maintained by [Evgeniy Pogrebnyak](https://github.com/epogrebnyak).
+
+Special thanks to [Daniil Chizhevskij](https://daniilchizhevskij.ml/) for PyPI collaboration, without his support `pip install boo` would bot be possible.

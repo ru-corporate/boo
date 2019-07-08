@@ -26,16 +26,13 @@ print(df.head())
 
 ## Data model
  
-CSV files are be located at `~/.boo` folder.
-
-File names:
-
+CSV files are  located at `~/.boo` folder.
 
 File name     | Description  | Column count |  Created by 
 --------------|--------------|:------------:|:------------:
 `raw_<year>.csv`     | Original CSV file from Rosstat website. No header row.    | 266 |`download(year)`
-`trimmed_<year>.csv` | CSV file with column names in header row, unnamed columns. | 58(*) | `cut(year)`
-`canonic_<year>.csv` | CSV file with additional column transformations (eg. `region`) and error filters. Reference dataset for analysis. | 58* | `put(year)`
+`trimmed_<year>.csv` | CSV file with column names in header row, unnamed columns. | 58(\*) | `cut(year)`
+`canonic_<year>.csv` | CSV file with additional column transformations (eg. `region`) and error filters. Reference dataset for analysis. | 58 (\*) | `put(year)`
 
 (\*) equal by coincidence, some columns are added and some removed
 
@@ -90,4 +87,4 @@ cut(2012)
 
 - No timeseries: we can access all data for each year, but not several years for each firm,
   even though the data is available. 
-- No database: we store files as CSV, not in a database. 
+- No database: we store files as CSV, not in a database.

@@ -99,9 +99,18 @@ def frame(year: int):
 
 
 def prepare(year: int):
-    download(year)
-    cut(year)
-    put(year)   
+    if not raw(year).exists():
+        download(year)
+    if not processed(year).exists():
+        cut(year)
+    if not canonic(year).exists():        
+        put(year)   
+
+
+def erase(year):
+    for f in raw(year), processed(year), canonic(year):
+        f.unlink()
+        
 
 def prepare_all():
     for year in YEARS:

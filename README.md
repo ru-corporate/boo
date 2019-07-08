@@ -5,8 +5,8 @@ Python client for Rosstat open data corporate reports. Creates a local CSV file 
 
 ## Goal
 
-Access balance sheet, profit and loss and cash flow statements of Russian firms.
-Save time on cleaning the data and boilerplate. 
+Access balance sheet, profit and loss and cash flow statements of Russian firms in less time and fewer boilerplate.
+
 
 ## Install
 

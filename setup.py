@@ -10,7 +10,7 @@ from setuptools import setup, find_packages
 # 0.0.4 adds erase() function
 
 setup(name='boo',
-      version='0.0.4',
+      version='0.0.4b',
       description='Russian corporate reports 2012-2017',
       url='http://github.com/ru-corporate/boo',
       author='Evgeniy Pogrebnyak',

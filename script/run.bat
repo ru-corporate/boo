@@ -7,8 +7,6 @@ REM curl %url% > 2012.csv
 echo %colnames% > p2012.csv
 head 2012.csv | csvcut -d; -e ansi -c%cols%  | iconv -f cp1251 -t utf-8 >> p2012.csv
 
-REM make larger dummy example to load
-
 REM is there field unit = 383 and 385? 
 REM csvgrep -c unit -m 383 p2012.csv | wc -l
 

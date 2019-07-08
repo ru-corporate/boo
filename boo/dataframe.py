@@ -1,8 +1,8 @@
-"""Преобразовать данные: 
+"""Преобразовать данные:
 
 - Привести все строки к одинаковым единицам измерения (тыс. руб.)
 - Убрать отдельные неиспользуемые колонки
-- Новые колонки: 
+- Новые колонки:
     * короткое название компании
     * код ОКВЭД разбить на три уровня
     * определить регион по ИНН
@@ -38,17 +38,17 @@ def add_title(df):
     return df
 
 
-UNIT_TO_FUNC = {"385": lambda x: x.multiply(1000), # mln_to_thousand
-                "384": lambda x: x.divide(1000).round(0).astype(int)} # rub_to_thousand
+UNIT_TO_FUNC = {"385": lambda x: x.multiply(1000),  # mln_to_thousand
+                "384": lambda x: x.divide(1000).round(0).astype(int)}  # rub_to_thousand
 
 
-def adjust_rub(df, mapper=UNIT_TO_FUNC, cols = NUMERIC_COLUMNS):
+def adjust_rub(df, mapper=UNIT_TO_FUNC, cols=NUMERIC_COLUMNS):
     for unit, func in mapper.items():
         rows = (df.unit == unit)
-        df.loc[rows,cols] = df[rows][cols].apply(func)
-        df.loc[rows,"unit"] = "384"
+        df.loc[rows, cols] = df[rows][cols].apply(func)
+        df.loc[rows, "unit"] = "384"
     del df['unit']
-    return df     
+    return df
 
 
 def okved3(code_string: str):
@@ -59,14 +59,14 @@ def okved3(code_string: str):
     return codes + [0] * (3 - len(codes))
 
 # MAYBE: add descriptions
-#def new_text_field_name(varname: str):
+# def new_text_field_name(varname: str):
 #    okv = lambda text: f"Код ОКВЭД {text} уровня"
-#    return {'ok1': okv("первого"), 
+#    return {'ok1': okv("первого"),
 #            'ok2': okv("второго"),
 #            'ok3': okv("третьего"),
 #            'org': "Тип юридического лица (часть наименования организации)",
 #            'title': "Короткое название организации",
-#            'region': "Код региона по ИНН"}.get(varname)     
+#            'region': "Код региона по ИНН"}.get(varname)
 
 
 def add_okved_subcode(df):
@@ -79,7 +79,7 @@ def fst(x):
         return int(x[0:2])
     except TypeError:
         return 0
-    
+
 
 def add_region(df):
     df['region'] = df.inn.apply(fst)
@@ -89,25 +89,28 @@ def add_region(df):
 def canonic_df(df):
     for f in [adjust_rub, add_okved_subcode, add_region, add_title]:
         df = f(df)
-    return df.loc[:,canonic_columns()]
+    return df.loc[:, canonic_columns()]
+
 
 def get_numeric_columns(numeric=SHORT_COLUMNS.numeric):
     return numeric + ['ok1', 'ok2', 'ok3', 'region']
-    
-    
+
+
 def canonic_dtypes(numeric=SHORT_COLUMNS.numeric):
-    numerics =  get_numeric_columns()
+    numerics = get_numeric_columns()
+
     def switch(col):
         return numpy.int64 if (col in numerics) else str
-    return {col:switch(col) for col in canonic_columns()}
+    return {col: switch(col) for col in canonic_columns()}
 
 
-def canonic_columns(numeric=SHORT_COLUMNS.numeric):    
+def canonic_columns(numeric=SHORT_COLUMNS.numeric):
     return (['title', 'org', 'okpo', 'okopf', 'okfs', 'okved', 'inn'] +
             ['ok1', 'ok2', 'ok3', 'region'] +
             numeric)
 
 # MAYBE: make 50 + 50 + 1000 example
+
 
 if __name__ == "__main__":
     from boo import read_intermediate_df as read

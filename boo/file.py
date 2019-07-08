@@ -5,9 +5,10 @@ import os
 import requests
 from tqdm import tqdm
 
+
 def panic(path):
     if os.path.exists(path):
-        raise FileExistsError("File already exists: %s" % path)    
+        raise FileExistsError("File already exists: %s" % path)
 
 
 def curl(path: str, url: str, max_chunk=None):
@@ -32,14 +33,17 @@ def yield_rows(path,
         spamreader = csv.reader(csvfile, delimiter=sep)
         for row in spamreader:
             # filter only non-empty rows, prevent error in `cutf(2016)`
-            if row: 
+            if row:
                 yield row
 
 
 def save_rows(path,
               stream,
               column_names=None,
-              fmt=dict(lineterminator="\n", quoting=csv.QUOTE_MINIMAL), #FIXME: mention , ?
+              fmt=dict(
+                  lineterminator="\n",
+                  quoting=csv.QUOTE_MINIMAL),
+              # FIXME: mention , ?
               enc='utf-8'):
     panic(path)
     iterable = tqdm(stream, unit=' lines')

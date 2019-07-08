@@ -88,7 +88,7 @@ opu = [
     ('2330', 'exp_interest'),
     ('2300', 'profit_before_tax'),
     ('2400', 'profit_after_tax')
-]    
+]
 
 #--  ОДДС
 cf_total = [('4400', 'cf')]
@@ -123,11 +123,14 @@ cf_fin = [
 
 DATA_FIELDS = OrderedDict(balance + opu + cf_total + cf_oper + cf_inv + cf_fin)
 
+
 def split(text: str):
-    def fst(text): 
+    def fst(text):
         return text[0]
+
     def last(text):
         return text[-1]
+
     def trim(text):
         return text[0:-1]
     code = text
@@ -136,107 +139,226 @@ def split(text: str):
         code = trim(text)
         if last(text) == "4":
             is_lagged = True
-    return code, is_lagged        
+    return code, is_lagged
 
 
-class Label:    
+class Label:
     def __init__(self, text):
         self.code, self.lag = split(text)
         self.previous_code = self.code
-    
+
     def rename_with(self, mapper_dict):
         self.previous_code = self.code
         self.code = mapper_dict.get(self.code, self.code)
-        return self          
-        
+        return self
+
     def is_changed(self):
-        return self.code != self.previous_code         
-    
+        return self.code != self.previous_code
+
     def __repr__(self):
         return "Label({}, {})".format(self.code, self.lag)
-        
+
     def __str__(self):
         return self.code + ("_lag" if self.lag else "")
-    
+
     def __eq__(self, x):
         return (self.code, self.lag) == (x.code, x.lag)
-   
-       
-@dataclass    
+
+
+@dataclass
 class Mapper:
-    data : dict
-    text : dict   
-    
+    data: dict
+    text: dict
+
     def combined(self):
         return {**self.data, **self.text}
-    
+
     def rename(self, label):
         return label.rename_with(self.combined())
-    
+
     def is_text(self, label):
         return label.code in self.text.values()
 
     def is_data(self, label):
-        return label.code in self.data.values()    
+        return label.code in self.data.values()
 
 
 def convert(mapper, text):
     label = Label(text)
     return mapper.rename(label)
-    
+
 
 @dataclass
 class Columns:
-    all : [str]
-    numeric : [str]
-    
+    all: [str]
+    numeric: [str]
+
     @property
     def text(self):
         return [item for item in self.all if item not in self.numeric]
-    
-    @property    
-    def dtypes(self): 
+
+    @property
+    def dtypes(self):
         def switch(item):
             return numpy.int64 if (item in self.numeric) else str
-        return {c:switch(c) for c in self.all}
+        return {c: switch(c) for c in self.all}
 
 
 class Converter:
     def __init__(self, colnames=TTL_COLUMNS,
-                  data_mapper=DATA_FIELDS, 
-                  text_mapper=TEXT_FIELDS):
+                 data_mapper=DATA_FIELDS,
+                 text_mapper=TEXT_FIELDS):
         self.mapper = Mapper(data=data_mapper, text=text_mapper)
         self.long_names = [convert(self.mapper, text) for text in colnames]
         self.short_names = [c for c in self.long_names if c.is_changed()]
-        
+
     def _short_numeric(self):
-        return [c for c in self.short_names if self.mapper.is_data(c)]        
-    
+        return [c for c in self.short_names if self.mapper.is_data(c)]
+
     def short_columns(self):
-        return Columns(all = [str(c) for c in self.short_names],
-                       numeric = [str(c) for c in self._short_numeric()]
-                       )    
-    
+        return Columns(all=[str(c) for c in self.short_names],
+                       numeric=[str(c) for c in self._short_numeric()]
+                       )
+
     def _index(self):
         for (i, col) in enumerate(self.long_names):
             if col in self.short_names:
                 yield i
-    
+
     def make_shortener(self):
         index = list(self._index())
+
         def shorten(row):
             try:
-                return [row[i] for i in index] 
+                return [row[i] for i in index]
             except IndexError:
-                raise ValueError (f"Failed extracting index {index} "
-                                  f"from {row}" )
+                raise ValueError(f"Failed extracting index {index} "
+                                 f"from {row}")
         return shorten
-    
-conv = Converter(TTL_COLUMNS, DATA_FIELDS, TEXT_FIELDS)    
+
+
+conv = Converter(TTL_COLUMNS, DATA_FIELDS, TEXT_FIELDS)
 SHORT_COLUMNS = conv.short_columns()
 CONVERTER_FUNC = conv.make_shortener()
 
-assert SHORT_COLUMNS.all == ['name', 'okpo', 'okopf', 'okfs', 'okved', 'inn', 'unit', 'report_type', 'of', 'of_lag', 'ta_fix', 'ta_fix_lag', 'cash', 'cash_lag', 'ta_nonfix', 'ta_nonfix_lag', 'ta', 'ta_lag', 'tp_capital', 'tp_capital_lag', 'debt_long', 'debt_long_lag', 'tp_long', 'tp_long_lag', 'debt_short', 'debt_short_lag', 'tp_short', 'tp_short_lag', 'tp', 'tp_lag', 'sales', 'sales_lag', 'profit_oper', 'profit_oper_lag', 'exp_interest', 'exp_interest_lag', 'profit_before_tax', 'profit_before_tax_lag', 'profit_after_tax', 'profit_after_tax_lag', 'cf_oper_in', 'cf_oper_in_sales', 'cf_oper_out', 'paid_to_supplier', 'paid_to_worker', 'paid_interest', 'paid_profit_tax', 'paid_other_costs', 'cf_oper', 'cf_inv_in', 'cf_inv_out', 'paid_fa_investment', 'cf_inv', 'cf_fin_in', 'cf_fin_out', 'cf_fin', 'cf', 'date_published']
-assert SHORT_COLUMNS.numeric == ['of', 'of_lag', 'ta_fix', 'ta_fix_lag', 'cash', 'cash_lag', 'ta_nonfix', 'ta_nonfix_lag', 'ta', 'ta_lag', 'tp_capital', 'tp_capital_lag', 'debt_long', 'debt_long_lag', 'tp_long', 'tp_long_lag', 'debt_short', 'debt_short_lag', 'tp_short', 'tp_short_lag', 'tp', 'tp_lag', 'sales', 'sales_lag', 'profit_oper', 'profit_oper_lag', 'exp_interest', 'exp_interest_lag', 'profit_before_tax', 'profit_before_tax_lag', 'profit_after_tax', 'profit_after_tax_lag', 'cf_oper_in', 'cf_oper_in_sales', 'cf_oper_out', 'paid_to_supplier', 'paid_to_worker', 'paid_interest', 'paid_profit_tax', 'paid_other_costs', 'cf_oper', 'cf_inv_in', 'cf_inv_out', 'paid_fa_investment', 'cf_inv', 'cf_fin_in', 'cf_fin_out', 'cf_fin', 'cf']
-assert SHORT_COLUMNS.text == ['name', 'okpo', 'okopf', 'okfs', 'okved', 'inn', 'unit', 'report_type', 'date_published']
-assert SHORT_COLUMNS.all == Converter(CONVERTER_FUNC(TTL_COLUMNS)).short_columns().all
+assert SHORT_COLUMNS.all == [
+    'name',
+    'okpo',
+    'okopf',
+    'okfs',
+    'okved',
+    'inn',
+    'unit',
+    'report_type',
+    'of',
+    'of_lag',
+    'ta_fix',
+    'ta_fix_lag',
+    'cash',
+    'cash_lag',
+    'ta_nonfix',
+    'ta_nonfix_lag',
+    'ta',
+    'ta_lag',
+    'tp_capital',
+    'tp_capital_lag',
+    'debt_long',
+    'debt_long_lag',
+    'tp_long',
+    'tp_long_lag',
+    'debt_short',
+    'debt_short_lag',
+    'tp_short',
+    'tp_short_lag',
+    'tp',
+    'tp_lag',
+    'sales',
+    'sales_lag',
+    'profit_oper',
+    'profit_oper_lag',
+    'exp_interest',
+    'exp_interest_lag',
+    'profit_before_tax',
+    'profit_before_tax_lag',
+    'profit_after_tax',
+    'profit_after_tax_lag',
+    'cf_oper_in',
+    'cf_oper_in_sales',
+    'cf_oper_out',
+    'paid_to_supplier',
+    'paid_to_worker',
+    'paid_interest',
+    'paid_profit_tax',
+    'paid_other_costs',
+    'cf_oper',
+    'cf_inv_in',
+    'cf_inv_out',
+    'paid_fa_investment',
+    'cf_inv',
+    'cf_fin_in',
+    'cf_fin_out',
+    'cf_fin',
+    'cf',
+    'date_published']
+assert SHORT_COLUMNS.numeric == [
+    'of',
+    'of_lag',
+    'ta_fix',
+    'ta_fix_lag',
+    'cash',
+    'cash_lag',
+    'ta_nonfix',
+    'ta_nonfix_lag',
+    'ta',
+    'ta_lag',
+    'tp_capital',
+    'tp_capital_lag',
+    'debt_long',
+    'debt_long_lag',
+    'tp_long',
+    'tp_long_lag',
+    'debt_short',
+    'debt_short_lag',
+    'tp_short',
+    'tp_short_lag',
+    'tp',
+    'tp_lag',
+    'sales',
+    'sales_lag',
+    'profit_oper',
+    'profit_oper_lag',
+    'exp_interest',
+    'exp_interest_lag',
+    'profit_before_tax',
+    'profit_before_tax_lag',
+    'profit_after_tax',
+    'profit_after_tax_lag',
+    'cf_oper_in',
+    'cf_oper_in_sales',
+    'cf_oper_out',
+    'paid_to_supplier',
+    'paid_to_worker',
+    'paid_interest',
+    'paid_profit_tax',
+    'paid_other_costs',
+    'cf_oper',
+    'cf_inv_in',
+    'cf_inv_out',
+    'paid_fa_investment',
+    'cf_inv',
+    'cf_fin_in',
+    'cf_fin_out',
+    'cf_fin',
+    'cf']
+assert SHORT_COLUMNS.text == [
+    'name',
+    'okpo',
+    'okopf',
+    'okfs',
+    'okved',
+    'inn',
+    'unit',
+    'report_type',
+    'date_published']
+assert SHORT_COLUMNS.all == Converter(
+    CONVERTER_FUNC(TTL_COLUMNS)).short_columns().all

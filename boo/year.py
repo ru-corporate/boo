@@ -1,14 +1,14 @@
-TIMESTAMPS = {2012:20190329, 
-              2013:20190411,
-              2014:20190411,
-              2015:20190411,
-              2016:20190411,
-              2017:20190423}
+TIMESTAMPS = {2012: 20190329,
+              2013: 20190411,
+              2014: 20190411,
+              2015: 20190411,
+              2016: 20190411,
+              2017: 20190423}
 
 YEARS = list(TIMESTAMPS.keys())
 
 
-def error_year(year):            
+def error_year(year):
     raise ValueError(f"Year not supported: {year}. Must be one of {YEARS}")
 
 

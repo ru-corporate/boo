@@ -22,5 +22,13 @@ setup(name='boo',
         "requests",
         "pandas",
         "tqdm"
-        ]
+        ],
+      classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Intended Audience :: Financial and Insurance Industry",  
+        "Topic :: Office/Business :: Financial",    
+        "Topic :: Utilities"
+      ]
       )

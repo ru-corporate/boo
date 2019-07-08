@@ -1,5 +1,13 @@
+[![colab](https://img.shields.io/badge/colab-launch-blue.svg)](https://colab.research.google.com/drive/1BGLalP4rr5FdtXsEzb5oG4sHL5qmgbAS#scrollTo=YuW47K8E4IBZ)
+
 # boo
 Python client for Rosstat corporate reports
+
+
+#### Goal
+
+Access balance sheet, profit and loss and cash flow statements of Russian firms.
+
 
 #### Install
 

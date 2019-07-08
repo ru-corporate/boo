@@ -1,2 +1,1 @@
-from boo import prepare, read_dataframe, cutf, putf
-putf(2016)
+from boo import prepare, read_dataframe, cutf, putf, wipe

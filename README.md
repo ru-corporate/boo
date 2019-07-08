@@ -29,8 +29,14 @@ CSV files will be located at `~/.boo` folder.
 
 File names:
 
-- `raw_<year>.csv` - original CSV file from Rosstat website. Created by `download(year)`.
-- `trimmed_<year>.csv` - CSV file with column names in header row, unnamed columns dropped. Created by `cut(year)`.
+
+File name     | Description  | Created by 
+--------------|--------------|--------------
+`raw_<year>.csv` | Original CSV file from Rosstat website. No header row | `download(year)`
+
+
+
+- - `trimmed_<year>.csv` - CSV file with column names in header row, unnamed columns dropped. Created by `cut(year)`.
 - `canonic_<year>.csv` - CSV file with additional columns (eg. `region`) and error filters. Reference dataset for analysis. Created by `put(year)`. Use `read_dataframe(year)` to read this file.
 
 

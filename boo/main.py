@@ -6,6 +6,9 @@
 # - [ ] tests, existing and new
 # - [ ] okved
 
+# MAYBE: 
+# - [ ] make 50 + 50 + 1000 example
+
 # - [x] autopep8
 
 

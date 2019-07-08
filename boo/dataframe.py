@@ -105,5 +105,3 @@ def canonic_columns(numeric=SHORT_COLUMNS.numeric):
             ['unit'] +
             ['ok1', 'ok2', 'ok3', 'region'] +
             numeric)
-
-# MAYBE: make 50 + 50 + 1000 example

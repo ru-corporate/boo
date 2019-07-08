@@ -1,11 +1,12 @@
 from setuptools import setup, find_packages
+from pathlib import Path
 
 # 0.0.2 changes folder storage to ~/.boo and exposes file location helpers 
 #       raw_filepath(year) and processed_filepath(year)
 
 # 0.0.3 migrates client to http://github.com/ru-corporate/boo 
-#       and makes it minimalistic, column naming similar to csvcut,
-#       filtering via pandas  
+#       and makes it minimalistic, column naming is similar to csvcut,
+#       filtering done via pandas  
 
 # 0.0.4 adds wipe() and wipe_all() functions
 
@@ -17,6 +18,8 @@ setup(name='boo',
       author_email='e.pogrebnyak@gmail.com',
       license='MIT',
       packages=find_packages(),
+      long_description = Path("README.md").read_text(),
+      long_description_content_type="text/markdown",
       zip_safe=False, 
       install_requires=[
         "requests",

@@ -109,7 +109,8 @@ def prepare(year: int):
 
 def erase(year):
     for f in raw(year), processed(year), canonic(year):
-        f.unlink()
+        if f.exists():     
+             f.unlink()
         
 
 def prepare_all():

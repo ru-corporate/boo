@@ -1,1 +1,1 @@
-from boo import frame
+from boo import prepare, read_dataframe

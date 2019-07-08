@@ -41,11 +41,11 @@ def cut_columns(year, worker=shorten, column_names=SHORT_COLUMNS.all,
     print("Done")  
 
 
-def read_dataframe(path, dtypes):
+def read_df(path, dtypes):
     with open(path, 'r', encoding='utf-8') as f:
         return pd.read_csv(f, dtype=dtypes)  
 
-def write_dataframe(df, path):
+def write_df(df, path):
     df.to_csv(path, index=False 
                   , header=True         
                   , chunksize=100_000
@@ -53,7 +53,7 @@ def write_dataframe(df, path):
     
 def read_intermediate_df(year: int):
     src = processed(year)    
-    return read_dataframe(src, SHORT_COLUMNS.dtypes)
+    return read_df(src, SHORT_COLUMNS.dtypes)
 
 
 def make_canonic_df(year: int, force=False):
@@ -63,13 +63,13 @@ def make_canonic_df(year: int, force=False):
     df = canonic_df(read_intermediate_df(year))
     print (f"Created final dataframe for {year}")
     print(f"Saving to {dst}...")
-    write_dataframe(df, dst)
+    write_df(df, dst)
     print ("Done")
     
 
 def read_canonic_df(year):
     src = canonic(year)
-    return read_dataframe(src, dtypes=canonic_dtypes())
+    return read_df(src, dtypes=canonic_dtypes())
     # MAYBE: save dtypes as json, use them if available to speed up df import  
 
 # Shorthand functions
@@ -90,20 +90,22 @@ def putf(year: int):
     make_canonic_df(year, force=True)
 
 
+def read_dataframe(year):
+    return read_canonic_df(year)    
+    
+
 def frame(year: int):
     return read_canonic_df(year)
 
 
-def acquire(year: int):
+def prepare(year: int):
     download(year)
     cut(year)
-    put(year)    
-    return frame(year)
+    put(year)   
 
-
-def acquire_all():
+def prepare_all():
     for year in YEARS:
-        acquire(year)  
+        prepare(year)  
 
 # TODO: acquire all at Google Colab
     

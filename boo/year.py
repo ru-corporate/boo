@@ -7,15 +7,9 @@ TIMESTAMPS = {2012:20190329,
 
 YEARS = list(TIMESTAMPS.keys())
 
-def is_valid(year):
-    return (year in YEARS) or year == 0
 
-
-def validate(year):
-    if is_valid(year):
-        print("Year:", year)    
-    else:    
-        raise ValueError(f"Year not supported: {year}. Must be one of {YEARS}")
+def error_year(year):            
+    raise ValueError(f"Year not supported: {year}. Must be one of {YEARS}")
 
 
 def make_url(year):
@@ -25,9 +19,11 @@ def make_url(year):
     """
     if year == 0:
         return 'https://raw.githubusercontent.com/ru-corporate/sandbox/master/assets/sample.txt'
-    timestamp = TIMESTAMPS.get(year)
-    return ('http://www.gks.ru/opendata/storage/' +
-            f'7708234640-bdboo{year}/' +
-            f'data-{timestamp}t000000-structure-{year}1231t000000.csv'
-            )
-    
+    try:
+        timestamp = TIMESTAMPS[year]
+        return ('http://www.gks.ru/opendata/storage/' +
+                f'7708234640-bdboo{year}/' +
+                f'data-{timestamp}t000000-structure-{year}1231t000000.csv'
+                )
+    except KeyError:
+        error_year(year)

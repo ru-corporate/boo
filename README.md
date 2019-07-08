@@ -1,18 +1,18 @@
 # boo
 Python client for Rosstat corporate reports
 
-Install:
+#### Install
 
 ```
 pip install git+https://github.com/ru-corporate/boo.git@master
 ```
 
-Usage:
+#### Usage
 
 ```python
-from boo import acquire
+from boo import prepare, read_dataframe
 
-df = acquire(2012)
+prepare(2012)
+df = read_dataframe(2012)
 print(df.head())
-
 ```

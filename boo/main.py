@@ -4,16 +4,18 @@
 # - [ ] . in references, run locally
 # - [ ] larger dummy example to load
 # - [ ] tests, existing and new
-# - [ ] autopep8
+# - [ ] okved
+
+# - [x] autopep8
 
 
 import pandas as pd
 
-from .year import YEARS, make_url
-from .file import curl, yield_rows, save_rows
-from .path import raw, processed, canonic
-from .columns import CONVERTER_FUNC as shorten, SHORT_COLUMNS
-from .dataframe import canonic_df, canonic_dtypes
+from boo.year import YEARS, make_url
+from boo.file import curl, yield_rows, save_rows
+from boo.path import raw, processed, canonic
+from boo.columns import CONVERTER_FUNC as shorten, SHORT_COLUMNS
+from boo.dataframe import canonic_df, canonic_dtypes
 
 
 def preclean(path, force: bool):

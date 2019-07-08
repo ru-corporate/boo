@@ -32,7 +32,7 @@ File names:
 
 
 File name     | Description  | Column count |  Created by 
---------------|--------------|--------------|--------------
+--------------|--------------|:------------:|:------------:
 `raw_<year>.csv`     | Original CSV file from Rosstat website. No header row.    | 266 |`download(year)`
 `trimmed_<year>.csv` | CSV file with column names in header row, unnamed columns. | 58 | `cut(year)`.
 `canonic_<year>.csv` | CSV file with additional column transformations (eg. `region`) and error filters. Reference dataset for analysis. | 58 | `put(year)`

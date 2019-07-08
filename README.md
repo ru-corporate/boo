@@ -3,18 +3,18 @@
 # boo
 Python client for Rosstat open data corporate reports. Creates a local CSV file with column names, importable as pandas dataframe.
 
-#### Goal
+## Goal
 
 Access balance sheet, profit and loss and cash flow statements of Russian firms.
 Save time on cleaning the data and boilerplate. 
 
-#### Install
+## Install
 
 ```
 pip install git+https://github.com/ru-corporate/boo.git@master
 ```
 
-#### Usage
+## Usage
 
 ```python
 from boo import prepare, read_dataframe
@@ -24,7 +24,7 @@ df = read_dataframe(2012)
 print(df.head())
 ```
 
-#### Data model
+## Data model
  
 CSV files are be located at `~/.boo` folder.
 
@@ -34,13 +34,14 @@ File names:
 File name     | Description  | Column count |  Created by 
 --------------|--------------|:------------:|:------------:
 `raw_<year>.csv`     | Original CSV file from Rosstat website. No header row.    | 266 |`download(year)`
-`trimmed_<year>.csv` | CSV file with column names in header row, unnamed columns. | 58 | `cut(year)`.
-`canonic_<year>.csv` | CSV file with additional column transformations (eg. `region`) and error filters. Reference dataset for analysis. | 58 | `put(year)`
+`trimmed_<year>.csv` | CSV file with column names in header row, unnamed columns. | 58(*) | `cut(year)`
+`canonic_<year>.csv` | CSV file with additional column transformations (eg. `region`) and error filters. Reference dataset for analysis. | 58* | `put(year)`
 
+(\*) equal by coincidence, some columns are added and some removed
 
-#### Hints
+## Hints
 
-User: 
+#### User
 
 - CSV files are quite big, start with year 2012 to experiment.
 - Use link above for Google Colab to run package remotely.
@@ -48,7 +49,7 @@ User:
 - `wipe(year)` if you do not want to keep intermediate CSV files.
 - `wipe_all()` if you want to clean up everything.
 
-Developper:
+#### Developper
 
 - `boo.path.default_data_folder` shows where the CSV files on a computer.
 - `boo.columns` controls CSV column selection and naming.
@@ -85,7 +86,7 @@ download(2012)
 cut(2012)
 ```
 
-#### Limitations
+## Limitations
 
 - No timeseries: we can access all data for each year, but not several years for each firm,
   even though the data is available. 

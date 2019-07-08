@@ -10,7 +10,7 @@ from setuptools import setup, find_packages
 # 0.0.4 adds wipe() and wipe_all() functions
 
 setup(name='boo',
-      version='0.0.4d',
+      version='0.0.4',
       description='Russian corporate reports 2012-2017',
       url='http://github.com/ru-corporate/boo',
       author='Evgeniy Pogrebnyak',

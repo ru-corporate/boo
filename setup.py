@@ -10,8 +10,10 @@ from pathlib import Path
 
 # 0.0.4 adds wipe() and wipe_all() functions
 
+# 0.0.5 hoping the README will surface on PyPi
+
 setup(name='boo',
-      version='0.0.4',
+      version='0.0.5',
       description='Russian corporate reports 2012-2017',
       url='http://github.com/ru-corporate/boo',
       author='Evgeniy Pogrebnyak',

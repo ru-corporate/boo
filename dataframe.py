@@ -67,8 +67,15 @@ def add_okved_subcode(df):
     return df
 
 
+def fst(x):
+    try:
+        return int(x[0:2])
+    except TypeError:
+        return 0
+    
+
 def add_region(df):
-    df['region'] = df.inn.apply(lambda x: int(x[0:2]))
+    df['region'] = df.inn.apply(fst)
     return df
 
 

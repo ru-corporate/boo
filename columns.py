@@ -209,11 +209,14 @@ class Converter:
         self.mapper = Mapper(data=data_mapper, text=text_mapper)
         self.long_names = [convert(self.mapper, text) for text in colnames]
         self.short_names = [c for c in self.long_names if c.is_changed()]
+        
+    def _short_numeric(self):
+        return [c for c in self.short_names if self.mapper.is_data(c)]        
     
     def short_columns(self):
-        _a = [str(c) for c in self.short_names]
-        _n = [str(c) for c in self.short_names if self.mapper.is_data(c)]
-        return Columns(all = _a, numeric = _n)    
+        return Columns(all = [str(c) for c in self.short_names],
+                       numeric = [str(c) for c in self._short_numeric()]
+                       )    
     
     def _index(self):
         for (i, col) in enumerate(self.long_names):

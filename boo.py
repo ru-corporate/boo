@@ -4,7 +4,7 @@ import pandas as pd
 
 from year import YEARS
 from file import curl, yield_rows, save_rows
-from path import raw, processed, canonical
+from path import raw, processed, canonic
 from year import make_url
 from columns import CONVERTER_FUNC as shorten, SHORT_COLUMNS
 from dataframe import canonic_df, canonic_dtypes
@@ -42,30 +42,36 @@ def cut_columns(year, worker=shorten, column_names=SHORT_COLUMNS.all,
     print("Done")  
 
 
-def _dataframe(path, dtypes):
+def read_dataframe(path, dtypes):
     with open(path, 'r', encoding='utf-8') as f:
         return pd.read_csv(f, dtype=dtypes)  
-    
+
+def write_dataframe(df, path):
+    df.to_csv(path, index=False 
+                  , header=True         
+                  , chunksize=100_000
+                  , encoding='utf-8')    
     
 def read_intermediate_df(year: int):
     src = processed(year)    
-    return _dataframe(src, SHORT_COLUMNS.dtypes)
+    return read_dataframe(src, SHORT_COLUMNS.dtypes)
 
 
-def make_canonical_df(year: int, force=False):
-    dst = canonical(year)
+def make_canonic_df(year: int, force=False):
+    dst = canonic(year)
     preclean(dst, force)
     print (f"Reading intermediate dataframe for {year}...")
     df = canonic_df(read_intermediate_df(year))
     print (f"Created final dataframe for {year}")
-    df.to_csv(dst, index=False)
-    print (f"Saved to file {dst}")
+    print(f"Saving to {dst}...")
+    write_dataframe(df, dst)
+    print ("Done")
     
 
-def read_canonical_df(year):
-    src = canonical(year)
+def read_canonic_df(year):
+    src = canonic(year)
+    return read_dataframe(src, dtypes=canonic_dtypes())
     # MAYBE: save dtypes as json, use them if available to speed up df import  
-    return _dataframe(src, dtypes=canonic_dtypes())
 
 
 # Shorthand functions
@@ -75,26 +81,26 @@ def cut(year: int):
 
 
 def cutf(year: int):
-    cut_columns(year, force=Еrue)
+    cut_columns(year, force=True)
 
 
 def put(year: int):
-    make_canonical_df(year, force=False)
+    make_canonic_df(year, force=False)
 
 
 def putf(year: int):
-    make_canonical_df(year, force=True)
+    make_canonic_df(year, force=True)
 
 
 def frame(year: int):
-    return read_canonical_df(year)
+    return read_canonic_df(year)
 
 
 def acquire(year: int):
     download(year)
     cut(year)
     put(year)    
-    return df(year)
+    return frame(year)
 
 
 def acquire_all():
@@ -105,9 +111,9 @@ def acquire_all():
     
 if __name__ == "__main__":
     dfs = {}
-    for year in YEARS:        
-        print(year)
-        putf(year)
-        dfs[year] = frame(year)      
+    #for year in range(2015, 2018):        
+    #    print(year)
+    #    putf(year)
+    #    dfs[year] = frame(year)      
         
 # ERROR: trimmed_2016.csv is an anomaly        

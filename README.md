@@ -1,7 +1,7 @@
 [![colab](https://img.shields.io/badge/colab-launch-blue.svg)](https://colab.research.google.com/drive/1BGLalP4rr5FdtXsEzb5oG4sHL5qmgbAS#scrollTo=YuW47K8E4IBZ)
 
 # boo
-Python client for Rosstat open data corporate reports. Downloads by year number, saves a usable CSV file with column names, offers data as pandas dataframe.
+Python client for Rosstat open data corporate reports. Creates a local CSV file with column names, importable as pandas dataframe.
 
 #### Goal
 

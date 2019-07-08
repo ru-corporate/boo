@@ -9,6 +9,7 @@ def panic(path):
     if os.path.exists(path):
         raise FileExistsError("File already exists: %s" % path)    
 
+
 def curl(path: str, url: str, max_chunk=None):
     panic(path)
     r = requests.get(url, stream=True)
@@ -30,7 +31,9 @@ def yield_rows(path,
     with open(path, 'r', encoding=enc) as csvfile:
         spamreader = csv.reader(csvfile, delimiter=sep)
         for row in spamreader:
-            yield row
+            # filter only non-empty rows, prevent error in `cutf(2016)`
+            if row: 
+                yield row
 
 
 def save_rows(path,
@@ -44,7 +47,4 @@ def save_rows(path,
         writer = csv.writer(file, **fmt)
         if column_names:
             writer.writerow(column_names)
-        writer.writerows(iterable)  
-
-
-          
+        writer.writerows(iterable)

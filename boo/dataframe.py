@@ -7,7 +7,7 @@
     * код ОКВЭД разбить на три уровня
     * определить регион по ИНН
 """
-from columns import SHORT_COLUMNS
+from .columns import SHORT_COLUMNS
 import numpy
 
 QUOTE_CHAR = '"'

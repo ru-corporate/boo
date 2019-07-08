@@ -63,9 +63,11 @@ File name     | Description  | Column count |  Created by
 #### Script
 
 Rosstat publishes CSV files without column headers. 
-When preparing a readable CSV file we cut many unnecessary columns and 
-give a name to remaining columns. This way we can handle information from CSV 
-file meaningfully and also the size of the files is smaller.
+When preparing a readable CSV file we assign a name to columns
+with variables of interest and cut away the rest of the columns. 
+
+This way we get a much smaller file (~50% of the size) which we can read 
+and manipulate with pandas or R. 
 
 For illustration, batch script below creates trimmed `p2012.csv` file with column names.
 
@@ -82,7 +84,9 @@ cat 2012.csv | csvcut -d; -e ansi -c%index%  | iconv -f cp1251 -t utf-8 >> p2012
 csvclean p2012.csv
 ```
 
-This result is similar to running: 
+*Note: this is Windows batch file, but it relies on GNU utilities and csvkit.*
+
+This result of the batch file is similar to running: 
 
 ```python 
 from boo import download, cut
@@ -100,4 +104,4 @@ cut(2012)
 
 The package is maintained by [Evgeniy Pogrebnyak](https://github.com/epogrebnyak).
 
-Special thanks to [Daniil Chizhevskij](https://daniilchizhevskij.ml/) for PyPI collaboration, without his support `pip install boo` would bot be possible.
+Special thanks to [Daniil Chizhevskij](https://daniilchizhevskij.ml/) for PyPI collaboration, without his support `pip install boo` would not be possible.

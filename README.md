@@ -6,6 +6,7 @@ Python client for Rosstat open data corporate reports. Creates a local CSV file 
 #### Goal
 
 Access balance sheet, profit and loss and cash flow statements of Russian firms.
+Save time on cleaning the data and boilerplate. 
 
 #### Install
 
@@ -25,21 +26,43 @@ print(df.head())
 
 #### Data model
  
-CSV files will be located at `~/.boo` folder.
+CSV files are be located at `~/.boo` folder.
 
 File names:
 
 
 File name     | Description  | Column count |  Created by 
 --------------|--------------|--------------|--------------
-`raw_<year>.csv`     | Original CSV file from Rosstat website. No header row.    | >250 |`download(year)`
-`trimmed_<year>.csv` | CSV file with column names in header row, unnamed columns | 60 | `cut(year)`.
-`canonic_<year>.csv` | CSV file with additional columns (eg. `region`) and error filters. Reference dataset for analysis. Use `read_dataframe(year)` to read this file. | 62 | `put(year)`
+`raw_<year>.csv`     | Original CSV file from Rosstat website. No header row.    | 266 |`download(year)`
+`trimmed_<year>.csv` | CSV file with column names in header row, unnamed columns. | 58 | `cut(year)`.
+`canonic_<year>.csv` | CSV file with additional column transformations (eg. `region`) and error filters. Reference dataset for analysis. | 58 | `put(year)`
 
+
+#### Hints
+
+User: 
+
+- CSV files are quite big, start with year 2012 to experiment.
+- Use link above for Google Colab to run package remotely.
+- Use `read_dataframe(year)` to read canonic CSV file. 
+- `wipe(year)` if you do not want to keep intermediate CSV files.
+- `wipe_all()` if you want to clean up everything.
+
+Developper:
+
+- `boo.path.default_data_folder` shows where the CSV files on a computer.
+- `boo.columns` controls CSV column selection and naming.
+- `boo.year.TIMESTAMPS` is in change of finding proper URLs, which change with website updates. 
+- New annual dataset released around September-October.
 
 #### Script
 
-Rosstat publishes CSV files without column headers. When creating readable CSV file we cut many unnecessary columns and give a name to remaining columns. For illustration, batch script below creates trimmed `p2012.csv` file with column names.
+Rosstat publishes CSV files without column headers. 
+When preparing a readable CSV file we cut many unnecessary columns and 
+give a name to remaining columns. This way we can handle information from CSV 
+file meaningfully and also the size of the files is smaller.
+
+For illustration, batch script below creates trimmed `p2012.csv` file with column names.
 
 ```bat
 set url=http://www.gks.ru/opendata/storage/7708234640-bdboo2012/data-20190329t000000-structure-20121231t000000.csv
@@ -54,10 +77,16 @@ cat 2012.csv | csvcut -d; -e ansi -c%index%  | iconv -f cp1251 -t utf-8 >> p2012
 csvclean p2012.csv
 ```
 
-This result is similar to running 
+This result is similar to running: 
 
 ```python 
 from boo import download, cut
 download(2012)
 cut(2012)
 ```
+
+#### Limitations
+
+- No timeseries: we can access all data for each year, but not several years for each firm,
+  even though the data is available. 
+- No database: we store files as CSV, not in a database. 

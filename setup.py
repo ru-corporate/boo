@@ -7,10 +7,10 @@ from setuptools import setup, find_packages
 #       and makes it minimalistic, column naming similar to csvcut,
 #       filtering via pandas  
 
-# 0.0.4 adds erase() function
+# 0.0.4 adds wipe() and wipe_all() functions
 
 setup(name='boo',
-      version='0.0.4c',
+      version='0.0.4d',
       description='Russian corporate reports 2012-2017',
       url='http://github.com/ru-corporate/boo',
       author='Evgeniy Pogrebnyak',

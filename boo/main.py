@@ -1,5 +1,3 @@
-# TODO: pip install boo
-
 import pandas as pd
 
 from .year import YEARS, make_url
@@ -7,6 +5,7 @@ from .file import curl, yield_rows, save_rows
 from .path import raw, processed, canonic
 from .columns import CONVERTER_FUNC as shorten, SHORT_COLUMNS
 from .dataframe import canonic_df, canonic_dtypes
+#TODO: variable descriptions
 
 
 def preclean(path, force: bool):
@@ -23,7 +22,6 @@ def download(year: int, force=False):
     print("Saved as", path)
     # MAYBE: show line count  
     # TODO: download must fail on small fail on small file or HTML file
-
      
 def cut_columns(year, worker=shorten, column_names=SHORT_COLUMNS.all, 
                 force=False):
@@ -106,24 +104,22 @@ def prepare(year: int):
     if not canonic(year).exists():        
         put(year)   
 
-
-def erase(year):
-    for f in raw(year), processed(year), canonic(year):
-        if f.exists():     
-             f.unlink()
+def quiet_delete(file):
+    if file.exists():     
+        file.unlink()
         
+def wipe(year):
+    quiet_delete(raw(year))
+    quiet_delete(processed(year))
+        
+def wipe_all(year):
+    wipe(year)
+    quiet_delete(canonic(year))        
+
 
 def prepare_all():
     for year in YEARS:
         prepare(year)  
 
-# TODO: acquire all at Google Colab
-    
 if __name__ == "__main__":
-    dfs = {}
-    #for year in range(2015, 2018):        
-    #    print(year)
-    #    putf(year)
-    #    dfs[year] = frame(year)      
-        
-# ERROR: trimmed_2016.csv is an anomaly        
+    pass

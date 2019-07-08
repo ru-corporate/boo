@@ -73,7 +73,6 @@ def read_canonic_df(year):
     return read_dataframe(src, dtypes=canonic_dtypes())
     # MAYBE: save dtypes as json, use them if available to speed up df import  
 
-
 # Shorthand functions
     
 def cut(year: int):

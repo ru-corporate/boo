@@ -1,18 +1,30 @@
-"""Преобразовать данные:
+"""Преобразовать данные внтури датафрейма:
 
 - Привести все строки к одинаковым единицам измерения (тыс. руб.)
-- Убрать отдельные неиспользуемые колонки
+- Убрать  неиспользуемые колонки (date_revised, report_type)
 - Новые колонки:
     * короткое название компании
-    * код ОКВЭД разбить на три уровня
-    * определить регион по ИНН
+    * три уровня кода ОКВЭД
+    * регион (по ИНН)
+
 """
-from boo.columns import SHORT_COLUMNS
 import numpy
+from boo.columns import SHORT_COLUMNS
 
 QUOTE_CHAR = '"'
 EMPTY = int(0)
 NUMERIC_COLUMNS = SHORT_COLUMNS.numeric
+
+
+# FIXME: very slow code, even on small data
+def adjust_rub(df, cols=NUMERIC_COLUMNS):
+    rows = (df.unit == "385")
+    df.loc[rows, cols] = df.loc[rows, cols].multiply(1000)
+    df.loc[rows, "unit"] = "384"
+    rows = (df.unit == "383")
+    df.loc[rows, cols] = df.loc[rows, cols].divide(1000).round(0).astype(int)    
+    df.loc[rows, "unit"] = "384"
+    return df
 
 
 def dequote(name: str):
@@ -34,16 +46,6 @@ def add_title(df):
     s = df.name.apply(dequote)
     df['org'] = s.apply(lambda x: x[0])
     df['title'] = s.apply(lambda x: x[1])
-    return df
-
-# FIXME: very slow code, even on small data
-def adjust_rub(df, cols=NUMERIC_COLUMNS):
-    rows = (df.unit == "385")
-    df.loc[rows, cols] = df.loc[rows, cols].multiply(1000)
-    df.loc[rows, "unit"] = "384"
-    rows = (df.unit == "383")
-    df.loc[rows, cols] = df.loc[rows, cols].divide(1000).round(0).astype(int)    
-    df.loc[rows, "unit"] = "384"
     return df
 
 

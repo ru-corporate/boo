@@ -55,9 +55,10 @@ File name     | Description  | Column count |  Created by
 
 #### Developper
 
-- `boo.path.default_data_folder` shows where the CSV files on a computer.
+- `boo.path.default_data_folder` shows where the CSV files are on a computer.
 - `boo.columns` controls CSV column selection and naming.
-- `boo.year.TIMESTAMPS` is in change of finding proper URLs, which change with website updates. 
+- `boo.dataframe` makes canonic CSV.
+- `boo.year.TIMESTAMPS` help to find proper URLs, which change along with Rosstat website updates. 
 - New annual dataset released around September-October.
 
 ## Script
@@ -84,7 +85,7 @@ cat 2012.csv | csvcut -d; -e ansi -c%index%  | iconv -f cp1251 -t utf-8 >> p2012
 csvclean p2012.csv
 ```
 
-*Note: this is Windows batch file, but it relies on GNU utilities and csvkit.*
+*Note: this is a Windows batch file, but it relies on GNU utilities (eg via Cygwin, MinGW or [GOW](https://github.com/bmatzelle/gow/wiki) and [csvkit](https://csvkit.readthedocs.io/en/latest/).*
 
 Batch file result is similar to running: 
 

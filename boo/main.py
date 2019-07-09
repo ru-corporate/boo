@@ -1,15 +1,30 @@
 # TODO:
 # - [ ] variable descriptions boo.whatis
-# - [ ] pip install boo
-# - [ ] . in references, run locally
-# - [ ] larger dummy example to load
 # - [ ] tests, existing and new
-# - [ ] okved
+# - [ ] subsets
+# - [ ] visuals
 
 # MAYBE:
-# - [ ] make 50 + 50 + 1000 example
+# - [ ] larger dummy example to load, 50 + 50 + 1000 example
+# - [ ] download() can show line count
+# - [ ] download() must fail on small fail on small file or HTML file
+# - [ ] save dtypes as json, use them if available to speed up df import
 
+# MAYBE: add descriptions
+# def new_text_field_name(varname: str):
+#    okv = lambda text: f"Код ОКВЭД {text} уровня"
+#    return {'ok1': okv("первого"),
+#            'ok2': okv("второго"),
+#            'ok3': okv("третьего"),
+#            'org': "Тип юридического лица (часть наименования организации)",
+#            'title': "Короткое название организации",
+#            'region': "Код региона по ИНН"}.get(varname)
+
+# DONE:
+# - [x] boo vs . in backage
+# - [ ] pip install boo
 # - [x] autopep8
+# - [x] okved
 
 
 import pandas as pd
@@ -34,8 +49,7 @@ def download(year: int, force=False):
     print("Downloading", url, f"for {year}")
     curl(path, url)
     print("Saved as", path)
-    # MAYBE: show line count
-    # TODO: download must fail on small fail on small file or HTML file
+    return path
 
 
 def cut_columns(year, worker=shorten, column_names=SHORT_COLUMNS.all,
@@ -52,6 +66,7 @@ def cut_columns(year, worker=shorten, column_names=SHORT_COLUMNS.all,
               stream=map(worker, yield_rows(src)),
               column_names=column_names)
     print("Done")
+    return dst
 
 
 def read_df(path, dtypes):
@@ -82,30 +97,31 @@ def make_canonic_df(year: int, force=False):
     print(f"Saving to {dst}...")
     write_df(df, dst)
     print("Done")
+    return dst
 
 
 def read_canonic_df(year):
     src = canonic(year)
     return read_df(src, dtypes=canonic_dtypes())
-    # MAYBE: save dtypes as json, use them if available to speed up df import
+
 
 # Shorthand functions
 
 
 def cut(year: int):
-    cut_columns(year, force=False)
+    return cut_columns(year, force=False)
 
 
 def cutf(year: int):
-    cut_columns(year, force=True)
+    return cut_columns(year, force=True)
 
 
 def put(year: int):
-    make_canonic_df(year, force=False)
+    return make_canonic_df(year, force=False)
 
 
 def putf(year: int):
-    make_canonic_df(year, force=True)
+    return make_canonic_df(year, force=True)
 
 
 def read_dataframe(year):
@@ -143,7 +159,3 @@ def wipe_all(year):
 def prepare_all():
     for year in YEARS:
         prepare(year)
-
-
-if __name__ == "__main__":
-    pass

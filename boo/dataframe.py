@@ -22,7 +22,7 @@ def adjust_rub(df, cols=NUMERIC_COLUMNS):
     df.loc[rows, cols] = df.loc[rows, cols].multiply(1000)
     df.loc[rows, "unit"] = "384"
     rows = (df.unit == "383")
-    df.loc[rows, cols] = df.loc[rows, cols].divide(1000).round(0).astype(int)    
+    df.loc[rows, cols] = df.loc[rows, cols].divide(1000).round(0).astype(int)
     df.loc[rows, "unit"] = "384"
     return df
 
@@ -56,16 +56,6 @@ def okved3(code_string: str):
         raise ValueError(code_string)
     return codes + [0] * (3 - len(codes))
 
-# MAYBE: add descriptions
-# def new_text_field_name(varname: str):
-#    okv = lambda text: f"Код ОКВЭД {text} уровня"
-#    return {'ok1': okv("первого"),
-#            'ok2': okv("второго"),
-#            'ok3': okv("третьего"),
-#            'org': "Тип юридического лица (часть наименования организации)",
-#            'title': "Короткое название организации",
-#            'region': "Код региона по ИНН"}.get(varname)
-
 
 def add_okved_subcode(df):
     df['ok1'], df['ok2'], df['ok3'] = zip(*df.okved.apply(okved3))
@@ -84,10 +74,26 @@ def add_region(df):
     return df
 
 
+def cut_stale_rows(df):
+    return df[~((df.ta == 0) & (df.ta_lag == 0))]
+
+
 def canonic_df(df):
     for f in [adjust_rub, add_okved_subcode, add_region, add_title]:
         df = f(df)
     return df.loc[:, canonic_columns()]
+
+
+def canonic_columns(numeric=SHORT_COLUMNS.numeric):
+    return (['title', 'org', 'okpo', 'okopf', 'okfs', 'okved', 'inn'] +
+            ['unit'] +
+            ['ok1', 'ok2', 'ok3', 'region'] +
+            numeric)
+
+
+def random(df):
+    return df[['inn', 'title', 'ta', 'sales', 'profit_before_tax', 'cf']]\
+        .sample(1).transpose()
 
 
 def get_numeric_columns(numeric=SHORT_COLUMNS.numeric):
@@ -100,10 +106,3 @@ def canonic_dtypes(numeric=SHORT_COLUMNS.numeric):
     def switch(col):
         return numpy.int64 if (col in numerics) else str
     return {col: switch(col) for col in canonic_columns()}
-
-
-def canonic_columns(numeric=SHORT_COLUMNS.numeric):
-    return (['title', 'org', 'okpo', 'okopf', 'okfs', 'okved', 'inn'] +
-            ['unit'] +
-            ['ok1', 'ok2', 'ok3', 'region'] +
-            numeric)

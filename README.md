@@ -86,7 +86,7 @@ csvclean p2012.csv
 
 *Note: this is Windows batch file, but it relies on GNU utilities and csvkit.*
 
-This result of the batch file is similar to running: 
+Batch file result is similar to running: 
 
 ```python 
 from boo import download, cut

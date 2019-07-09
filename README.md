@@ -85,7 +85,7 @@ cat 2012.csv | csvcut -d; -e ansi -c%index%  | iconv -f cp1251 -t utf-8 >> p2012
 csvclean p2012.csv
 ```
 
-*Note: this is a Windows batch file, but it relies on GNU utilities (eg via Cygwin, MinGW or [GOW](https://github.com/bmatzelle/gow/wiki) and [csvkit](https://csvkit.readthedocs.io/en/latest/).*
+*Note: this is a Windows batch file, but it relies on GNU utilities (eg via Cygwin, MinGW or [GOW](https://github.com/bmatzelle/gow/wiki)) and [csvkit](https://csvkit.readthedocs.io/en/latest/). Similar script can be adapted for pure linux/bash.*
 
 Batch file result is similar to running: 
 

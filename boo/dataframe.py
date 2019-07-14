@@ -41,11 +41,36 @@ def dequote(name: str):
         title = name
     return org, title.strip()
 
+def replace_names(title: str):
+    return title \
+        .replace("ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО", "ПАО") \
+        .replace("ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО", "ОАО") \
+        .replace("НЕФТЕПЕРЕРАБАТЫВАЮЩИЙ ЗАВОД", "НПЗ")\
+        .replace("ГЕНЕРИРУЮЩАЯ КОМПАНИЯ ОПТОВОГО РЫНКА ЭЛЕКТРОЭНЕРГИИ", "ОГК")
 
 def add_title(df):
     s = df.name.apply(dequote)
     df['org'] = s.apply(lambda x: x[0])
-    df['title'] = s.apply(lambda x: x[1])
+    df['title'] = s.apply(lambda x: replace_names(x[1]))
+    return df
+
+# FIXME: use this on longer names
+#def deep_dequote(title):
+#    return dequote(str(title))[1]    
+
+SHORT_NAMES_BY_INN = {
+    '2460066195': "РусГидро",
+    '4716016979': "ФСК ЕЭС",
+    '7702038150': "Московский метрополитен",
+    '7721632827': "Концерн Росэнергоатом",
+    '7706664260': "Атомэнергопром",
+    '7703683145': "Холдинг ВТБ Капитал АЙ БИ"
+}
+
+
+def rename(df, rename_dict=SHORT_NAMES_BY_INN):
+    ix = df.index.isin(list(rename_dict.keys()))
+    df.loc[ix, 'title'] = df.loc[ix].index.map(lambda inn: rename_dict[inn])
     return df
 
 
@@ -74,12 +99,12 @@ def add_region(df):
     return df
 
 
-def cut_stale_rows(df):
-    return df[~((df.ta == 0) & (df.ta_lag == 0))]
-
-
 def canonic_df(df):
-    for f in [adjust_rub, add_okved_subcode, add_region, add_title]:
+    for f in [adjust_rub, 
+              add_okved_subcode, 
+              add_region, 
+              add_title,
+              rename]:
         df = f(df)
     return df.loc[:, canonic_columns()]
 
@@ -91,18 +116,23 @@ def canonic_columns(numeric=SHORT_COLUMNS.numeric):
             numeric)
 
 
-def random(df):
-    return df[['inn', 'title', 'ta', 'sales', 'profit_before_tax', 'cf']]\
-        .sample(1).transpose()
-
-
 def get_numeric_columns(numeric=SHORT_COLUMNS.numeric):
     return numeric + ['ok1', 'ok2', 'ok3', 'region']
 
 
-def canonic_dtypes(numeric=SHORT_COLUMNS.numeric):
+def canonic_dtypes():
     numerics = get_numeric_columns()
 
     def switch(col):
         return numpy.int64 if (col in numerics) else str
     return {col: switch(col) for col in canonic_columns()}
+
+# ---
+
+def cut_stale_rows(df):
+    return df[~((df.ta == 0) & (df.ta_lag == 0))]
+
+
+def random(df):
+    return df[['inn', 'title', 'ta', 'sales', 'profit_before_tax', 'cf']]\
+        .sample(1).transpose()

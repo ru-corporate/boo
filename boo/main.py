@@ -88,11 +88,16 @@ def read_intermediate_df(year: int):
     return read_df(src, SHORT_COLUMNS.dtypes)
 
 
-def make_canonic_df(year: int, force=False):
+def make_canonic_df(year): 
+    df = canonic_df(read_intermediate_df(year))
+    return df
+
+
+def save_canonic_df(year: int, force=False):
     dst = canonic(year)
     preclean(dst, force)
     print(f"Reading intermediate dataframe for {year}...")
-    df = canonic_df(read_intermediate_df(year))
+    df = make_canonic_df(year) 
     print(f"Created final dataframe for {year}")
     print(f"Saving to {dst}...")
     write_df(df, dst)

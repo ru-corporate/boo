@@ -1,14 +1,17 @@
 # TODO:
 # - [ ] variable descriptions boo.whatis
-# - [ ] tests, existing and new
+# - [ ] port existing tests
 # - [ ] subsets
 # - [ ] visuals
 
 # MAYBE:
 # - [ ] larger dummy example to load, 50 + 50 + 1000 example
-# - [ ] download() can show line count
 # - [ ] download() must fail on small fail on small file or HTML file
+
+# NO:
+# - [ ] download() can show line count
 # - [ ] save dtypes as json, use them if available to speed up df import
+
 
 # MAYBE: add descriptions
 # def new_text_field_name(varname: str):
@@ -22,24 +25,36 @@
 
 # DONE:
 # - [x] boo vs . in backage
-# - [ ] pip install boo
+# - [x] pip install boo
 # - [x] autopep8
-# - [x] okved
+# - [x] okved v2
 
 
 import pandas as pd
 
-from boo.year import YEARS, make_url
+from boo.year import make_url
+from boo.path import raw, processed
 from boo.file import curl, yield_rows, save_rows
-from boo.path import raw, processed, canonic
 from boo.columns import CONVERTER_FUNC as shorten, SHORT_COLUMNS
-from boo.dataframe import canonic_df, canonic_dtypes
-
+from boo.dataframe import canonic_df
 
 def preclean(path, force: bool):
     """Delete an exisiting file if *force* flag is set to True"""
     if force is True and path.exists():
         path.unlink()
+
+
+def quiet_delete(file):
+    if file.exists():
+        file.unlink()
+
+
+def wipe_raw(year):
+    quiet_delete(raw(year))
+
+    
+def wipe_processed(year):
+    quiet_delete(processed(year))
 
 
 def download(year: int, force=False):
@@ -74,44 +89,15 @@ def read_df(path, dtypes):
         return pd.read_csv(f, dtype=dtypes)
 
 
-def write_df(df, path):
-    df.to_csv(
-        path,
-        index=False,
-        header=True,
-        chunksize=100_000,
-        encoding='utf-8')
-
-
 def read_intermediate_df(year: int):
     src = processed(year)
     return read_df(src, SHORT_COLUMNS.dtypes)
 
 
-def make_canonic_df(year): 
-    df = canonic_df(read_intermediate_df(year))
-    return df
-
-
-def save_canonic_df(year: int, force=False):
-    dst = canonic(year)
-    preclean(dst, force)
-    print(f"Reading intermediate dataframe for {year}...")
-    df = make_canonic_df(year) 
-    print(f"Created final dataframe for {year}")
-    print(f"Saving to {dst}...")
-    write_df(df, dst)
-    print("Done")
-    return dst
-
-
-def read_canonic_df(year):
-    src = canonic(year)
-    return read_df(src, dtypes=canonic_dtypes())
-
+def read_dataframe(year):
+    return canonic_df(read_intermediate_df(year))
 
 # Shorthand functions
-
 
 def cut(year: int):
     return cut_columns(year, force=False)
@@ -121,46 +107,8 @@ def cutf(year: int):
     return cut_columns(year, force=True)
 
 
-def put(year: int):
-    return make_canonic_df(year, force=False)
-
-
-def putf(year: int):
-    return make_canonic_df(year, force=True)
-
-
-def read_dataframe(year):
-    return read_canonic_df(year)
-
-
-def frame(year: int):
-    return read_canonic_df(year)
-
-
 def prepare(year: int):
     if not raw(year).exists():
         download(year)
     if not processed(year).exists():
         cut(year)
-    if not canonic(year).exists():
-        put(year)
-
-
-def quiet_delete(file):
-    if file.exists():
-        file.unlink()
-
-
-def wipe(year):
-    quiet_delete(raw(year))
-    quiet_delete(processed(year))
-
-
-def wipe_all(year):
-    wipe(year)
-    quiet_delete(canonic(year))
-
-
-def prepare_all():
-    for year in YEARS:
-        prepare(year)

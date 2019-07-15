@@ -1,6 +1,5 @@
-from .main import (prepare, prepare_all,
+from .main import (prepare, 
                    cut, cutf,
-                   put, putf,
-                   frame, read_dataframe,
-                   wipe, wipe_all)
+                   read_dataframe,
+                   wipe_raw, wipe_processed)
 from .okved import okved_codes_v2, okved_name_v2

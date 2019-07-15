@@ -45,6 +45,8 @@ def replace_names(title: str):
     return title \
         .replace("ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО", "ПАО") \
         .replace("ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО", "ОАО") \
+        .replace("АКЦИОНЕРНОЕ ОБЩЕСТВО ЭНЕРГЕТИКИ И ЭЛЕКТРИФИКАЦИИ",
+                 "AO энерго") \
         .replace("НЕФТЕПЕРЕРАБАТЫВАЮЩИЙ ЗАВОД", "НПЗ")\
         .replace("ГЕНЕРИРУЮЩАЯ КОМПАНИЯ ОПТОВОГО РЫНКА ЭЛЕКТРОЭНЕРГИИ", "ОГК")
 
@@ -67,7 +69,7 @@ def rename(df):
     keys = list(RENAME_DICT.keys())
     def actor(inn):
         return RENAME_DICT[inn]
-    ix = df.loc[:, 'inn'].isin(keys)
+    ix = df.inn.isin(keys)
     df.loc[ix, 'title'] = df.loc[ix, 'inn'].apply(actor)
     return df
 

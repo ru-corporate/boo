@@ -54,34 +54,22 @@ def add_title(df):
     df['title'] = s.apply(lambda x: replace_names(x[1]))
     return df
 
-# FIXME: use this on longer names
-#def deep_dequote(title):
-#    return dequote(str(title))[1]    
 
-SHORT_NAMES_BY_INN = {
+def rename(df):
+    RENAME_DICT = {
     '2460066195': "РусГидро",
     '4716016979': "ФСК ЕЭС",
-    '7702038150': "Московский метрополитен", #'МОСКОВСКИЙ ОРДЕНА ЛЕНИНА И ОРДЕНА ТРУДОВОГО КРАСНОГО ЗНАМЕНИ МЕТРОПОЛИТЕН ИМЕНИ В.И.ЛЕНИНА'
+    '7702038150': "Московский метрополитен",
     '7721632827': "Концерн Росэнергоатом",
     '7706664260': "Атомэнергопром",
     '7703683145': "Холдинг ВТБ Капитал АЙ БИ"
-}
-
-
-def rename(df, rename_dict=SHORT_NAMES_BY_INN):
+    }
+    keys = list(RENAME_DICT.keys())
     def actor(inn):
-        return rename_dict[inn]
-    ix = df.loc[:, 'inn'].isin(rename_dict.keys())
+        return RENAME_DICT[inn]
+    ix = df.loc[:, 'inn'].isin(keys)
     df.loc[ix, 'title'] = df.loc[ix, 'inn'].apply(actor)
     return df
-
-import pandas as pd
-x = pd.DataFrame({'title': {1134038: 'МОСКОВСКИЙ ОРДЕНА ЛЕНИНА И ОРДЕНА ТРУДОВОГО КРАСНОГО ЗНАМЕНИ МЕТРОПОЛИТЕН ИМЕНИ В.И.ЛЕНИНА'}, 
-                  'inn': {1134038: '7702038150'}}
-    )
-
-assert rename(x).iloc[0,:].title == 'Московский метрополитен'
-
 
 def okved3(code_string: str):
     """Get 3 levels of OKVED codes from *code_string*."""

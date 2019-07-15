@@ -69,8 +69,9 @@ SHORT_NAMES_BY_INN = {
 
 
 def rename(df, rename_dict=SHORT_NAMES_BY_INN):
-    ix = df.index.isin(list(rename_dict.keys()))
-    df.loc[ix, 'title'] = df.loc[ix].index.map(lambda inn: rename_dict[inn])
+    keys = list(rename_dict.keys())
+    ix = df.index.isin(keys)
+    df.loc[ix, 'title'] = df.loc[ix, 'inn'].map(lambda inn: rename_dict[inn])
     return df
 
 
@@ -126,13 +127,3 @@ def canonic_dtypes():
     def switch(col):
         return numpy.int64 if (col in numerics) else str
     return {col: switch(col) for col in canonic_columns()}
-
-# ---
-
-def cut_stale_rows(df):
-    return df[~((df.ta == 0) & (df.ta_lag == 0))]
-
-
-def random(df):
-    return df[['inn', 'title', 'ta', 'sales', 'profit_before_tax', 'cf']]\
-        .sample(1).transpose()

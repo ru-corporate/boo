@@ -10,10 +10,12 @@ from pathlib import Path
 
 # 0.0.4 adds wipe() and wipe_all() functions
 
-# 0.0.5 hoping the README will surface on PyPi
+# 0.0.5 README will surface on PyPi
+
+#0.0.6 additional dataset cleaning moved from notebook to package
 
 setup(name='boo',
-      version='0.0.5',
+      version='0.0.6',
       description='Russian corporate reports 2012-2017',
       url='http://github.com/ru-corporate/boo',
       author='Evgeniy Pogrebnyak',

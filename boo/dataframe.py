@@ -69,9 +69,10 @@ SHORT_NAMES_BY_INN = {
 
 
 def rename(df, rename_dict=SHORT_NAMES_BY_INN):
-    keys = list(rename_dict.keys())
-    ix = df.index.isin(keys)
-    df.loc[ix, 'title'] = df.loc[ix, 'inn'].map(lambda inn: rename_dict[inn])
+    def actor(inn):
+        return rename_dict[inn]
+    ix = df.index.isin(rename_dict.keys())
+    df.loc[ix, 'title'] = df.loc[ix, 'inn'].map(actor)
     return df
 
 

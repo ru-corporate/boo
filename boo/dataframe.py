@@ -71,9 +71,16 @@ SHORT_NAMES_BY_INN = {
 def rename(df, rename_dict=SHORT_NAMES_BY_INN):
     def actor(inn):
         return rename_dict[inn]
-    ix = df.index.isin(rename_dict.keys())
-    df.loc[ix, 'title'] = df.loc[ix, 'inn'].map(actor)
+    ix = df.loc[:, 'inn'].isin(rename_dict.keys())
+    df.loc[ix, 'title'] = df.loc[ix, 'inn'].apply(actor)
     return df
+
+import pandas as pd
+x = pd.DataFrame({'title': {1134038: 'МОСКОВСКИЙ ОРДЕНА ЛЕНИНА И ОРДЕНА ТРУДОВОГО КРАСНОГО ЗНАМЕНИ МЕТРОПОЛИТЕН ИМЕНИ В.И.ЛЕНИНА'}, 
+                  'inn': {1134038: '7702038150'}}
+    )
+
+assert rename(x).iloc[0,:].title == 'Московский метрополитен'
 
 
 def okved3(code_string: str):

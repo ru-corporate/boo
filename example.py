@@ -10,7 +10,7 @@ For development version use:
     pip install --upgrade git+https://github.com/ru-corporate/boo.git@master
 """
 
-from  boo.preset import preset_large_companies, sort, industry, contains
+from  boo.preset import large_companies, sort, industry, contains
 
 #raw_df = boo.read_dataframe(2017)
 print ("Read dataframe, processing..." )

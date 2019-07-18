@@ -48,7 +48,8 @@ def replace_names(title: str):
         .replace("АКЦИОНЕРНОЕ ОБЩЕСТВО ЭНЕРГЕТИКИ И ЭЛЕКТРИФИКАЦИИ",
                  "AO энерго") \
         .replace("НЕФТЕПЕРЕРАБАТЫВАЮЩИЙ ЗАВОД", "НПЗ")\
-        .replace("ГЕНЕРИРУЮЩАЯ КОМПАНИЯ ОПТОВОГО РЫНКА ЭЛЕКТРОЭНЕРГИИ", "ОГК")
+        .replace("ГЕНЕРИРУЮЩАЯ КОМПАНИЯ ОПТОВОГО РЫНКА ЭЛЕКТРОЭНЕРГИИ", "ОГК") \
+        .replace("ГОРНО-ОБОГАТИТЕЛЬНЫЙ КОМБИНАТ", "ГОК")
 
 def add_title(df):
     s = df.name.apply(dequote)
@@ -64,7 +65,9 @@ def rename(df):
     '7702038150': "Московский метрополитен",
     '7721632827': "Концерн Росэнергоатом",
     '7706664260': "Атомэнергопром",
-    '7703683145': "Холдинг ВТБ Капитал АЙ БИ"
+    '7703683145': "Холдинг ВТБ Капитал АЙ БИ",
+    '9102048801': "Черноморнефтегаз",
+    '7736036626': "РИТЭК"
     }
     keys = list(RENAME_DICT.keys())
     def actor(inn):
@@ -105,7 +108,7 @@ def canonic_df(df):
               add_title,
               rename]:
         df = f(df)
-    return df.loc[:, canonic_columns()]
+    return df.loc[:, canonic_columns()].set_index('inn')
 
 
 def canonic_columns(numeric=SHORT_COLUMNS.numeric):
@@ -115,13 +118,17 @@ def canonic_columns(numeric=SHORT_COLUMNS.numeric):
             numeric)
 
 
-def get_numeric_columns(numeric=SHORT_COLUMNS.numeric):
+def is_numeric_column(name, numeric=SHORT_COLUMNS.numeric):
+    return name in numeric
+
+
+def columns_typed_as_integeer(numeric=SHORT_COLUMNS.numeric):
     return numeric + ['ok1', 'ok2', 'ok3', 'region']
 
 
 def canonic_dtypes():
-    numerics = get_numeric_columns()
+    int_columns = columns_typed_as_integeer()
 
     def switch(col):
-        return numpy.int64 if (col in numerics) else str
+        return numpy.int64 if (col in int_columns) else str
     return {col: switch(col) for col in canonic_columns()}

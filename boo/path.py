@@ -20,17 +20,13 @@ def get_folder(directory):
         raise FileNotFoundError(directory)
 
 
-def file(tag, year, directory=None):
-    return get_folder(directory) / f"{tag}_{year}.csv"
+def file(year, tag="", directory=None):
+    return get_folder(directory) / f"{year}{tag}.csv"
 
 
 def raw(year):
-    return file("raw", year)
+    return file(year, "raw")
 
 
 def processed(year):
-    return file("trimmed", year)
-
-
-def canonic(year):
-    return file("canonic", year)
+    return file(year)

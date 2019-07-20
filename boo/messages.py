@@ -12,7 +12,7 @@ def help_download_force(year):
 
 
 def help_build_force(year):
-    return "Use build({year}, force=True) to overwrite existing file."
+    return f"Use build({year}, force=True) to overwrite existing file."
 
 
 def help_download(year):
@@ -62,10 +62,8 @@ class Dataset:
 def inspect(year: int):
     d = Dataset(year)
     print ("Raw file URL:", d.url)
-    print()
     for msg in d.raw_state():
         print (msg)
-    print()
     for msg in d.processed_state():
         print (msg)  
                         

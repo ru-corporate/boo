@@ -1,3 +1,5 @@
+from boo.year import make_url
+from boo.path import raw, processed
 
 # message system
 
@@ -20,11 +22,12 @@ def help_download(year):
 def help_build(year):
     return f"Use build({year}) to create readable file."
 
+
 def help_df(year):
     return f"Use df = read_dataframe({year}) to read it as pandas dataframe."
 
 
-      
+     
 class Dataset:    
     def __init__(self, year):
         self.year = year
@@ -41,7 +44,7 @@ class Dataset:
     def raw_state(self):
         if self.is_downloaded():            
             size = filesize(self.raw)
-            yield f"Raw file downloaded as {self.raw} ({size}M)"
+            yield f"Raw CSV file downloaded as {self.raw} ({size}M)"
             if size < 1:
                 yield "WARNING: file size too small. " + help_download_force(self.year)
         else:
@@ -58,7 +61,6 @@ class Dataset:
 
 def inspect(year: int):
     d = Dataset(year)
-    print ("Year:", year)
     print ("Raw file URL:", d.url)
     print()
     for msg in d.raw_state():

@@ -5,20 +5,22 @@ Basic use:
     
 Helpers:
     whatis(column_name)
-    location(year)        
+    location(year)
+    inspect(year)        
 
 Notes: 
 - prepare() is an alias to run two functions download(year) and  build(year)
 """
 import pandas as pd
 from pathlib import Path
+from dataclasses import dataclass
 
 from boo.year import make_url
 from boo.path import raw, processed
 from boo.file import curl, yield_rows, save_rows
 from boo.columns import CONVERTER_FUNC, SHORT_COLUMNS
 from boo.dataframe.canonic import canonic_df
-from boo.messages import help_download_force, help_build_force
+from boo.messages import help_force
 
 def preclean(path, force: bool):
     """Delete an exisiting file if *force* flag is set to True"""
@@ -75,13 +77,13 @@ def prepare(year: int):
         download(year)
     else:    
         print("Already downloaded:", r)
-        print (help_download_force(year))
+        print(help_force(year, "download"))
     p = processed(year)
     if not p.exists():
         build(year)
     else: 
         print("Already built:", p)
-        print (help_build_force(year))
+        print(help_force(year, "build"))
         
         
 def wipe(path_str):
@@ -89,10 +91,10 @@ def wipe(path_str):
     if file.exists():
         file.unlink()
         
-
-def locate_raw(year):
-    return str(raw(year))
-
+@dataclass
+class Files:
+    raw : str 
+    processed : str
     
-def locate_processed(year):
-    return str(processed(year))  
+def locate(year):
+    return Files(str(raw(year)), str(processed(year)))

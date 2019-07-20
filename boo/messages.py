@@ -48,7 +48,7 @@ class Dataset:
             if size < 1:
                 yield "WARNING: file size too small. " + help_download_force(self.year)
         else:
-            yield "Raw file not downloaded. " + help_download(self.year)                
+            yield "Raw CSV file not downloaded. " + help_download(self.year)                
                 
     def processed_state(self):
         if self.is_built():
@@ -56,7 +56,7 @@ class Dataset:
             yield f"Processed CSV file is saved as {self.processed} ({size}M)"
             yield help_df(self.year)
         else:
-            yield "Final file not built. " + help_build(self.year)
+            yield "CSV file not built. " + help_build(self.year)
             
 
 def inspect(year: int):

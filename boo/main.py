@@ -18,7 +18,7 @@ from boo.path import raw, processed
 from boo.file import curl, yield_rows, save_rows
 from boo.columns import CONVERTER_FUNC, SHORT_COLUMNS
 from boo.dataframe.canonic import canonic_df
-from messages import help_download_force, help_build_force
+from boo.messages import help_download_force, help_build_force
 
 def preclean(path, force: bool):
     """Delete an exisiting file if *force* flag is set to True"""

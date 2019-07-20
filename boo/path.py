@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from dataclasses import dataclass 
 
 def whereami(x=__file__):
     return Path(x).parents[0]
@@ -11,7 +11,7 @@ def default_data_folder():
     return home
 
 
-def get_folder(directory):
+def get_folder(directory=None):
     if directory is None:
         return default_data_folder()
     elif directory.is_dir():
@@ -21,12 +21,15 @@ def get_folder(directory):
 
 
 def file(year, tag="", directory=None):
-    return get_folder(directory) / f"{year}{tag}.csv"
+    return get_folder(directory) / f"{tag}{year}.csv"
 
 
-def raw(year):
-    return file(year, "raw")
-
-
-def processed(year):
-    return file(year)
+@dataclass
+class Files:
+    raw : Path 
+    processed : Path
+    
+    
+def locate(year, directory=None):
+    return Files(raw=file(year, "raw", directory),
+                 processed=file(year, "", directory))

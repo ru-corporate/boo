@@ -5,22 +5,20 @@ Basic use:
     
 Helpers:
     whatis(column_name)
-    location(year)
+    locate(year)
     inspect(year)        
 
 Notes: 
 - prepare() is an alias to run two functions download(year) and  build(year)
 """
-import pandas as pd
-from pathlib import Path
-from dataclasses import dataclass
 
 from boo.year import make_url
-from boo.path import raw, processed
-from boo.file import curl, yield_rows, save_rows
+from boo.path import locate
+from boo.file import curl, yield_rows, save_rows, read_df
 from boo.columns import CONVERTER_FUNC, SHORT_COLUMNS
 from boo.dataframe.canonic import canonic_df
 from boo.messages import help_force
+
 
 def preclean(path, force: bool):
     """Delete an exisiting file if *force* flag is set to True"""
@@ -30,7 +28,7 @@ def preclean(path, force: bool):
 
 def download(year: int, force=False):
     """Download file from Rosstat."""
-    path, url = raw(year), make_url(year),
+    path, url = locate(year).raw, make_url(year),
     preclean(path, force)
     print(f"Downloading source file for {year} from ", url)
     curl(path, url)
@@ -45,7 +43,7 @@ def build(year, force=False,
        Columns have names *COLUMNS_SHORT*.
        Rows will be modified by *worker* function.
     """
-    src, dst = raw(year), processed(year)
+    src, dst = locate(year).raw, locate(year).processed
     preclean(dst, force)
     print("Reading from", src)
     print("Saving to", dst)
@@ -56,45 +54,26 @@ def build(year, force=False,
     return dst
 
 
-def read_df(path, dtypes):
-    with open(path, 'r', encoding='utf-8') as f:
-        return pd.read_csv(f, dtype=dtypes)
-
-
 def read_intermediate_df(year: int):
-    src = processed(year)
+    src = locate(year).processed
     return read_df(src, SHORT_COLUMNS.dtypes)
 
 
 def read_dataframe(year):
     return canonic_df(read_intermediate_df(year))
 
-# Shorthand functions
+# Shorthand function
 
 def prepare(year: int):
-    r = raw(year)
+    r = locate(year).raw
     if not r.exists():
         download(year)
     else:    
         print("Already downloaded:", r)
         print(help_force(year, "download"))
-    p = processed(year)
+    p = locate(year).processed
     if not p.exists():
         build(year)
     else: 
         print("Already built:", p)
         print(help_force(year, "build"))
-        
-        
-def wipe(path_str):
-    file = Path(path_str)
-    if file.exists():
-        file.unlink()
-        
-@dataclass
-class Files:
-    raw : str 
-    processed : str
-    
-def locate(year):
-    return Files(str(raw(year)), str(processed(year)))

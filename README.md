@@ -37,9 +37,9 @@ CSV files are  located at `~/.boo` folder.
 
 File name     | Description  | Column count |  Created by 
 --------------|--------------|:------------:|:------------:
-`raw_<year>.csv`     | Original CSV file from Rosstat website. No header row.    | 266 |`download(year)`
-`trimmed_<year>.csv` | CSV file with column names in header row, unnamed columns. | 58\* | `cut(year)`
-`canonic_<year>.csv` | CSV file with additional column transformations (eg. `region`) and error filters. Reference dataset for analysis. | 58\* | `put(year)`
+`raw<year>.csv`     | Original CSV file from Rosstat website. No header row.    | 266 | `download(year)`
+`<year>.csv` | CSV file with column names in header row, unnamed columns. | 58\* | `build(year)`
+&nbsp;       | Daraframe with additional column transformations (eg. `region`) and error filters. Reference dataset for analysis. | 58\* | `read_dataframe(year)`
 
 (\*) equal by coincidence, some columns are added and some removed
 
@@ -50,14 +50,12 @@ File name     | Description  | Column count |  Created by
 - CSV files are quite big, start with year 2012 to experiment.
 - Use link above for Google Colab to run package remotely.
 - Use `read_dataframe(year)` to read canonic CSV file. 
-- `wipe(year)` if you do not want to keep intermediate CSV files.
-- `wipe_all()` if you want to clean up everything.
 
 #### Developper
 
 - `boo.path.default_data_folder` shows where the CSV files are on a computer.
 - `boo.columns` controls CSV column selection and naming.
-- `boo.dataframe` makes canonic CSV.
+- `boo.dataframe.canonic` makes canonic CSV.
 - `boo.year.TIMESTAMPS` help to find proper URLs, which change along with Rosstat website updates. 
 - New annual dataset released around September-October.
 
@@ -90,9 +88,9 @@ csvclean p2012.csv
 Batch file result is similar to running: 
 
 ```python 
-from boo import download, cut
+from boo import download, build
 download(2012)
-cut(2012)
+build(2012)
 ```
 
 ## Limitations

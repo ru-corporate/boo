@@ -1,7 +1,7 @@
 """Help message system, deals with state of local CSV files."""
 
 from boo.year import make_url
-from boo.path import raw, processed
+from boo.path import locate
 
 
 def filesize(path):
@@ -30,8 +30,8 @@ class Dataset:
     def __init__(self, year):
         self.year = year
         self.url = make_url(year)
-        self.raw = raw(year)
-        self.processed = processed(year)
+        self.processed = locate(year).processed
+        self.raw = locate(year).raw        
         
     def is_downloaded(self):
         return self.raw.exists()
@@ -57,13 +57,13 @@ class Dataset:
                      + mb(size))
             yield help_df(self.year)
         else:
-            yield "CSV file not built. " + help_build(self.year)
+            yield "Final CSV file not built. " + help_build(self.year)
             
 
 def inspect(year: int):
     d = Dataset(year)
-    print ("Raw file URL:", d.url)
+    print ("URL:", d.url)
     for msg in d.raw_state():
         print (msg)
     for msg in d.processed_state():
-        print (msg)            
+        print (msg)           

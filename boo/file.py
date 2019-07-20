@@ -5,6 +5,7 @@ import os
 import requests
 from tqdm import tqdm
 
+import pandas as pd
 
 def panic(path):
     if os.path.exists(path):
@@ -52,3 +53,8 @@ def save_rows(path,
         if column_names:
             writer.writerow(column_names)
         writer.writerows(iterable)
+
+
+def read_df(path, dtypes):
+    with open(path, 'r', encoding='utf-8') as f:
+        return pd.read_csv(f, dtype=dtypes)

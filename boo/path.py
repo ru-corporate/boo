@@ -3,10 +3,10 @@ from dataclasses import dataclass
 
 
 def whereami(x=__file__):
-    return Path(x).parents[0]
+    return Path(x).parent
 
 
-def default_data_folder():
+def default_data_folder() -> Path:
     home = Path.home() / ".boo"
     home.mkdir(parents=True, exist_ok=True)
     return home
@@ -34,3 +34,16 @@ class Files:
 def locate(year, directory=None):
     return Files(raw=file(year, "raw", directory),
                  processed=file(year, "", directory))
+
+
+def filesize(path):
+    return round(path.stat().st_size / (1024 * 1024.0), 1)
+
+
+def publish(path) -> str:
+    try:
+        size = filesize(path)
+        return f"{path} ({size}M)"
+    except FileNotFoundError:
+        return f"{path} does not exist"
+    

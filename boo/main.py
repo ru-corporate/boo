@@ -13,7 +13,7 @@ Notes:
 """
 
 from boo.year import make_url
-from boo.path import locate
+from boo.path import locate, publish
 from boo.file import curl, yield_rows, save_rows, read_df
 from boo.columns import CONVERTER_FUNC, SHORT_COLUMNS
 from boo.dataframe.canonic import canonic_df
@@ -28,14 +28,15 @@ def preclean(path, force: bool):
 
 def download(year: int, force=False, directory=None):
     """Download file from Rosstat web site."""
-    path, url = locate(year, directory).raw, make_url(year),
+    path = locate(year, directory).raw
+    url = make_url(year)
     preclean(path, force)
     if not path.exists():
         print(f"Downloading source file for {year} from", url)
         curl(path, url)
-        print("Saved as", path)
+        print("Saved as", publish(path))
     else:
-        print("Already downloaded:", path)
+        print("Already downloaded:", publish(path))
         print(help_force(year, "download"))
     return path
 
@@ -68,8 +69,3 @@ def read_intermediate_df(year: int, directory=None):
 
 def read_dataframe(year, directory=None):
     return canonic_df(read_intermediate_df(year, directory))
-
-
-def prepare(year: int):
-    download(year)
-    build(year)

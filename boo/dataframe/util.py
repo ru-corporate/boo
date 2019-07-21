@@ -66,7 +66,7 @@ def industry2(df, ok1, ok2):
 
 def large_companies(df):
     cols = ['region', 'ok1', 'ok2', 'ok3', 'title'] + \
-           ['ta', 'of', 'sales', 'profit_before_tax', 'cf']
+           ['ta', 'cash', 'of', 'sales', 'profit_before_tax', 'cf']
     return mapf(df[cols], alive, bln, beyond(1)) \
         .sort_values("ta", ascending=False) \
         .rename(columns={'profit_before_tax': 'p'})

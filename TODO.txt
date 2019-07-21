@@ -1,13 +1,16 @@
 # TODO:
+# - [ ] lookup utils
 # - [ ] visuals
-# - [ ] coefficients library
+# - [ ] ta=tp, etc, identities
+# - [ ] financial coefficients library
 # - [ ] analysis quality criteria
 
 # MAYBE:
+# - [ ] silence .loc warning
 # - [ ] more subsets, eg SME
 # - [ ] larger dummy example to load, 50 + 50 + 1000 example
-# - [ ] download() must fail on small fail on small file or HTML file
-# - [ ] extend whatis() function
+# - [ ] download() must fail on small fail on HTML file
+# - [ ] extend whatis() functionto new coluns
 # - [ ] global pytest fixture for sample year 0
 
 # NOT TODO:

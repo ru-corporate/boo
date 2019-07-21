@@ -1,4 +1,5 @@
-[![colab](https://img.shields.io/badge/colab-launch-blue.svg)](https://colab.research.google.com/drive/1lpB2jIPyQDZvri13DOpgyD5_NWRWqi-H#scrollTo=O450sM3EaoCW)
+[![Build Status](https://travis-ci.com/ru-corporate/boo.svg?branch=master)](https://travis-ci.com/ru-corporate/boo)
+[![colab](https://img.shields.io/badge/colab-launch-blue.svg)](https://colab.research.google.com/drive/11g70BD78BnM6PqVrT4uZ27zrNBQ2ae3s#scrollTo=YD-la400CQyT)
 
 # boo
 

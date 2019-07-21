@@ -14,14 +14,16 @@ from pathlib import Path
 
 #0.0.6 additional dataset cleaning moved from notebook to package
 
+#0.0.7 help messages
+
 setup(name='boo',
-      version='0.0.6',
+      version='0.0.7',
       description='Russian corporate reports 2012-2017',
       url='http://github.com/ru-corporate/boo',
       author='Evgeniy Pogrebnyak',
       author_email='e.pogrebnyak@gmail.com',
       license='MIT',
-      packages=find_packages(),
+      packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
       long_description = Path("README.md").read_text(),
       long_description_content_type="text/markdown",
       zip_safe=False, 

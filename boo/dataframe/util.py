@@ -1,4 +1,4 @@
-from boo.dataframe import is_numeric_column
+from boo.dataframe.canonic import is_numeric_column
 
 
 def mapf(x, *funcs):

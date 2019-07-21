@@ -9,7 +9,7 @@ Helpers:
     inspect(year)
 
 Notes:
-- prepare() is an alias to run download(year) and build(year)
+- prepare() is an alias to run both download(year) and build(year)
 """
 
 from boo.year import make_url
@@ -61,8 +61,6 @@ def read_intermediate_df(year: int):
 
 def read_dataframe(year):
     return canonic_df(read_intermediate_df(year))
-
-# Shorthand function
 
 
 def prepare(year: int):

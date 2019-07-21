@@ -26,9 +26,9 @@ def preclean(path, force: bool):
         path.unlink()
 
 
-def download(year: int, force=False):
-    """Download file from Rosstat."""
-    path, url = locate(year).raw, make_url(year),
+def download(year: int, force=False, directory=None):
+    """Download file from Rosstat web site."""
+    path, url = locate(year, directory).raw, make_url(year),
     preclean(path, force)
     print(f"Downloading source file for {year} from", url)
     curl(path, url)
@@ -36,14 +36,15 @@ def download(year: int, force=False):
     return path
 
 
-def build(year, force=False,
+def build(year, force=False, directory=None,
           worker=CONVERTER_FUNC,
           column_names=SHORT_COLUMNS.all):
     """Create smaller CSV file with fewer columns.
        Columns have names *COLUMNS_SHORT*.
        Rows will be modified by *worker* function.
     """
-    src, dst = locate(year).raw, locate(year).processed
+    loc = locate(year, directory)
+    src, dst = loc.raw, loc.processed
     preclean(dst, force)
     print("Reading from", src)
     print("Saving to", dst)
@@ -54,13 +55,13 @@ def build(year, force=False,
     return dst
 
 
-def read_intermediate_df(year: int):
-    src = locate(year).processed
+def read_intermediate_df(year: int, directory=None):
+    src = locate(year, directory).processed
     return read_df(src, SHORT_COLUMNS.dtypes)
 
 
-def read_dataframe(year):
-    return canonic_df(read_intermediate_df(year))
+def read_dataframe(year, directory=None):
+    return canonic_df(read_intermediate_df(year, directory))
 
 
 def prepare(year: int):

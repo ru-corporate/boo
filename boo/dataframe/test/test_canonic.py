@@ -1,3 +1,12 @@
+# import numpy
+# from boo.row import dtypes
+
+# def test_dtypes():
+    # assert dtypes(['of']) == {'of': numpy.int64}
+    # assert dtypes(['ok1']) == {'ok1': numpy.int64}
+    # assert dtypes(['inn']) == {'inn': str}
+    # assert dtypes(['okopf']) == {'okopf': str}
+
 import pandas as pd
 df1 = pd.DataFrame(
     {'cash': {227693: 5118911, 1134038: 176492735},
@@ -62,24 +71,22 @@ df1 = pd.DataFrame(
 )
 
 import pytest
-from boo.dataframe import canonic_df, rename
+from boo.dataframe.canonic import canonic_df, rename
 
 
 def test_rename_complete():
-    assert canonic_df(df1).title[1134038] == "Московский метрополитен"
+    assert canonic_df(df1).title["7702038150"] == "Московский метрополитен"
 
 
 def test_substitute_complete():
-    assert canonic_df(df1).title[227693] == "ВТОРАЯ ОГК"
-
-
-df2 = pd.DataFrame(
-    {'title': {1134038: 'МОСКОВСКИЙ ОРДЕНА ЛЕНИНА И ОРДЕНА ТРУДОВОГО КРАСНОГО ЗНАМЕНИ МЕТРОПОЛИТЕН ИМЕНИ В.И.ЛЕНИНА'},
-     'inn': {1134038: '7702038150'}}
-)
-
+    assert canonic_df(df1).title["2607018122"] == "ВТОРАЯ ОГК"
+    
 
 def test_rename():
+    df2 = pd.DataFrame(
+    {'title': {1134038: 'МОСКОВСКИЙ ОРДЕНА ЛЕНИНА И ОРДЕНА ТРУДОВОГО КРАСНОГО ЗНАМЕНИ МЕТРОПОЛИТЕН ИМЕНИ В.И.ЛЕНИНА'},
+     'inn': {1134038: '7702038150'}}
+    )
     assert rename(df2).title[1134038] == 'Московский метрополитен'
 
 

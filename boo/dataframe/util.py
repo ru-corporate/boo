@@ -1,6 +1,5 @@
 from boo.dataframe.canonic import is_numeric_column
 
-
 def mapf(x, *funcs):
     for f in funcs:
         x = f(x)

@@ -18,7 +18,7 @@ def help_force(year, verb):
 
 
 def help_download(year):
-    return f"Use download({year}) to download raw CSV file."
+    return f"Use download({year}) to get it."
 
 
 def help_build(year):
@@ -26,7 +26,7 @@ def help_build(year):
 
 
 def help_df(year):
-    return f"Use df = read_dataframe({year}) to read data as pandas dataframe."
+    return f"Use df=read_dataframe({year}) to read data as pandas dataframe."
 
 
 class Dataset:

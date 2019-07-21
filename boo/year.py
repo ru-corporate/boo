@@ -20,7 +20,7 @@ def make_url(year: int) -> str:
     http://www.gks.ru/opendata/storage/7708234640-bdboo2012/data-20181029t000000-structure-20121231t000000.csv
     """
     if year == 0:
-        return 'https://raw.githubusercontent.com/ru-corporate/sandbox/master/assets/sample.txt'
+        return 'https://raw.githubusercontent.com/ru-corporate/boo/master/assets/sample.txt'
     try:
         timestamp = TIMESTAMPS[year]
         return ('http://www.gks.ru/opendata/storage/'

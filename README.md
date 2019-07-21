@@ -26,9 +26,10 @@ pip install git+https://github.com/ru-corporate/boo.git@master
 ## Usage
 
 ```python
-from boo import prepare, read_dataframe
+from boo import download, build, read_dataframe
 
-prepare(2012)
+download(2012)
+build(2012)
 df = read_dataframe(2012)
 print(df.head())
 ```
@@ -42,7 +43,7 @@ File name     | Description  | Column count |  Created by
 `raw<year>.csv`     | Original CSV file from Rosstat website. No header row.    | 266 | `download(year)`
 `<year>.csv` | CSV file with column names in header row.  | 58 | `build(year)`
 
-`df = read_dataframe(year)` returns reference dataset. Additional column transformations (eg. `region`) and error filters are applied.  
+`df = read_dataframe(year)` returns reference ("canonic") dataset. Additional column transformations (eg. `region`) and error filters are applied. 
 By coincidence `df` has same number of columns as `<year>.csv`, but the columns are slightly different as some columns are added and 
 some removed.
 

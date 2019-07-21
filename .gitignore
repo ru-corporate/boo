@@ -1,4 +1,6 @@
 *.csv
+!0.csv
+!raw0.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

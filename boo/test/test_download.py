@@ -4,6 +4,7 @@ from boo.file import curl
 from boo.year import make_url
 
 
+# change 'temp' to named 
 def test_curl():
     try:
         curl('temp', make_url(2012), 20)

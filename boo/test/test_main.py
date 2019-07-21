@@ -1,16 +1,26 @@
-from tempfile import TemporaryDirectory
-from requests.exceptions import ConnectionError
+import pytest
 import pandas as pd
-from boo.main import download, build, read_dataframe
+from boo.main import read_dataframe
 
+#    try:
+#        with TemporaryDirectory() as temp_dir:
+#            kwargs = dict(year=0, force=True, directory=temp_dir)
+#            download(**kwargs)
+#            build(**kwargs)
+#            yield dict(year=0, directory=temp_dir)
+#    except ConnectionError:
+#         pass
 
-def test_pipeline():
-    try:
-        with TemporaryDirectory() as temp_dir:
-            download(year=0, force=True, directory=temp_dir)
-            build(year=0, force=True, directory=temp_dir)
-            df = read_dataframe(year=0, directory=temp_dir)
-            assert isinstance(df, pd.DataFrame)
-            assert sum(df.cf) == -7032726
-    except ConnectionError:
-        pass
+def test_download(filled_directory):
+    pass
+
+def test_build(filled_directory):
+    pass
+
+def test_read_dataframe(filled_directory):
+    df = read_dataframe(**filled_directory)
+    assert isinstance(df, pd.DataFrame)
+    assert sum(df.cf) == -7032726
+
+if __name__ == "__main__":
+    pytest.main([__file__])

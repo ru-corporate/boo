@@ -62,6 +62,7 @@ def build(year, force=False, directory=None,
         print("Already built:", dst)
         print(help_force(year, "build"))
 
+
 def read_intermediate_df(year: int, directory=None):
     src = locate(year, directory).processed
     return read_df(src, SHORT_COLUMNS.dtypes)

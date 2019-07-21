@@ -7,7 +7,6 @@
 
 
 # MAYBE:
-# - [ ] messages.py
 # - [ ] example.py
 # - [ ] silence .loc warning
 # - [ ] more subsets, eg SME
@@ -21,6 +20,7 @@
 # - [ ] save dtypes as json, use them if available to speed up df import
 
 # DONE:
+# - [x] smaller messages.py
 # - [x] port existing tests fro `sandbox`
 # - [x] variable descriptions boo.whatis
 # - [x] boo vs . in backage

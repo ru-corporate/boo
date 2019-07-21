@@ -2,6 +2,8 @@ from tempfile import TemporaryDirectory
 from boo.messages import inspect
 
 # FIXME: capture stdout
+
+
 def test_inspect_on_existing_data(filled_directory):
     inspect(**filled_directory)
 

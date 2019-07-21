@@ -3,17 +3,20 @@
 from boo.year import make_url
 from boo.path import locate, publish, filesize
 
+
 def help_force(year, verb):
     return f"Use {verb}({year}, force=True) to overwrite existing file."
+
 
 def raw_state(year):
     r = locate(year).raw
     if r.exists():
         yield "Raw CSV file downloaded as " + publish(r)
-        if filesize(r)< 1:
-            yield "WARNING: file size too small. Usual size > 500Mb." 
+        if filesize(r) < 1:
+            yield "WARNING: file size too small. Usual size > 500Mb."
     else:
         yield f"Raw CSV file not downloaded. Run `download({year})`."
+
 
 def processed_state(year):
     p = locate(year).processed
@@ -29,4 +32,4 @@ def inspect(year: int, directory=None):
     for msg in raw_state(year):
         print(msg)
     for msg in processed_state(year):
-        print(msg)   
+        print(msg)

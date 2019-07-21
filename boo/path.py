@@ -46,4 +46,3 @@ def publish(path) -> str:
         return f"{path} ({size}M)"
     except FileNotFoundError:
         return f"{path} does not exist"
-    

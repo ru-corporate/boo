@@ -1,14 +1,15 @@
 import pytest
-from pathlib import Path 
+from pathlib import Path
 
 DATA_FOLDER = Path(__file__).parent / "data"
+
 
 @pytest.fixture
 def raw_content():
     return (DATA_FOLDER / "raw0.csv").read_text()
 
 
-@pytest.fixture    
+@pytest.fixture
 def processed_content():
     return (DATA_FOLDER / "0.csv").read_text()
 

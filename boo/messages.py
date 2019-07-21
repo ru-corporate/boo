@@ -70,5 +70,4 @@ def inspect(year: int, directory=None):
     for msg in d.raw_state():
         print(msg)
     for msg in d.processed_state():
-        print(msg)
-    return True    
+        print(msg)   

@@ -156,3 +156,14 @@ def whatis(varname: str):
     if varname.endswith("_lag"):
         varname = varname[:-len("_lag")]
     return account_name(name_to_code(varname))
+
+# MAYBE: add descriptions
+# def new_text_field_name(varname: str):
+#    okv = lambda text: f"Код ОКВЭД {text} уровня"
+#    return {'ok1': okv("первого"),
+#            'ok2': okv("второго"),
+#            'ok3': okv("третьего"),
+#            'org': "Тип юридического лица (часть наименования организации)",
+#            'title': "Короткое название организации",
+#            'region': "Код региона по ИНН"}.get(varname)
+

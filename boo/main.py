@@ -30,9 +30,13 @@ def download(year: int, force=False, directory=None):
     """Download file from Rosstat web site."""
     path, url = locate(year, directory).raw, make_url(year),
     preclean(path, force)
-    print(f"Downloading source file for {year} from", url)
-    curl(path, url)
-    print("Saved as", path)
+    if not path.exists():
+        print(f"Downloading source file for {year} from", url)
+        curl(path, url)
+        print("Saved as", path)
+    else:
+        print("Already downloaded:", path)
+        print(help_force(year, "download"))
     return path
 
 
@@ -46,14 +50,16 @@ def build(year, force=False, directory=None,
     loc = locate(year, directory)
     src, dst = loc.raw, loc.processed
     preclean(dst, force)
-    print("Reading from", src)
-    print("Saving to", dst)
-    save_rows(path=dst,
-              stream=map(worker, yield_rows(src)),
-              column_names=column_names)
-    print("Done")
-    return dst
-
+    if not dst.exists():
+        print("Reading from", src)
+        print("Saving to", dst)
+        save_rows(path=dst,
+                  stream=map(worker, yield_rows(src)),
+                  column_names=column_names)
+        print("Done")
+    else:
+        print("Already built:", dst)
+        print(help_force(year, "build"))
 
 def read_intermediate_df(year: int, directory=None):
     src = locate(year, directory).processed
@@ -65,15 +71,5 @@ def read_dataframe(year, directory=None):
 
 
 def prepare(year: int):
-    r = locate(year).raw
-    if not r.exists():
-        download(year)
-    else:
-        print("Already downloaded:", r)
-        print(help_force(year, "download"))
-    p = locate(year).processed
-    if not p.exists():
-        build(year)
-    else:
-        print("Already built:", p)
-        print(help_force(year, "build"))
+    download(year)
+    build(year)

@@ -41,15 +41,22 @@ def dequote(name: str):
         title = name
     return org, title.strip()
 
+
 def replace_names(title: str):
-    return title \
-        .replace("ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО", "ПАО") \
-        .replace("ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО", "ОАО") \
-        .replace("АКЦИОНЕРНОЕ ОБЩЕСТВО ЭНЕРГЕТИКИ И ЭЛЕКТРИФИКАЦИИ",
-                 "AO энерго") \
-        .replace("НЕФТЕПЕРЕРАБАТЫВАЮЩИЙ ЗАВОД", "НПЗ")\
-        .replace("ГЕНЕРИРУЮЩАЯ КОМПАНИЯ ОПТОВОГО РЫНКА ЭЛЕКТРОЭНЕРГИИ", "ОГК") \
-        .replace("ГОРНО-ОБОГАТИТЕЛЬНЫЙ КОМБИНАТ", "ГОК")
+    return title .replace(
+        "ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО",
+        "ПАО") .replace(
+        "ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО",
+        "ОАО") .replace(
+            "АКЦИОНЕРНОЕ ОБЩЕСТВО ЭНЕРГЕТИКИ И ЭЛЕКТРИФИКАЦИИ",
+            "AO энерго") .replace(
+                "НЕФТЕПЕРЕРАБАТЫВАЮЩИЙ ЗАВОД",
+                "НПЗ") .replace(
+                    "ГЕНЕРИРУЮЩАЯ КОМПАНИЯ ОПТОВОГО РЫНКА ЭЛЕКТРОЭНЕРГИИ",
+                    "ОГК") .replace(
+                        "ГОРНО-ОБОГАТИТЕЛЬНЫЙ КОМБИНАТ",
+        "ГОК")
+
 
 def add_title(df):
     s = df.name.apply(dequote)
@@ -60,21 +67,23 @@ def add_title(df):
 
 def rename(df):
     RENAME_DICT = {
-    '2460066195': "РусГидро",
-    '4716016979': "ФСК ЕЭС",
-    '7702038150': "Московский метрополитен",
-    '7721632827': "Концерн Росэнергоатом",
-    '7706664260': "Атомэнергопром",
-    '7703683145': "Холдинг ВТБ Капитал АЙ БИ",
-    '9102048801': "Черноморнефтегаз",
-    '7736036626': "РИТЭК"
+        '2460066195': "РусГидро",
+        '4716016979': "ФСК ЕЭС",
+        '7702038150': "Московский метрополитен",
+        '7721632827': "Концерн Росэнергоатом",
+        '7706664260': "Атомэнергопром",
+        '7703683145': "Холдинг ВТБ Капитал АЙ БИ",
+        '9102048801': "Черноморнефтегаз",
+        '7736036626': "РИТЭК"
     }
     keys = list(RENAME_DICT.keys())
+
     def actor(inn):
         return RENAME_DICT[inn]
     ix = df.inn.isin(keys)
     df.loc[ix, 'title'] = df.loc[ix, 'inn'].apply(actor)
     return df
+
 
 def okved3(code_string: str):
     """Get 3 levels of OKVED codes from *code_string*."""
@@ -102,9 +111,9 @@ def add_region(df):
 
 
 def canonic_df(df):
-    for f in [adjust_rub, 
-              add_okved_subcode, 
-              add_region, 
+    for f in [adjust_rub,
+              add_okved_subcode,
+              add_region,
               add_title,
               rename]:
         df = f(df)

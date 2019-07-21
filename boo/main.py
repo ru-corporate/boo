@@ -2,14 +2,14 @@
 Basic use:
     prepare(year)
     read_dataframe(year)
-    
+
 Helpers:
     whatis(column_name)
     locate(year)
-    inspect(year)        
+    inspect(year)
 
-Notes: 
-- prepare() is an alias to run two functions download(year) and  build(year)
+Notes:
+- prepare() is an alias to run download(year) and build(year)
 """
 
 from boo.year import make_url
@@ -30,15 +30,15 @@ def download(year: int, force=False):
     """Download file from Rosstat."""
     path, url = locate(year).raw, make_url(year),
     preclean(path, force)
-    print(f"Downloading source file for {year} from ", url)
+    print(f"Downloading source file for {year} from", url)
     curl(path, url)
     print("Saved as", path)
     return path
 
 
 def build(year, force=False,
-                worker=CONVERTER_FUNC, 
-                column_names=SHORT_COLUMNS.all):
+          worker=CONVERTER_FUNC,
+          column_names=SHORT_COLUMNS.all):
     """Create smaller CSV file with fewer columns.
        Columns have names *COLUMNS_SHORT*.
        Rows will be modified by *worker* function.
@@ -64,16 +64,17 @@ def read_dataframe(year):
 
 # Shorthand function
 
+
 def prepare(year: int):
     r = locate(year).raw
     if not r.exists():
         download(year)
-    else:    
+    else:
         print("Already downloaded:", r)
         print(help_force(year, "download"))
     p = locate(year).processed
     if not p.exists():
         build(year)
-    else: 
+    else:
         print("Already built:", p)
         print(help_force(year, "build"))

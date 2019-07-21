@@ -33,7 +33,8 @@ print(df.head())
 
 ## Data model
  
-CSV files are  located at `~/.boo` folder.
+CSV files are located at `~/.boo` folder. `locate(year)` will show 
+exactly where they are.
 
 File name     | Description  | Column count |  Created by 
 --------------|--------------|:------------:|:------------:

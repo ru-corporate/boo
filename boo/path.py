@@ -1,5 +1,6 @@
 from pathlib import Path
-from dataclasses import dataclass 
+from dataclasses import dataclass
+
 
 def whereami(x=__file__):
     return Path(x).parents[0]
@@ -26,10 +27,10 @@ def file(year, tag="", directory=None):
 
 @dataclass
 class Files:
-    raw : Path 
-    processed : Path
-    
-    
+    raw: Path
+    processed: Path
+
+
 def locate(year, directory=None):
     return Files(raw=file(year, "raw", directory),
                  processed=file(year, "", directory))

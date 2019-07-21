@@ -7,6 +7,7 @@ from tqdm import tqdm
 
 import pandas as pd
 
+
 def panic(path):
     if os.path.exists(path):
         raise FileExistsError("File already exists: %s" % path)

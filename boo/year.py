@@ -23,10 +23,10 @@ def make_url(year: int) -> str:
         return 'https://raw.githubusercontent.com/ru-corporate/sandbox/master/assets/sample.txt'
     try:
         timestamp = TIMESTAMPS[year]
-        return ('http://www.gks.ru/opendata/storage/' 
+        return ('http://www.gks.ru/opendata/storage/'
                 f'7708234640-bdboo{year}/'
                 f'data-{timestamp}t000000-structure-'
                 f'{year}1231t000000.csv'
                 )
     except KeyError:
-        error_year(year)      
+        error_year(year)

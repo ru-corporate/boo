@@ -7,12 +7,15 @@ from boo.path import locate
 def filesize(path):
     return round(path.stat().st_size / (1024 * 1024.0), 1)
 
+
 def mb(size):
     return f"({size}M)"
+
 
 def help_force(year, verb):
     return (f"Use {verb}({year}, force=True) "
             "to overwrite existing file.")
+
 
 def help_download(year):
     return f"Use download({year}) to download raw CSV file."
@@ -25,45 +28,45 @@ def help_build(year):
 def help_df(year):
     return f"Use df = read_dataframe({year}) to read data as pandas dataframe."
 
-     
-class Dataset:    
+
+class Dataset:
     def __init__(self, year):
         self.year = year
         self.url = make_url(year)
         self.processed = locate(year).processed
-        self.raw = locate(year).raw        
-        
+        self.raw = locate(year).raw
+
     def is_downloaded(self):
         return self.raw.exists()
-    
+
     def is_built(self):
-        return self.processed.exists() 
-    
+        return self.processed.exists()
+
     def raw_state(self):
-        if self.is_downloaded():            
+        if self.is_downloaded():
             size = filesize(self.raw)
             yield f"Raw CSV file downloaded as {self.raw} " + mb(size)
             if size < 1:
-                yield ("WARNING: file size too small. " + 
+                yield ("WARNING: file size too small. " +
                        help_force(self.year, "download"))
         else:
-            yield ("Raw CSV file not downloaded. " 
-                   + help_download(self.year))                
-                
+            yield ("Raw CSV file not downloaded. "
+                   + help_download(self.year))
+
     def processed_state(self):
         if self.is_built():
             size = filesize(self.processed)
-            yield (f"Processed CSV file is saved as {self.processed}" 
-                     + mb(size))
+            yield (f"Processed CSV file is saved as {self.processed} "
+                   + mb(size))
             yield help_df(self.year)
         else:
             yield "Final CSV file not built. " + help_build(self.year)
-            
+
 
 def inspect(year: int):
     d = Dataset(year)
-    print ("URL:", d.url)
+    print("URL:", d.url)
     for msg in d.raw_state():
-        print (msg)
+        print(msg)
     for msg in d.processed_state():
-        print (msg)           
+        print(msg)

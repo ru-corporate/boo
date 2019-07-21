@@ -39,7 +39,7 @@ CSV files are located at `~/.boo` folder. `boo.locate(year)` will show exactly w
 File name     | Description  | Column count |  Created by 
 --------------|--------------|:------------:|:------------:
 `raw<year>.csv`     | Original CSV file from Rosstat website. No header row.    | 266 | `download(year)`
-`<year>.csv` | CSV file with column names in header row, unnamed columns. | 58 | `build(year)`
+`<year>.csv` | CSV file with column names in header row.  | 58 | `build(year)`
 
 `df = read_dataframe(year)` returns reference dataset. Additional column transformations (eg. `region`) and error filters are applied.  
 By coincidence `df` has same number of columns as `<year>.csv`, but the columns are slightly different as some columns are added and 
@@ -85,7 +85,8 @@ cat 2012.csv | csvcut -d; -e ansi -c%index%  | iconv -f cp1251 -t utf-8 >> p2012
 csvclean p2012.csv
 ```
 
-*Note: this is a Windows batch file, but it relies on GNU utilities (eg via Cygwin, MinGW or [GOW](https://github.com/bmatzelle/gow/wiki)) and [csvkit](https://csvkit.readthedocs.io/en/latest/). Similar script can be adapted for pure linux/bash.*
+Note: this is a Windows batch file, but it relies on GNU utilities (eg via Cygwin, MinGW or [GOW](https://github.com/bmatzelle/gow/wiki)) and [csvkit](https://csvkit.readthedocs.io/en/latest/). Similar script can be adapted for pure linux/bash. For a Google colab version, click
+[here](https://colab.research.google.com/drive/1FtwoYfBxzDjGyeQ-BPvcDa6k27DpzuVW).
 
 Batch file result is similar to running: 
 

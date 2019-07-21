@@ -12,7 +12,7 @@ def default_data_folder():
     return home
 
 
-def get_folder(directory=None) -> Path:    
+def get_folder(directory=None) -> Path:
     if directory is None:
         return default_data_folder()
     elif Path(directory).is_dir():
@@ -33,4 +33,4 @@ class Files:
 
 def locate(year, directory=None):
     return Files(raw=file(year, "raw", directory),
-                 processed=file(year, "", directory)) 
+                 processed=file(year, "", directory))

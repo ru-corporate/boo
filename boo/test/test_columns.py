@@ -1,4 +1,4 @@
-from boo.columns import SHORT_COLUMNS, Converter, CONVERTER_FUNC, TTL_COLUMNS 
+from boo.columns import SHORT_COLUMNS, Converter, CONVERTER_FUNC, TTL_COLUMNS
 
 
 def test_sc_all():
@@ -61,9 +61,9 @@ def test_sc_all():
         'cf_fin',
         'cf',
         'date_published']
-        
-        
-def test_sc_numeric():        
+
+
+def test_sc_numeric():
     assert SHORT_COLUMNS.numeric == [
         'of',
         'of_lag',
@@ -114,8 +114,8 @@ def test_sc_numeric():
         'cf_fin_out',
         'cf_fin',
         'cf']
-        
-        
+
+
 def test_sc_text():
     assert SHORT_COLUMNS.text == [
         'name',
@@ -127,9 +127,9 @@ def test_sc_text():
         'unit',
         'report_type',
         'date_published']
-        
-        
-def test_converter_class_pass_through():        
+
+
+def test_converter_class_pass_through():
     v = Converter()
     already_short = CONVERTER_FUNC(TTL_COLUMNS)
     assert SHORT_COLUMNS.all == v.short_columns(already_short).all

@@ -3,7 +3,7 @@ from requests.exceptions import ConnectionError
 import pandas as pd
 from boo.main import download, build, read_dataframe
 
-    
+
 def test_pipeline():
     try:
         with TemporaryDirectory() as temp_dir:
@@ -13,4 +13,4 @@ def test_pipeline():
             assert isinstance(df, pd.DataFrame)
             assert sum(df.cf) == -7032726
     except ConnectionError:
-        pass    
+        pass

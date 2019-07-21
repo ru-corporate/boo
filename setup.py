@@ -14,7 +14,7 @@ from pathlib import Path
 
 #0.0.6 additional dataset cleaning moved from notebook to package
 
-#0.0.7 help messages
+#0.0.7 help messages and whatis() function
 
 setup(name='boo',
       version='0.0.7',

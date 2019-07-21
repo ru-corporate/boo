@@ -123,6 +123,7 @@ cf_fin = [
 
 DATA_FIELDS = OrderedDict(balance + opu + cf_total + cf_oper + cf_inv + cf_fin)
 
+
 def split(text: str):
     def fst(text):
         return text[0]
@@ -171,9 +172,9 @@ class Mapper:
 
     def combined(self):
         return {**self.data, **self.text}
-    
+
     def reverse(self, name):
-        return [code for code, n in self.combined().items() if name==n]
+        return [code for code, n in self.combined().items() if name == n]
 
     def rename(self, label):
         return label.rename_with(self.combined())
@@ -183,10 +184,11 @@ class Mapper:
 
     def is_data(self, label):
         return label.code in self.data.values()
-    
+
     def rename_text(self, text):
         label = Label(text)
         return self.rename(label)
+
 
 class Columns:
     def __init__(self, alls, numeric):
@@ -208,17 +210,17 @@ class Columns:
 
 class Converter:
     def __init__(self, data_mapper=DATA_FIELDS,
-                       text_mapper=TEXT_FIELDS):
+                 text_mapper=TEXT_FIELDS):
         self.mapper = Mapper(data=data_mapper, text=text_mapper)
-        
+
     def names(self, colnames):
         return [self.mapper.rename_text(text) for text in colnames]
-    
+
     def names_short(self, colnames):
         return [c for c in self.names(colnames) if c.is_changed()]
 
     def names_short_numeric(self, colnames):
-        return [c for c in self.names_short(colnames) 
+        return [c for c in self.names_short(colnames)
                 if self.mapper.is_data(c)]
 
     def short_columns(self, colnames):
@@ -233,6 +235,7 @@ class Converter:
 
     def make_shortener(self, colnames):
         index = self.index(colnames)
+
         def shorten(row):
             try:
                 return [row[i] for i in index]
@@ -252,5 +255,4 @@ def name_to_code(name, data_mapper=DATA_FIELDS, text_mapper=TEXT_FIELDS):
     try:
         return m.reverse(name)[0]
     except IndexError:
-        return None 
-        
+        return None

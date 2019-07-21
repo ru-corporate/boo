@@ -10,6 +10,6 @@ def test_curl():
         p = Path('temp')
         assert p.stat().st_size == 20 * 1024
         p.unlink()
-    # test passes if no internet connection available    
+    # test passes if no internet connection available
     except ConnectionError:
         pass

@@ -1,7 +1,5 @@
-
 # TODO:
 # - [ ] variable descriptions boo.whatis
-# - [ ] 
 # - [ ] port existing tests
 # - [ ] subsets
 # - [ ] visuals

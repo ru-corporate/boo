@@ -1,4 +1,4 @@
-"""Code descriptions based on 
+"""Code descriptions based on
    http://www.consultant.ru/document/cons_doc_LAW_103394/c8c663513ad32e5a0eb8ca96753ea3e0911415db/
 """
 
@@ -132,6 +132,7 @@ ACCOUNT_NAMES_TEXT = """БУХГАЛТЕРСКИЙ БАЛАНС	1000
 Прочие	6350
 Остаток средств на конец отчетного года	6400"""
 
+
 def items(doc: str):
     for x in doc.split('\n'):
         y = x.split('\t')
@@ -140,7 +141,9 @@ def items(doc: str):
         except IndexError:
             raise ValueError(y)
 
+
 ACCOUNT_NAMES = dict(items(ACCOUNT_NAMES_TEXT))
+
 
 def account_name(code: str, source=ACCOUNT_NAMES):
     """Return account text description by code."""
@@ -151,5 +154,5 @@ def whatis(varname: str):
     """Return text description.
     """
     if varname.endswith("_lag"):
-        varname = varname[:-len("_lag")] 
+        varname = varname[:-len("_lag")]
     return account_name(name_to_code(varname))

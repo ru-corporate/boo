@@ -30,11 +30,12 @@ def help_df(year):
 
 
 class Dataset:
-    def __init__(self, year):
+    def __init__(self, year, directory=None):
         self.year = year
         self.url = make_url(year)
-        self.processed = locate(year).processed
-        self.raw = locate(year).raw
+        loc = locate(year, directory=None)
+        self.processed = loc.processed
+        self.raw = loc.raw
 
     def is_downloaded(self):
         return self.raw.exists()
@@ -63,10 +64,11 @@ class Dataset:
             yield "Final CSV file not built. " + help_build(self.year)
 
 
-def inspect(year: int):
-    d = Dataset(year)
+def inspect(year: int, directory=None):
+    d = Dataset(year, directory)
     print("URL:", d.url)
     for msg in d.raw_state():
         print(msg)
     for msg in d.processed_state():
         print(msg)
+    return True    

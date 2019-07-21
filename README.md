@@ -34,16 +34,16 @@ print(df.head())
 
 ## Data model
  
-CSV files are located at `~/.boo` folder. `locate(year)` will show 
-exactly where they are.
+CSV files are located at `~/.boo` folder. `boo.locate(year)` will show exactly where they are.
 
 File name     | Description  | Column count |  Created by 
 --------------|--------------|:------------:|:------------:
 `raw<year>.csv`     | Original CSV file from Rosstat website. No header row.    | 266 | `download(year)`
-`<year>.csv` | CSV file with column names in header row, unnamed columns. | 58\* | `build(year)`
-&nbsp;       | Daraframe with additional column transformations (eg. `region`) and error filters. Reference dataset for analysis. | 58\* | `read_dataframe(year)`
+`<year>.csv` | CSV file with column names in header row, unnamed columns. | 58 | `build(year)`
 
-(\*) equal by coincidence, some columns are added and some removed
+`df = read_dataframe(year)` returns reference dataset. Additional column transformations (eg. `region`) and error filters are applied.  
+By coincidence `df` has same number of columns as `<year>.csv`, but the columns are slightly different as some columns are added and 
+some removed.
 
 ## Hints
 

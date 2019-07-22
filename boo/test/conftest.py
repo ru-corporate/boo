@@ -6,10 +6,10 @@ from tempfile import TemporaryDirectory
 DATA_FOLDER = Path(__file__).parent / "data"
 
 @pytest.fixture
-def directory_after_download_args():
+def directory_after_download_args(raw_content):
     with TemporaryDirectory() as temp_dir:
         p = (Path(temp_dir) / "raw0.csv")
-        p.write_text(raw_content())
+        p.write_text(raw_content)
         yield (0, temp_dir)
 
 @pytest.fixture

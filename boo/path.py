@@ -53,7 +53,7 @@ class Raw(File):
         super().__init__(year, "raw", directory)
 
     def content(self):
-        return self.path.read_text()
+        return self.path.read_text(encoding="cp1251")
 
 
 class Processed(File):
@@ -62,7 +62,6 @@ class Processed(File):
 
     def content(self):
         return self.path.read_text(encoding="utf-8")
-
 
 
 @dataclass

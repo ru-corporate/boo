@@ -19,7 +19,7 @@ def filled_directory():
 
 @pytest.fixture
 def raw_content():
-    return (DATA_FOLDER / "raw0.csv").read_text()
+    return (DATA_FOLDER / "raw0.csv").read_text(encoding="cp1251")
 
 
 @pytest.fixture

@@ -25,24 +25,52 @@ def file(year, tag="", directory=None):
     return get_folder(directory) / f"{tag}{year}.csv"
 
 
+class File():
+    def __init__(self, year, tag, directory=None):
+        self.path = file(year, tag, directory=None)
+
+    def size(self):
+        return self.path.stat().st_size
+
+    def mb(self):
+        return round(self.size() / (1024 * 1024), 1)
+
+    def exists(self):
+        return self.path.exists()
+    
+    def __str__(self):
+        try:
+            return f"{self.path} ({self.mb()}M)"
+        except FileNotFoundError:
+            return f"{self.path} does not exist"
+
+    def __repr__(self):
+        return repr(self.path)
+
+
+class Raw(File):
+    def __init__(self, year, directory=None):
+        super().__init__(year, "raw", directory)
+
+    def content(self):
+        return self.path.read_text()
+
+
+class Processed(File):
+    def __init__(self, year, directory=None):
+        super().__init__(year, "", directory)
+
+    def content(self):
+        return self.path.read_text(encoding="utf-8")
+
+
+
 @dataclass
 class Files:
-    raw: Path
-    processed: Path
+    raw: Raw
+    processed: Processed
 
 
 def locate(year, directory=None):
-    return Files(raw=file(year, "raw", directory),
-                 processed=file(year, "", directory))
-
-
-def filesize(path):
-    return round(path.stat().st_size / (1024 * 1024.0), 1)
-
-
-def publish(path) -> str:
-    try:
-        size = filesize(path)
-        return f"{path} ({size}M)"
-    except FileNotFoundError:
-        return f"{path} does not exist"
+    return Files(raw=Raw(year, directory),
+                 processed=Processed(year, directory))

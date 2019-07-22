@@ -1,18 +1,14 @@
 """Help message system, deals with state of local CSV files."""
 
 from boo.year import make_url
-from boo.path import locate, publish, filesize
-
-
-def help_force(year, verb):
-    return f"Use {verb}({year}, force=True) to overwrite existing file."
+from boo.path import locate
 
 
 def raw_state(year):
     r = locate(year).raw
     if r.exists():
-        yield "Raw CSV file downloaded as " + publish(r)
-        if filesize(r) < 1:
+        yield f"Raw CSV file downloaded as {r}"
+        if r.mb() < 1:
             yield "WARNING: file size too small. Usual size > 500Mb."
     else:
         yield f"Raw CSV file not downloaded. Run `download({year})`."
@@ -21,7 +17,7 @@ def raw_state(year):
 def processed_state(year):
     p = locate(year).processed
     if p.exists():
-        yield "Processed CSV file is saved as " + publish(p)
+        yield f"Processed CSV file is saved as {p}"
         yield f"Use `df=read_dataframe({year})` next."
     else:
         yield f"Final CSV file not built. Run `build({year})`."

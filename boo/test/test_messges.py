@@ -4,8 +4,8 @@ from boo.messages import inspect
 # FIXME: capture stdout
 
 
-def test_inspect_on_existing_data(filled_directory):
-    inspect(**filled_directory)
+def test_inspect_on_existing_data(filled_directory_args):
+    inspect(**filled_directory_args)
 
 
 def test_inspect_on_non_existing_data():

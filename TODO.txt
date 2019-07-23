@@ -1,4 +1,5 @@
 # TODO:
+# - [ ] revive xfailed tests - using temp directory in a fixture with pytest - has get_folder() failure
 # - [ ] lookup utils
 # - [ ] visuals
 # - [ ] ta=tp, etc, identities

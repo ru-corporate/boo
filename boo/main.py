@@ -15,7 +15,8 @@ Notes:
 
 from boo.year import make_url
 from boo.path import locate
-from boo.file import curl, yield_rows, save_rows, read_df
+from boo.curl import curl
+from boo.file import yield_rows, save_rows, read_df
 from boo.columns import CONVERTER_FUNC, SHORT_COLUMNS
 from boo.dataframe.canonic import canonic_df
 

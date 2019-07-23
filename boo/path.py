@@ -11,8 +11,8 @@ def default_data_folder() -> Path:
     home.mkdir(parents=True, exist_ok=True)
     return home
 
-class DirectoryNotFound(FileNotFoundError):
-    pass
+#class DirectoryNotFound(FileNotFoundError):
+#    pass
 
 def get_folder(directory=None) -> Path:
     if directory is None:
@@ -20,7 +20,7 @@ def get_folder(directory=None) -> Path:
     elif Path(directory).is_dir():
         return Path(directory)
     else:
-        raise DirectoryNotFound(directory)
+        raise FileNotFoundError(directory)
 
 
 def file(year, tag="", directory=None):

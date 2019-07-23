@@ -1,9 +1,10 @@
+import pytest
 from tempfile import TemporaryDirectory
 from boo.messages import inspect
 
 # FIXME: capture stdout
 
-
+@pytest.mark.xfail
 def test_inspect_on_existing_data(filled_directory_args):
     inspect(**filled_directory_args)
 

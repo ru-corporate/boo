@@ -40,7 +40,7 @@ def test_build():
         assert p.content() == processed_content() 
 
 
-def test_read_dataframe(filled_directory_args):
+def test_read_dataframe():
     with TemporaryDirectory() as temp_dir:
         copy("0.csv", temp_dir)
         df = read_dataframe(year=0, directory=temp_dir)

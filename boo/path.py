@@ -11,6 +11,8 @@ def default_data_folder() -> Path:
     home.mkdir(parents=True, exist_ok=True)
     return home
 
+class DirectoryNotFound(FileNotFoundError):
+    pass
 
 def get_folder(directory=None) -> Path:
     if directory is None:
@@ -18,7 +20,7 @@ def get_folder(directory=None) -> Path:
     elif Path(directory).is_dir():
         return Path(directory)
     else:
-        raise FileNotFoundError(directory)
+        raise DirectoryNotFound(directory)
 
 
 def file(year, tag="", directory=None):
@@ -26,8 +28,8 @@ def file(year, tag="", directory=None):
 
 
 class File():
-    def __init__(self, year, tag, directory=None):
-        self.path = file(year, tag, directory=None)
+    def __init__(self, year, tag, directory):
+        self.path = file(year, tag, directory)
 
     def size(self):
         return self.path.stat().st_size
@@ -42,14 +44,14 @@ class File():
         try:
             return f"{self.path} ({self.mb()}M)"
         except FileNotFoundError:
-            return f"{self.path} does not exist"
+            return f"{self.path} (does not exist)"
 
     def __repr__(self):
         return repr(self.path)
 
 
 class Raw(File):
-    def __init__(self, year, directory=None):
+    def __init__(self, year, directory):
         super().__init__(year, "raw", directory)
 
     def content(self):
@@ -57,7 +59,7 @@ class Raw(File):
 
 
 class Processed(File):
-    def __init__(self, year, directory=None):
+    def __init__(self, year, directory):
         super().__init__(year, "", directory)
 
     def content(self):

@@ -22,4 +22,9 @@ def test_raw_content(filled_directory_args, raw_content):
 
 def test_proc_content(filled_directory_args, processed_content):
     assert Processed(**filled_directory_args).content() == processed_content
+
+if __name__ == "__main__":    
+    import conftest
+    year, tmp_dir = next(conftest.filled_directory_args())
+    print(Raw(year, tmp_dir).content())     
         

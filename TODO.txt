@@ -1,5 +1,4 @@
 # TODO:
-# - [ ] test_main.py
 # - [ ] lookup utils
 # - [ ] visuals
 # - [ ] ta=tp, etc, identities
@@ -8,6 +7,7 @@
 
 
 # MAYBE:
+# - [ ] ask on SO - no connection and existing filename questions 
 # - [ ] example.py
 # - [ ] silence .loc warning
 # - [ ] more subsets, eg SME
@@ -21,6 +21,7 @@
 # - [ ] save dtypes as json, use them if available to speed up df import
 
 # DONE:
+# - [x] test_main.py
 # - [x] smaller messages.py
 # - [x] port existing tests fro `sandbox`
 # - [x] variable descriptions boo.whatis

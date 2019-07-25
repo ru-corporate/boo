@@ -10,6 +10,7 @@ TODO NEXT:
 - [ ] financial coefficients library
 
 MAYBE:
+- [ ] make zip files and save to S3
 - [ ] move sandbox repo to purgeable
 - [ ] ask on SO - no connection and existing filename questions 
 - [ ] silence .loc warning

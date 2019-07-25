@@ -7,6 +7,7 @@ from requests.exceptions import ConnectionError
 from boo.curl import curl
 from boo.year import make_url
 
+# FIXME: ask at SO
 
 @pytest.fixture
 def tempname():
@@ -16,12 +17,9 @@ def tempname():
     if Path(name).exists():
         Path(name).unlink()
 
+# FIXME: valid year fixture
 
 def test_curl(tempname):
-    try:
-        n = 3
-        curl(path=tempname, url=make_url(2012), max_chunk=n)
-        assert Path(tempname).stat().st_size == n * 1024
-    # test passes if no internet connection available
-    except ConnectionError:
-        pass
+    n = 3
+    curl(path=tempname, url=make_url(2012), max_chunk=n)
+    assert Path(tempname).stat().st_size == n * 1024

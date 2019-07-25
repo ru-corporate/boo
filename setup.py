@@ -16,8 +16,10 @@ from pathlib import Path
 
 #0.0.7 help messages and whatis() function
 
+#0.0.8 more tests 
+
 setup(name='boo',
-      version='0.0.7',
+      version='0.0.8',
       description='Russian corporate reports 2012-2017',
       url='http://github.com/ru-corporate/boo',
       author='Evgeniy Pogrebnyak',

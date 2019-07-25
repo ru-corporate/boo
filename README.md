@@ -4,11 +4,9 @@
 
 # boo
 
-Python client for Rosstat open data corporate reports. Creates a local CSV file with column names, importable as pandas dataframe.
+Python client for Rosstat open data corporate reports. Creates a local CSV file with column names, importable as pandas dataframe. 
 
-## Goal
-
-Access balance sheet, profit and loss and cash flow statements of Russian firms in less time and fewer boilerplate.
+`boo` goal is to access balance sheet, profit and loss and cash flow statements of Russian firms in less time and fewer boilerplate.
 
 
 ## Install

@@ -4,10 +4,15 @@
 
 # boo
 
-Python client for Rosstat open data corporate reports. Creates a local CSV file with column names, importable as pandas dataframe. 
+Python client to download annual
+corporate report data from Rosstat
+websit. Dataset consists of balance 
+sheet, profit and loss statement
+and cash flow. 
 
-`boo` goal is to access balance sheet, profit and loss and cash flow statements of Russian firms in less time and fewer boilerplate.
-
+`boo` creates a local CSV file 
+with column names, importable 
+as pandas dataframe. 
 
 ## Install
 

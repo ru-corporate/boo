@@ -7,13 +7,15 @@ from requests.exceptions import ConnectionError
 from boo.curl import curl
 from boo.year import make_url
 
-@pytest.fixture   
+
+@pytest.fixture
 def tempname():
     with NamedTemporaryFile() as f:
         name = f.name
     yield name
     if Path(name).exists():
-        Path(name).unlink()    
+        Path(name).unlink()
+
 
 def test_curl(tempname):
     try:

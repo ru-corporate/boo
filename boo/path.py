@@ -11,8 +11,9 @@ def default_data_folder() -> Path:
     home.mkdir(parents=True, exist_ok=True)
     return home
 
-#class DirectoryNotFound(FileNotFoundError):
+# class DirectoryNotFound(FileNotFoundError):
 #    pass
+
 
 def get_folder(directory=None) -> Path:
     if directory is None:
@@ -39,7 +40,7 @@ class File():
 
     def exists(self):
         return self.path.exists()
-    
+
     def __str__(self):
         try:
             return f"{self.path} ({self.mb()}M)"

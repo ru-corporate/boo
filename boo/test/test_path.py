@@ -1,62 +1,41 @@
-from boo.path import locate, Raw, Processed
-
 import pytest
-from shutil import copyfile
+import os
 from pathlib import Path
-from tempfile import TemporaryDirectory
 
-DATA_FOLDER = Path(__file__).parent / "data"
-
-def raw_content():
-    return (DATA_FOLDER / "raw0.csv").read_text(encoding="cp1251")
+from boo.path import locate, Raw, Processed, get_folder
 
 
-def processed_content():
-    return (DATA_FOLDER / "0.csv").read_text(encoding="utf-8")
+def test_get_folder(ARGS_YEAR_0):
+    _, dir0 = ARGS_YEAR_0
+    f = get_folder(directory=dir0)
+    assert isinstance(f, Path)
+    assert str(f) == dir0
 
 
-def size(path):
-    return path.stat().st_size 
+def test_get_folder_on_none():
+    f = get_folder(directory=None)
+    assert f.is_dir()
+    path, file = os.path.split(f)
+    assert file == ".boo"
 
 
-@pytest.fixture
-def size_raw():
-    return size(DATA_FOLDER / "raw0.csv")
+def test_size_raw(ARGS_YEAR_0, SIZE_RAW):
+    year, folder = ARGS_YEAR_0
+    r = Raw(year, folder)
+    assert r.size() == SIZE_RAW > 0  # 11490
 
 
-@pytest.fixture
-def size_processed():
-    return size(DATA_FOLDER / "0.csv")
+def test_size_proc(ARGS_YEAR_0, SIZE_PROCESSED):
+    year, folder = ARGS_YEAR_0
+    p = Processed(year, folder)
+    assert p.size() == SIZE_PROCESSED > 0  # 5531
 
-
-def copy(filename, destination_folder):
-    src = DATA_FOLDER / filename
-    dst = Path(destination_folder) / filename
-    copyfile(src, dst)
-    
 
 def test_locate():
     loc = locate(0)
     assert isinstance(loc.raw, Raw)
     assert isinstance(loc.processed, Processed)
 
-@pytest.mark.xfail    
-def test_size():
-    with TemporaryDirectory() as temp_dir:
-        copy("raw0.csv", temp_dir)
-        copy("0.csv", temp_dir)
-        raise ValueError(temp_dir)
-        kwargs = dict(year=0, directory=temp_dir)
-        r = Raw(*kwargs)
-        assert r.size() == 11490    
-        p = Processed(*kwargs)
-        assert p.size() == 5531
 
-@pytest.mark.xfail
-def test_content(raw_content, processed_content):
-    with TemporaryDirectory() as temp_dir:
-        copy("raw0.csv", temp_dir)
-        copy("0.csv", temp_dir)
-        kwargs = dict(year=0, directory=temp_dir)
-        assert Raw(*kwargs).content() == raw_content
-        assert Processed(*kwargs).content() == processed_content
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

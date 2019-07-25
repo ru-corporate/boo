@@ -1,5 +1,6 @@
 # TODO:
-# - [ ] revive xfailed tests - using temp directory in a fixture with pytest - has get_folder() failure
+# - [ ] list of questions
+# - [ ] example.py
 # - [ ] lookup utils
 # - [ ] visuals
 # - [ ] ta=tp, etc, identities
@@ -9,7 +10,6 @@
 
 # MAYBE:
 # - [ ] ask on SO - no connection and existing filename questions 
-# - [ ] example.py
 # - [ ] silence .loc warning
 # - [ ] more subsets, eg SME
 # - [ ] larger dummy example to load, 50 + 50 + 1000 example
@@ -22,6 +22,7 @@
 # - [ ] save dtypes as json, use them if available to speed up df import
 
 # DONE:
+# - [x] revive xfailed tests - using temp directory in a fixture with pytest - has get_folder() failure
 # - [x] test_main.py
 # - [x] smaller messages.py
 # - [x] port existing tests fro `sandbox`

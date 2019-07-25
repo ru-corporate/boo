@@ -6,7 +6,9 @@
 
 Python client to download annual
 corporate report data from Rosstat
-websit. Dataset consists of balance 
+website. 
+
+Dataset consists of balance 
 sheet, profit and loss statement
 and cash flow. 
 

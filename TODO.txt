@@ -1,7 +1,6 @@
 TODO:
 - [ ] list of questions
-- [ ] example.py and cleanup 
-- [ ] lookup dataframe.util, maybe dataframe.preset
+- [ ] lookup dataframe.util, maybe dataframe.filter
 - [ ] analysis quality criteria
 
 TODO NEXT:
@@ -10,22 +9,23 @@ TODO NEXT:
 - [ ] financial coefficients library
 
 MAYBE:
+- [ ] example.py cleanup 
 - [ ] make zip files and save to S3
 - [ ] move sandbox repo to purgeable
-- [ ] ask on SO - no connection and existing filename questions 
 - [ ] silence .loc warning
 - [ ] more subsets, eg SME
 - [ ] larger dummy example to load, 50 + 50 + 1000 example
 - [ ] download() must fail on small fail on HTML file
-- [ ] extend whatis() functionto new coluns
 
 
 NOT TODO:
 - [ ] download() can show line count
 - [ ] save dtypes as json, use them if available to speed up df import
+- [ ] ask on SO - no connection and existing filename questions 
 
 
 DONE:
+- [x] extend whatis() functionto new coluns
 - [x] revive xfailed tests - using temp directory in a fixture with pytest - has get_folder() failure
 - [x] global pytest fixture for sample year 0
 - [x] test_main.py

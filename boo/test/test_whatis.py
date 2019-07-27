@@ -6,6 +6,9 @@ def test_whatis_returns_name():
 
 def test_whatis_returns_additional_name():
     assert whatis("ok1") == 'Код ОКВЭД первого уровня'
+
+def test_whatis_returns_on_shorthand():
+    assert whatis('p') == "Прибыль (убыток) до налогообложения"
     
 def test_whatis_is_confused():
     assert whatis("aha!") is None

@@ -143,6 +143,15 @@ def items(doc: str):
 
 
 ACCOUNT_NAMES = dict(items(ACCOUNT_NAMES_TEXT))
+okv = lambda text: f"Код ОКВЭД {text} уровня"
+ADDITIONAL_DICT = {'ok1': okv("первого"),
+            'ok2': okv("второго"),
+            'ok3': okv("третьего"),
+            'org': "Тип юридического лица (часть наименования организации)",
+            'title': "Короткое название организации",
+            'region': "Код региона по ИНН",
+            'p': "Прибыль"
+            }
 
 
 def account_name(code: str, source=ACCOUNT_NAMES):
@@ -151,18 +160,13 @@ def account_name(code: str, source=ACCOUNT_NAMES):
 
 
 def whatis(varname: str):
-    """Return text description.
-    """
+    """Return text description for *varname*."""
     if varname.endswith("_lag"):
         varname = varname[:-len("_lag")]
-    return account_name(name_to_code(varname))
+    try: 
+        return ADDITIONAL_DICT[varname]
+    except KeyError:    
+        return account_name(name_to_code(varname))
+    
 
-# MAYBE: add descriptions
-# def new_text_field_name(varname: str):
-#    okv = lambda text: f"Код ОКВЭД {text} уровня"
-#    return {'ok1': okv("первого"),
-#            'ok2': okv("второго"),
-#            'ok3': okv("третьего"),
-#            'org': "Тип юридического лица (часть наименования организации)",
-#            'title': "Короткое название организации",
-#            'region': "Код региона по ИНН"}.get(varname)
+

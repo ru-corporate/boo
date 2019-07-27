@@ -1,10 +1,3 @@
-from boo.dataframe.canonic import is_numeric_column
-
-
-def numeric_columns(df):
-    return [c for c in df.columns if is_numeric_column(c)]
-
-
 def n_largest(df, col: str, n: int):
     return sort(df, col).head(n)
 
@@ -32,13 +25,8 @@ def inns(df, xs):
     return df.loc[ix, :]
 
 
-def random(df, n=1):
-    return df.sample(n)
-
-
-def industry(df, ok1):
-    return df[df.ok1 == ok1]
-
-
-def industry2(df, ok1, ok2):
-    return df[(df.ok1 == ok1) & (df.ok2 == ok2)]
+def industry(df, ok1, ok2=None):
+    if ok2 is None:
+        return df[df.ok1 == ok1]     
+    else:
+        return df[(df.ok1 == ok1) & (df.ok2 == ok2)]        

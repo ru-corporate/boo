@@ -1,5 +1,2 @@
-invoke
 pytest
-jupyter
-jupyterlab
 autopep8

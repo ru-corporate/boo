@@ -8,9 +8,6 @@ Helpers:
     whatis(column_name)
     locate(year)
     inspect(year)
-
-Notes:
-- prepare() is an alias to run both download(year) and build(year)
 """
 
 from boo.year import make_url
@@ -33,15 +30,16 @@ def help_force(year, verb):
 
 def download(year: int, force=False, directory=None):
     """Download file from Rosstat web site."""
-    path = locate(year, directory).raw.path
+    raw_file = locate(year, directory).raw
+    path = raw_file.path
     url = make_url(year)
     preclean(path, force)
     if not path.exists():
         print(f"Downloading source file for {year} from", url)
         curl(path, url)
-        print("Saved as", path)
+        print("Saved as", raw_file)
     else:
-        print("Already downloaded:", path)
+        print("Already downloaded:", raw_file)
         print(help_force(year, "download"))
     return path
 
@@ -73,5 +71,10 @@ def read_intermediate_df(year: int, directory=None):
     return read_df(src.path, SHORT_COLUMNS.dtypes)
 
 
-def read_dataframe(year, directory=None):
+def read_dataframe(year: int, directory=None):
+    """Read canonic data for *year* as dataframe.
+
+    Returns:
+        pandas.DataFrame
+    """
     return canonic_df(read_intermediate_df(year, directory))

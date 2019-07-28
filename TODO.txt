@@ -1,17 +1,19 @@
 TODO:
-- [ ] list of questions
-- [ ] lookup dataframe.util, maybe dataframe.filter
-- [ ] analysis quality criteria
+- [ ] frontline visual (tiles)
 
 TODO NEXT:
-- [ ] visuals
-- [ ] excercise (whatis, util): check ta=tp, accounting identities
+- [ ] sector columns: "auto", "retail", "beer", "cement", "mm", "oilgas", "constr", 
+      "airport", "vodokanal", "power", "coal", "unknown", "airplane" (for 100+ ta)
+- [ ] is_holding()
+
+TODO NEXT 2:
+- [ ] list of research questions and quality criteria
+- [ ] excercise check accounting identities 
 - [ ] financial coefficients library
 
 MAYBE:
-- [ ] example.py cleanup 
 - [ ] make zip files and save to S3
-- [ ] move sandbox repo to purgeable
+- [ ] example.py cleanup 
 - [ ] silence .loc warning
 - [ ] more subsets, eg SME
 - [ ] larger dummy example to load, 50 + 50 + 1000 example
@@ -19,12 +21,14 @@ MAYBE:
 
 
 NOT TODO:
+- [ ] move sandbox repo to purgeable
 - [ ] download() can show line count
 - [ ] save dtypes as json, use them if available to speed up df import
 - [ ] ask on SO - no connection and existing filename questions 
 
 
 DONE:
+- [+] lookup dataframe.util, maybe dataframe.filter
 - [x] extend whatis() functionto new coluns
 - [x] revive xfailed tests - using temp directory in a fixture with pytest - has get_folder() failure
 - [x] global pytest fixture for sample year 0

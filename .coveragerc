@@ -1,2 +1,5 @@
 [run]
-omit = *test/*
+omit = 
+   *test/*
+   */dataframe/util.py
+   */__init__.py

@@ -60,7 +60,7 @@ def build(year, force=False, directory=None,
         save_rows(path=dst.path,
                   stream=map(worker, yield_rows(src.path)),
                   column_names=column_names)
-        print("Done")
+        print("Saved", dst)
     else:
         print("Already built:", dst)
         print(help_force(year, "build"))

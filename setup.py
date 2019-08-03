@@ -18,8 +18,10 @@ from pathlib import Path
 
 #0.0.8 more tests 
 
+# 0.0.9 large_companies() imported at root
+
 setup(name='boo',
-      version='0.0.8',
+      version='0.0.9',
       description='Russian corporate reports 2012-2017',
       url='http://github.com/ru-corporate/boo',
       author='Evgeniy Pogrebnyak',

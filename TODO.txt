@@ -1,17 +1,4 @@
-TODO:
-- [ ] frontline visual (tiles)
-
-TODO NEXT:
-- [ ] sector columns: "auto", "retail", "beer", "cement", "mm", "oilgas", "constr", 
-      "airport", "vodokanal", "power", "coal", "unknown", "airplane" (for 100+ ta)
-- [ ] is_holding()
-
-TODO NEXT 2:
-- [ ] list of research questions and quality criteria
-- [ ] excercise check accounting identities 
-- [ ] financial coefficients library
-
-MAYBE:
+﻿MAYBE:
 - [ ] make zip files and save to S3
 - [ ] example.py cleanup 
 - [ ] silence .loc warning

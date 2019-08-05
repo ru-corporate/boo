@@ -9,6 +9,7 @@ from boo.year import make_url
 
 # FIXME: ask at SO
 
+
 @pytest.fixture
 def tempname():
     with NamedTemporaryFile() as f:
@@ -18,6 +19,7 @@ def tempname():
         Path(name).unlink()
 
 # FIXME: valid year fixture
+
 
 def test_curl(tempname):
     n = 3

@@ -27,6 +27,6 @@ def inns(df, xs):
 
 def industry(df, ok1, ok2=None):
     if ok2 is None:
-        return df[df.ok1 == ok1]     
+        return df[df.ok1 == ok1]
     else:
-        return df[(df.ok1 == ok1) & (df.ok2 == ok2)]        
+        return df[(df.ok1 == ok1) & (df.ok2 == ok2)]

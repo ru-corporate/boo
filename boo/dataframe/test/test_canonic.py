@@ -7,6 +7,8 @@
 # assert dtypes(['inn']) == {'inn': str}
 # assert dtypes(['okopf']) == {'okopf': str}
 
+from boo.dataframe.canonic import canonic_df, rename
+import pytest
 import pandas as pd
 df1 = pd.DataFrame(
     {'cash': {227693: 5118911, 1134038: 176492735},
@@ -69,9 +71,6 @@ df1 = pd.DataFrame(
      'tp_short_lag': {227693: 49077201, 1134038: 435806667},
      'unit': {227693: '384', 1134038: '384'}}, index=None
 )
-
-import pytest
-from boo.dataframe.canonic import canonic_df, rename
 
 
 def test_rename_complete():

@@ -2159,4 +2159,3 @@ def name_v2(code: int) -> str:
     except KeyError:
         raise ValueError(f"Cannot process code {code}. "
                          f"Industry code must be in {all_codes_v2()}")
-

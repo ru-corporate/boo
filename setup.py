@@ -12,16 +12,18 @@ from pathlib import Path
 
 # 0.0.5 README will surface on PyPi
 
-#0.0.6 additional dataset cleaning moved from notebook to package
+# 0.0.6 additional dataset cleaning moved from notebook to package
 
-#0.0.7 help messages and whatis() function
+# 0.0.7 help messages and whatis() function
 
-#0.0.8 more tests 
+# 0.0.8 more tests 
 
 # 0.0.9 large_companies() imported at root
 
+# 0.0.91 okved import changed
+
 setup(name='boo',
-      version='0.0.9',
+      version='0.0.91',
       description='Russian corporate reports 2012-2017',
       url='http://github.com/ru-corporate/boo',
       author='Evgeniy Pogrebnyak',

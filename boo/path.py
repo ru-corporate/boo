@@ -1,3 +1,4 @@
+import os 
 from pathlib import Path
 from dataclasses import dataclass
 
@@ -7,8 +8,8 @@ def whereami(x=__file__):
 
 
 def default_data_folder() -> Path:
-    home = Path.home() / ".boo"
-    home.mkdir(parents=True, exist_ok=True)
+    home = Path(os.path.expanduser(".boo"))
+    home.mkdir(exist_ok=True)
     return home
 
 # class DirectoryNotFound(FileNotFoundError):

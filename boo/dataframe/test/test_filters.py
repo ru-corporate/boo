@@ -1,7 +1,7 @@
 from io import StringIO
 import pandas as pd
 
-from boo.dataframe.filter import large_companies, less_columns
+from boo.dataframe.filter import large_companies, minimal_columns
 
 
 def _read_dataframe():
@@ -11,12 +11,8 @@ def _read_dataframe():
 
 def test_large_companies_and_less_columns():
     df = _read_dataframe() 
-    x = less_columns(large_companies(df))
-    assert x.head(3).to_dict() == {
-        'cash': {
-            2983009240: 0.0,
-            4211014419: 0.1,
-            5256083213: 0.1},
+    x = minimal_columns(large_companies(df))
+    assert x.head(3).to_dict() == {        
         'cf': {
             2983009240: 0.0,
             4211014419: 0.1,

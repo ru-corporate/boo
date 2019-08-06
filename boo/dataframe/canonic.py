@@ -59,9 +59,9 @@ def replace_names(title: str):
 
 
 def add_title(df):
-    s = df.name.apply(dequote)
-    df['org'] = s.apply(lambda x: x[0])
-    df['title'] = s.apply(lambda x: replace_names(x[1]))
+    s_ = df.name.apply(dequote)
+    df['org'] = s_.apply(lambda x: x[0])
+    df['title'] = s_.apply(lambda x: replace_names(x[1]))
     return df
 
 
@@ -85,11 +85,18 @@ def rename(df):
     return df
 
 
+class UnclassifiableCodeError(ValueError):
+    pass
+
+
 def okved3(code_string: str):
     """Get 3 levels of OKVED codes from *code_string*."""
-    codes = [int(x) for x in code_string.split(".")]
-    if len(codes) > 3:
-        raise ValueError(code_string)
+    if code_string.count(".") > 2:
+        raise UnclassifiableCodeError(code_string)
+    try:
+        codes = [int(x) for x in code_string.split(".")]
+    except ValueError:
+        raise UnclassifiableCodeError(code_string)
     return codes + [0] * (3 - len(codes))
 
 

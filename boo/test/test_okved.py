@@ -1,10 +1,15 @@
+import pytest
 from boo.okved import name_v2, all_codes_v2
 
 
 def test_name_v2():
     assert name_v2(5) == 'Добыча угля'
-    # okved_name_v2(code=-1)
+    
 
+def test_name_v2_failed():
+    with pytest.raises(ValueError):
+        name_v2(code=-1)
+        
 
 def test_all_codes_v2():
     assert all_codes_v2() == [

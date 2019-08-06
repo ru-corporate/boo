@@ -34,7 +34,7 @@ df = read_dataframe(2012)
 print(df.head())
 ```
 
-## Data model
+## Files
  
 CSV files are located at `~/.boo` folder. `boo.locate(year)` will show exactly where they are.
 
@@ -46,7 +46,13 @@ File name     | Description  | Column count |  Created by
 `df = read_dataframe(year)` returns reference ("canonic") dataset. This function makes 
 additional column transformations (eg. extracts `region` from `inn`) and applies error filters to remove 
 some rows and make `<year>.csv`.
- 
+
+## Variables
+
+TODO:
+- `whatis()` example 
+- add variable list here
+- make a generator for variable list table
 
 ## Hints
 
@@ -70,8 +76,8 @@ Rosstat publishes CSV files without column headers.
 When preparing a readable CSV file we assign a name to columns
 with variables of interest and cut away the rest of the columns. 
 
-This way we get a much smaller file (~50% of the size) which we can read 
-and manipulate with pandas or R. 
+This way we get a much smaller file (~50% of the size). We can read 
+and manipulate data from this this file using pandas or R. 
 
 For illustration, batch script below creates `2012.csv` file with column names.
 

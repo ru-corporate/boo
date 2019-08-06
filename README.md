@@ -5,11 +5,8 @@
 
 # boo
 
-Python client to download annual corporate report data from Rosstat website. 
-
+`boo` is a Python client to download and transform annual corporate report data from Rosstat website. 
 `boo` creates a local CSV file with column names, importable as pandas dataframe. 
-
-The dataset contains balance sheet, profit and loss statement and cash flow statement variables.
 
 ## Install
 
@@ -49,10 +46,17 @@ some rows and make `<year>.csv`.
 
 ## Variables
 
+The Rosstat dataset contains balance sheet, profit and loss ('P&L') and cash flow ('CF') statement variables. Each variable is a column in dataframe. 
+
+
+```
+print({c:boo.whatis(c) for c in df.columns if "_lag" no in c})
+```
+
 TODO:
-- `whatis()` example 
-- add variable list here
 - make a generator for variable list table
+
+## Data sources
 
 ## Hints
 

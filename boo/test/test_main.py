@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 from requests.exceptions import ConnectionError
 import pandas as pd
 
-from boo.main import download, build, read_dataframe
+from boo.main import download, build, read_dataframe, inspect
 from boo.path import Processed, Raw
 
 
@@ -51,3 +51,13 @@ def test_read_dataframe():
         df = read_dataframe(year=0, directory=temp_dir)
         assert isinstance(df, pd.DataFrame)
         assert sum(df.cf) == -7032726
+
+def test_inspect_on_existing_data_is_callable(ARGS_YEAR_0):
+    year, folder = ARGS_YEAR_0
+    inspect(year, folder)
+
+
+def test_inspect_on_non_existing_data_is_callable():
+    with TemporaryDirectory() as temp_dir:
+        inspect(2012, directory=temp_dir)
+

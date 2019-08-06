@@ -6,7 +6,6 @@
 # boo
 
 `boo` is a Python client to download and transform annual corporate report data from Rosstat website. 
-`boo` creates a local CSV file with column names, importable as pandas dataframe. 
 
 ## Install
 
@@ -32,31 +31,71 @@ print(df.head())
 ```
 
 ## Files
- 
+
 CSV files are located at `~/.boo` folder. `boo.locate(year)` will show exactly where they are.
 
 File name     | Description  | Column count |  Created by 
 --------------|--------------|:------------:|:------------:
-`raw<year>.csv`     | Original CSV file from Rosstat website. No header row.    | 266 | `download(year)`
+`raw<year>.csv` | Original CSV file from Rosstat website. No header row.    | 266 | `download(year)`
 `<year>.csv` | CSV file with column names in header row.  | 58 | `build(year)`
 
-`df = read_dataframe(year)` returns reference ("canonic") dataset. This function makes 
-additional column transformations (eg. extracts `region` from `inn`) and applies error filters to remove 
-some rows and make `<year>.csv`.
+`boo.build()` takes `raw<year>.csv` and creates a local CSV file `<year>.csv` with 
+column names.  `<year>.csv` is importable as pandas dataframe. `read_intermediate_df(year)` will return `<year>.csv` content.
+
+`df = read_dataframe(year)` returns reference ("canonic") dataset. This function transforms some columns in `<year>.csv`(eg. extracts `region` from `inn`) and applies filters to remove erroneous rows.
 
 ## Variables
 
 The Rosstat dataset contains balance sheet, profit and loss ('P&L') and cash flow ('CF') statement variables. Each variable is a column in dataframe. 
 
-
+```python
+>>> {c:boo.whatis(c) for c in df.columns if "_lag" no in c})
+Out[126]: 
+{'title': 'Короткое название организации',
+ 'org': 'Тип юридического лица (часть наименования организации)',
+ 'okpo': None,
+ 'okopf': None,
+ 'okfs': None,
+ 'okved': None,
+ 'unit': None,
+ 'ok1': 'Код ОКВЭД первого уровня',
+ 'ok2': 'Код ОКВЭД второго уровня',
+ 'ok3': 'Код ОКВЭД третьего уровня',
+ 'region': 'Код региона по ИНН',
+ 'of': 'Основные средства',
+ 'ta_fix': 'Итого внеоборотных активов',
+ 'cash': 'Денежные средства и денежные эквиваленты',
+ 'ta_nonfix': 'Итого оборотных активов',
+ 'ta': 'БАЛАНС (актив)',
+ 'tp_capital': 'Итого капитал',
+ 'debt_long': 'Долгосрочные заемные средства',
+ 'tp_long': 'Итого долгосрочных обязательств',
+ 'debt_short': 'Краткосрочные заемные обязательства',
+ 'tp_short': 'Итого краткосрочных обязательств',
+ 'tp': 'БАЛАНС (пассив)',
+ 'sales': 'Выручка',
+ 'profit_oper': 'Прибыль (убыток) от продаж',
+ 'exp_interest': 'Проценты к уплате',
+ 'profit_before_tax': 'Прибыль (убыток) до налогообложения',
+ 'profit_after_tax': 'Чистая прибыль (убыток)',
+ 'cf_oper_in': 'Поступления - всего',
+ 'cf_oper_in_sales': 'От продажи продукции, товаров, работ и услуг',
+ 'cf_oper_out': 'Платежи - всего',
+ 'paid_to_supplier': 'Поставщикам (подрядчикам) за сырье, материалы, работы, услуги',
+ 'paid_to_worker': 'В связи с оплатой труда работников',
+ 'paid_interest': 'Проценты по долговым обязательствам',
+ 'paid_profit_tax': 'Налога на прибыль организаций',
+ 'paid_other_costs': 'Прочие платежи',
+ 'cf_oper': 'Сальдо денежных потоков от текущих операций',
+ 'cf_inv_in': 'Поступления - всего',
+ 'cf_inv_out': 'Платежи - всего',
+ 'paid_fa_investment': 'В связи с приобретением, созданием, модернизацией, реконструкцией и подготовкой к использованию внеоборотны активов',
+ 'cf_inv': 'Сальдо денежных потоков от инвестиционных операций',
+ 'cf_fin_in': 'Поступления - всего',
+ 'cf_fin_out': 'Платежи - всего',
+ 'cf_fin': 'Сальдо денежных потоков от финансовых операций',
+ 'cf': 'Сальдо денежных потоков за отчетный период'}
 ```
-print({c:boo.whatis(c) for c in df.columns if "_lag" no in c})
-```
-
-TODO:
-- make a generator for variable list table
-
-## Data sources
 
 ## Hints
 

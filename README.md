@@ -46,7 +46,7 @@ column names.  `<year>.csv` is importable as pandas dataframe. `read_intermediat
 
 ## Variables
 
-The Rosstat dataset contains balance sheet, profit and loss ('P&L') and cash flow ('CF') statement variables. Each variable is a column in dataframe. 
+The Rosstat dataset contains balance sheet, profit and loss and cash flow statement variables. Each variable is a column in dataframe. 
 
 ```python
 >>> {c:boo.whatis(c) for c in df.columns if "_lag" no in c})

@@ -44,8 +44,8 @@ File name     | Description  | Column count |  Created by
 `<year>.csv` | CSV file with column names in header row.  | 58 | `build(year)`
 
 `df = read_dataframe(year)` returns reference ("canonic") dataset. This function makes 
-additional column transformations (eg. extracts `region` from `inn`) and applies error filters 
-to `<year>.csv`.
+additional column transformations (eg. extracts `region` from `inn`) and applies error filters to remove 
+some rows and make `<year>.csv`.
  
 
 ## Hints

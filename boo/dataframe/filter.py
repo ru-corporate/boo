@@ -15,6 +15,7 @@ def text_columns(df):
 def split_columns(df):
     return text_columns(df), numeric_columns(df), df.columns
 
+
 # change rows
 
 
@@ -55,19 +56,19 @@ def shorthand(df):
                      errors='ignore')
 
 
-def less_columns(df):
-    cols = no_lags(df)
-    return shorthand(df[cols])
+
+def no_lags(df):
+    return df[[c for c in df.columns if ("_lag" not in c)]]
 
 
-class ColumnSubset:
+class Columns:
     MINIMAL = ['region', 'ok1', 'ok2', 'title'] + \
               ['ta', 'of', 'sales', 'profit_before_tax', 'cf']
     CF = ['cf_oper', 'cf_inv', 'cf_fin']
 
 
 def minimal_columns(df):
-    return shorthand(df[ColumnSubset.MINIMAL])
+    return shorthand(df[Columns.MINIMAL])
 
 # Identities:
 #   ta = tp

@@ -2,10 +2,6 @@ from pathlib import Path
 from dataclasses import dataclass
 
 
-def whereami(x=__file__):
-    return Path(x).parent
-
-
 def default_data_folder() -> Path:
     home = Path.home() / ".boo"
     home.mkdir(exist_ok=True)

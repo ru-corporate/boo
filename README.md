@@ -76,8 +76,8 @@ Rosstat publishes CSV files without column headers.
 When preparing a readable CSV file we assign a name to columns
 with variables of interest and cut away the rest of the columns. 
 
-This way we get a much smaller file (~50% of the size) which we can read 
-and manipulate with pandas or R. 
+This way we get a much smaller file (~50% of the size). We can read 
+and manipulate data from this this file using pandas or R. 
 
 For illustration, batch script below creates `2012.csv` file with column names.
 

@@ -2,7 +2,6 @@
 
 import csv
 import os
-import requests
 from tqdm import tqdm
 
 import pandas as pd
@@ -31,7 +30,6 @@ def save_rows(path,
               fmt=dict(
                   lineterminator="\n",
                   quoting=csv.QUOTE_MINIMAL),
-              # FIXME: mention , ?
               enc='utf-8'):
     panic(path)
     iterable = tqdm(stream, unit=' lines')

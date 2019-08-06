@@ -28,6 +28,15 @@ def help_force(year, verb):
     return f"Use {verb}({year}, force=True) to overwrite existing file."
 
 
+class FileNotDownloadedError(FileNotFoundError):
+    pass
+
+
+def check_downloaded(path):
+    if not path.exists():
+        raise FileNotDownloadedError(path)
+
+
 def download(year: int, force=False, directory=None):
     """Download file from Rosstat web site."""
     raw_file = locate(year, directory).raw
@@ -53,6 +62,7 @@ def build(year, force=False, directory=None,
     """
     loc = locate(year, directory)
     src, dst = loc.raw, loc.processed
+    check_downloaded(src)
     preclean(dst.path, force)
     if not dst.exists():
         print("Reading from", src)
@@ -78,3 +88,11 @@ def read_dataframe(year: int, directory=None):
         pandas.DataFrame
     """
     return canonic_df(read_intermediate_df(year, directory))
+
+
+def inspect(year: int, directory=None):
+    print("URL:", make_url(year))
+    loc = locate(year, directory)
+    for x in [loc.raw, loc.processed]:
+        for msg in x.state():
+            print(msg)

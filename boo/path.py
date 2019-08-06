@@ -32,6 +32,7 @@ def file(year, tag="", directory=None):
 class File():
     def __init__(self, year, tag, directory):
         self.path = file(year, tag, directory)
+        self.year = year
 
     def size(self):
         return self.path.stat().st_size
@@ -59,6 +60,14 @@ class Raw(File):
     def content(self):
         return self.path.read_text(encoding="cp1251")
 
+    def state(self):
+        if self.path.exists():
+            yield f"Raw CSV file downloaded as {self}"
+            if self.mb() < 1:
+                yield "WARNING: file size too small. Usual size is larger than 500Mb."
+        else:
+            yield f"Raw CSV file not downloaded. Run `download({self.year})`."
+
 
 class Processed(File):
     def __init__(self, year, directory):
@@ -66,6 +75,13 @@ class Processed(File):
 
     def content(self):
         return self.path.read_text(encoding="utf-8")
+
+    def state(self):
+        if self.path.exists():
+            yield f"Processed CSV file is saved as {self}"
+            yield f"Use `df=read_dataframe({self.year})` next."
+        else:
+            yield f"Final CSV file not built. Run `build({self.year})`."
 
 
 @dataclass

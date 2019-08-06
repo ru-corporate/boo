@@ -89,7 +89,7 @@ class UnclassifiableCodeError(ValueError):
     pass
 
 
-def okved3(code_string: str):
+def split_okved(code_string: str):
     """Get 3 levels of OKVED codes from *code_string*."""
     if code_string.count(".") > 2:
         raise UnclassifiableCodeError(code_string)
@@ -101,7 +101,7 @@ def okved3(code_string: str):
 
 
 def add_okved_subcode(df):
-    df['ok1'], df['ok2'], df['ok3'] = zip(*df.okved.apply(okved3))
+    df['ok1'], df['ok2'], df['ok3'] = zip(*df.okved.apply(split_okved))
     return df
 
 

@@ -1,15 +1,37 @@
-# import numpy
-# from boo.row import dtypes
-
-# def test_dtypes():
-# assert dtypes(['of']) == {'of': numpy.int64}
-# assert dtypes(['ok1']) == {'ok1': numpy.int64}
-# assert dtypes(['inn']) == {'inn': str}
-# assert dtypes(['okopf']) == {'okopf': str}
-
-from boo.dataframe.canonic import canonic_df, rename
 import pytest
 import pandas as pd
+import numpy as np
+
+
+from boo.dataframe.canonic import (canonic_df, canonic_dtypes,
+                                   rename,
+                                   UnclassifiableCodeError,
+                                   split_okved, fst)
+
+
+STRINGS = ['title', 'org', 'okpo', 'okopf', 'okfs', 'okved', 'inn', 'unit']
+
+
+def test_canonic_dtypes_on_inn():
+    assert canonic_dtypes()['inn'] == str
+
+
+def test_canonic_dtypes_on_strings():
+    for s in STRINGS:
+        assert canonic_dtypes()[s] == str
+
+
+def test_canonic_dtypes_on_numeric():
+    for k, v in canonic_dtypes().items():
+        if k not in STRINGS:
+            assert v == np.int64
+
+
+def test_fst():
+    assert fst("123") == 12
+    assert fst(1) == 0
+
+
 df1 = pd.DataFrame(
     {'cash': {227693: 5118911, 1134038: 176492735},
      'cash_lag': {227693: 4415161, 1134038: 97254253},
@@ -87,6 +109,11 @@ def test_rename():
          'inn': {1134038: '7702038150'}}
     )
     assert rename(df2).title[1134038] == 'Московский метрополитен'
+
+
+def test_okved3():
+    with pytest.raises(UnclassifiableCodeError):
+        split_okved("1.2.3...")
 
 
 if __name__ == "__main__":

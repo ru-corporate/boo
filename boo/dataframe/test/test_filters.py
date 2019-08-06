@@ -10,9 +10,9 @@ def _read_dataframe():
 
 
 def test_large_companies_and_less_columns():
-    df = _read_dataframe() 
+    df = _read_dataframe()
     x = minimal_columns(large_companies(df))
-    assert x.head(3).to_dict() == {        
+    assert x.head(3).to_dict() == {
         'cf': {
             2983009240: 0.0,
             4211014419: 0.1,

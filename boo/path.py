@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 from dataclasses import dataclass
 
@@ -8,7 +7,7 @@ def whereami(x=__file__):
 
 
 def default_data_folder() -> Path:
-    home = Path(os.path.expanduser(".boo"))
+    home = Path.home() / ".boo"
     home.mkdir(exist_ok=True)
     return home
 
@@ -43,6 +42,9 @@ class File():
     def exists(self):
         return self.path.exists()
 
+    def folder(self):
+        return str(self.path.parent)
+
     def __str__(self):
         try:
             return f"{self.path} ({self.mb()}M)"
@@ -60,14 +62,6 @@ class Raw(File):
     def content(self):
         return self.path.read_text(encoding="cp1251")
 
-    def state(self):
-        if self.path.exists():
-            yield f"Raw CSV file downloaded as {self}"
-            if self.mb() < 1:
-                yield "WARNING: file size too small. Usual size is larger than 500Mb."
-        else:
-            yield f"Raw CSV file not downloaded. Run `download({self.year})`."
-
 
 class Processed(File):
     def __init__(self, year, directory):
@@ -75,13 +69,6 @@ class Processed(File):
 
     def content(self):
         return self.path.read_text(encoding="utf-8")
-
-    def state(self):
-        if self.path.exists():
-            yield f"Processed CSV file is saved as {self}"
-            yield f"Use `df=read_dataframe({self.year})` next."
-        else:
-            yield f"Final CSV file not built. Run `build({self.year})`."
 
 
 @dataclass

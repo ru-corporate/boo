@@ -28,13 +28,29 @@ def help_force(year, verb):
     return f"Use {verb}({year}, force=True) to overwrite existing file."
 
 
-class FileNotDownloadedError(FileNotFoundError):
-    pass
+class NoRawFileError(FileNotFoundError):
+    def __init__(self, year):
+        super().__init__(
+            f"Raw CSV file not downloaded for {year}. "
+            f"Try `boo.download({year})`.")
 
 
-def check_downloaded(path):
-    if not path.exists():
-        raise FileNotDownloadedError(path)
+class NoProcessedFileError(FileNotFoundError):
+    def __init__(self, year):
+        super().__init__(
+            f"Final CSV file not built for {year}. "
+            f"Try `boo.build({year})`."
+        )
+
+
+def check_is_downloaded(year, directory=None):
+    if not locate(year, directory).raw.exists():
+        raise NoRawFileError(year)
+
+
+def check_is_built(year, directory=None):
+    if not locate(year, directory).processed.exists():
+        raise NoProcessedFileError(year)
 
 
 def download(year: int, force=False, directory=None):
@@ -60,9 +76,9 @@ def build(year, force=False, directory=None,
        Columns have names as in *COLUMNS_SHORT*.
        Rows will be modified by *worker* function.
     """
+    check_is_downloaded(year, directory)
     loc = locate(year, directory)
     src, dst = loc.raw, loc.processed
-    check_downloaded(src)
     preclean(dst.path, force)
     if not dst.exists():
         print("Reading from", src)
@@ -77,6 +93,7 @@ def build(year, force=False, directory=None,
 
 
 def read_intermediate_df(year: int, directory=None):
+    check_is_built(year, directory)
     src = locate(year, directory).processed
     return read_df(src.path, SHORT_COLUMNS.dtypes)
 
@@ -91,8 +108,25 @@ def read_dataframe(year: int, directory=None):
 
 
 def inspect(year: int, directory=None):
+    is_downloaded, is_processed = False, False
     print("URL:", make_url(year))
     loc = locate(year, directory)
-    for x in [loc.raw, loc.processed]:
-        for msg in x.state():
-            print(msg)
+    if loc.raw.exists():
+        is_downloaded = True
+        print(f"Raw CSV file: {loc.raw}")
+        if loc.raw.mb() < 1:
+            print("WARNING: file size too small. "
+                  "Usual size is larger than 500Mb.")
+    try:
+        check_is_downloaded(year, directory)
+    except NoRawFileError as e:
+        print(e)
+    if loc.processed.exists():
+        is_processed = True
+        print(f"Processed CSV file: {loc.processed}")
+        print(f"Use `df=boo.read_dataframe({year})` next.")
+    try:
+        check_is_built(year, directory)
+    except NoProcessedFileError as e:
+        print(e)
+    return is_downloaded, is_processed

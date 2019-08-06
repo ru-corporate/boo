@@ -56,7 +56,6 @@ def shorthand(df):
                      errors='ignore')
 
 
-
 def no_lags(df):
     return df[[c for c in df.columns if ("_lag" not in c)]]
 

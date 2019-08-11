@@ -5,7 +5,7 @@
 
 # boo
 
-`boo` is a Python client to download and transform annual corporate report data from Rosstat website. 
+`boo` is a Python client to download and transform annual corporate reports from Rosstat website. 
 
 ## Install
 

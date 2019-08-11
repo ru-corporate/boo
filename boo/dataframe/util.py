@@ -30,3 +30,7 @@ def industry(df, ok1, ok2=None):
         return df[df.ok1 == ok1]
     else:
         return df[(df.ok1 == ok1) & (df.ok2 == ok2)]
+
+
+def dim(df):
+    return f"Dataset has {df.shape[0]} rows and {df.shape[1]} columns."

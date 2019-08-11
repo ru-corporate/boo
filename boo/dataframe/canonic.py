@@ -117,14 +117,13 @@ def add_region(df):
     return df
 
 
+def more_columns(df):
+    return add_okved_subcode(add_region(add_title(df)))  
+
+
 def canonic_df(df):
-    for f in [adjust_rub,
-              add_okved_subcode,
-              add_region,
-              add_title,
-              rename]:
-        df = f(df)
-    return df.loc[:, canonic_columns()].set_index('inn')
+    df_ = more_columns(adjust_rub(df))    
+    return rename(df_)[canonic_columns()].set_index('inn')
 
 
 def canonic_columns(numeric=SHORT_COLUMNS.numeric):

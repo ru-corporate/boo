@@ -52,8 +52,7 @@ def shorthand(df):
     return df.rename(columns={'profit_before_tax': 'p',
                               'profit_before_tax_lag': 'p_lag',
                               'tp_capital': 'cap',
-                              'tp_capital_lag': 'cap_lag'},
-                     errors='ignore')
+                              'tp_capital_lag': 'cap_lag'})
 
 
 def no_lags(df):

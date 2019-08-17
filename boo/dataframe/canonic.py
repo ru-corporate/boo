@@ -55,7 +55,7 @@ def add_title(df):
     return df
 
 
-def rename(df):
+def rename_rows(df):
     RENAME_DICT = {
         '2460066195': "РусГидро",
         '4716016979': "ФСК ЕЭС",
@@ -108,7 +108,7 @@ def add_region(df):
 
 
 def more_columns(df):
-    return add_okved_subcode(add_region(add_title(df)))  
+    return add_okved_subcode(add_region(add_title(df)))
 
 
 def canonic_df(df):
@@ -120,10 +120,10 @@ def canonic_df(df):
         * короткое название компании
         * три уровня кода ОКВЭД
         * регион (по ИНН)
-    
+
     """
-    df_ = more_columns(adjust_rub(df))    
-    return rename(df_)[canonic_columns()].set_index('inn')
+    df_ = more_columns(adjust_rub(df))
+    return rename_rows(df_)[canonic_columns()].set_index('inn')
 
 
 def canonic_columns(numeric=SHORT_COLUMNS.numeric):

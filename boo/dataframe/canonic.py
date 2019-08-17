@@ -7,6 +7,25 @@ NUMERIC_COLUMNS = SHORT_COLUMNS.numeric
 
 
 # FIXME: very slow code, even on small data
+
+#        maybe concating is faster?
+# billions
+bf = df[df.unit == "385"]
+bf.loc[:,cols] = bf.loc[:, cols].multiply(1000)
+bf.loc[:, "unit"] = "384"
+index = bf.index.tolist()
+
+# thousands
+tf = df[df.unit == "383"]
+tf.loc[:,cols] = tf.loc[:, cols].divide(1000).round(0).astype(int)
+tf.loc[:, "unit"] = "384"
+index.extend(rf.index.tolist())
+
+# concat 
+remains = df[~df.index.isin(index)]
+#concat remains, bf, rf
+
+  
 def adjust_rub(df, cols=NUMERIC_COLUMNS):
     rows = (df.unit == "385")
     df.loc[rows, cols] = df.loc[rows, cols].multiply(1000)

@@ -20,26 +20,32 @@ def split_columns(df):
 
 
 def is_alive(df):
-    return (df.sales != 0) & (df.cf != 0) & (df.profit_before_tax != 0)
-    # MAYBE ADD: large deviations from accounting identity
+    return (df.sales != 0) or (df.cf != 0) or (df.profit_before_tax != 0)
+    # MAYBE: add large deviations from accounting identity
 
 # change values
 
 
 def change_numeraire(df, unit):
     """Change unit of account (numeraire), eg thousands to billion.
-       Assumes df units are thousands. """
+       Assumes *df* units are thousand rubles.
+    """
     text_cols, num_cols, all_cols = split_columns(df)
     return df.loc[:, num_cols] \
         .divide(unit).round(1) \
         .join(df[text_cols])[all_cols]
 
 
-def to_bln(df):  # from thousands, default
+def to_bln(df):
     return change_numeraire(df, unit=1_000_000)
 
 
+def to_mln(df):  # from thousands, default
+    return change_numeraire(df, unit=1_000)
+
+
 # export
+
 
 def large_companies(df):
     _df = df.loc[is_alive(df), :] \
@@ -47,6 +53,12 @@ def large_companies(df):
             .sort_values("ta", ascending=False)
     return to_bln(_df)
 
+
+def medium_companies(df):
+    _df = df.query("sales > 1_000") \
+            .sort_values("sales", ascending=False)
+    return to_mln(_df)
+    
 
 def shorthand(df):
     return df.rename(columns={'profit_before_tax': 'p',

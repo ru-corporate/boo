@@ -23,7 +23,7 @@ from pathlib import Path
 # 0.0.91 okved import changed
 
 setup(name='boo',
-      version='0.0.91',
+      version='0.0.92',
       description='Russian corporate reports 2012-2017',
       url='http://github.com/ru-corporate/boo',
       author='Evgeniy Pogrebnyak',

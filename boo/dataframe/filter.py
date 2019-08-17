@@ -20,7 +20,7 @@ def split_columns(df):
 
 
 def is_alive(df):
-    return (df.sales != 0) or (df.cf != 0) or (df.profit_before_tax != 0)
+    return (df.sales != 0) | (df.cf != 0) | (df.profit_before_tax != 0)
     # MAYBE: add large deviations from accounting identity
 
 # change values

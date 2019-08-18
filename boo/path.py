@@ -49,6 +49,12 @@ class File():
 
     def __repr__(self):
         return repr(self.path)
+    
+    def print_error(self):
+        try:
+            self.assert_exists()
+        except FileNotFoundError as e:
+            print(e)       
 
 
 class Raw(File):

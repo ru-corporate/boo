@@ -8,6 +8,7 @@ Helpers:
     whatis(column_name)
     locate(year)
     inspect(year)
+    make_url(year) #does not show html page
 """
 
 from boo.year import make_url
@@ -15,17 +16,16 @@ from boo.path import locate
 from boo.curl import curl
 from boo.file import yield_rows, save_rows, read_df
 from boo.columns import CONVERTER_FUNC, SHORT_COLUMNS
-from boo.errors import NoRawFileError, NoProcessedFileError
 from boo.dataframe.canonic import canonic_df
 
 
-def preclean(path, force: bool):
+def _preclean(path, force: bool):
     """Delete an exisiting file if *force* flag is set to True"""
     if force is True and path.exists():
         path.unlink()
 
 
-def help_force(year, verb):
+def _help_force(year, verb):
     return f"Use {verb}({year}, force=True) to overwrite existing file."
 
 
@@ -34,14 +34,14 @@ def download(year: int, force=False, directory=None):
     raw_file = locate(year, directory).raw
     path = raw_file.path
     url = make_url(year)
-    preclean(path, force)
+    _preclean(path, force)
     if not path.exists():
         print(f"Downloading source file for {year} from", url)
         curl(path, url)
         print("Saved as", raw_file)
     else:
         print("Already downloaded:", raw_file)
-        print(help_force(year, "download"))
+        print(_help_force(year, "download"))
     return path
 
 
@@ -56,9 +56,9 @@ def build(year, force=False, directory=None,
     src, dst = loc.raw, loc.processed
     if dst.exists() and not force:
         print("Already built:", dst)
-        print(help_force(year, "build"))
+        print(_help_force(year, "build"))
         return
-    preclean(dst.path, force)
+    _preclean(dst.path, force)
     src.assert_exists()
     if not dst.exists():
         print("Reading from", src)
@@ -94,17 +94,11 @@ def inspect(year: int, directory=None):
             print("WARNING: file size too small. "
                   "Usual size is larger than 500Mb.")
     else:        
-        try:
-            loc.raw.assert_exists()
-        except NoRawFileError as e:
-            print(e)
+        loc.raw.print_error()
     if loc.processed.exists():
         is_processed = True
         print(f"Processed CSV file: {loc.processed}")
         print(f"Use next: df=boo.read_dataframe({year}).")
     else:    
-        try:
-            loc.processed.assert_exists()
-        except NoProcessedFileError as e:
-            print(e)
+        loc.processed.print_error()
     return is_downloaded, is_processed

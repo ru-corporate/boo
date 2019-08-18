@@ -1,13 +1,3 @@
-"""Преобразовать данные внтури датафрейма:
-
-- Привести все строки к одинаковым единицам измерения (тыс. руб.)
-- Убрать  неиспользуемые колонки (date_revised, report_type)
-- Новые колонки:
-    * короткое название компании
-    * три уровня кода ОКВЭД
-    * регион (по ИНН)
-
-"""
 import numpy
 from boo.columns import SHORT_COLUMNS
 
@@ -17,6 +7,25 @@ NUMERIC_COLUMNS = SHORT_COLUMNS.numeric
 
 
 # FIXME: very slow code, even on small data
+
+#        maybe concating is faster?
+# billions
+#bf = df[df.unit == "385"]
+#bf.loc[:,cols] = bf.loc[:, cols].multiply(1000)
+#bf.loc[:, "unit"] = "384"
+#index = bf.index.tolist()
+#
+## thousands
+#tf = df[df.unit == "383"]
+#tf.loc[:,cols] = tf.loc[:, cols].divide(1000).round(0).astype(int)
+#tf.loc[:, "unit"] = "384"
+#index.extend(rf.index.tolist())
+#
+## concat 
+#remains = df[~df.index.isin(index)]
+##concat remains, bf, rf
+
+  
 def adjust_rub(df, cols=NUMERIC_COLUMNS):
     rows = (df.unit == "385")
     df.loc[rows, cols] = df.loc[rows, cols].multiply(1000)
@@ -65,7 +74,7 @@ def add_title(df):
     return df
 
 
-def rename(df):
+def rename_rows(df):
     RENAME_DICT = {
         '2460066195': "РусГидро",
         '4716016979': "ФСК ЕЭС",
@@ -117,14 +126,23 @@ def add_region(df):
     return df
 
 
+def more_columns(df):
+    return add_okved_subcode(add_region(add_title(df)))
+
+
 def canonic_df(df):
-    for f in [adjust_rub,
-              add_okved_subcode,
-              add_region,
-              add_title,
-              rename]:
-        df = f(df)
-    return df.loc[:, canonic_columns()].set_index('inn')
+    """Преобразовать данные внтури датафрейма:
+
+    - Привести все строки к одинаковым единицам измерения (тыс. руб.)
+    - Убрать  неиспользуемые колонки (date_revised, report_type)
+    - Новые колонки:
+        * короткое название компании
+        * три уровня кода ОКВЭД
+        * регион (по ИНН)
+
+    """
+    df_ = more_columns(adjust_rub(df))
+    return rename_rows(df_)[canonic_columns()].set_index('inn')
 
 
 def canonic_columns(numeric=SHORT_COLUMNS.numeric):

@@ -4,7 +4,7 @@ import numpy as np
 
 
 from boo.dataframe.canonic import (canonic_df, canonic_dtypes,
-                                   rename,
+                                   rename_rows,
                                    UnclassifiableCodeError,
                                    split_okved, fst)
 
@@ -103,12 +103,12 @@ def test_substitute_complete():
     assert canonic_df(df1).title["2607018122"] == "ВТОРАЯ ОГК"
 
 
-def test_rename():
+def test_rename_rows():
     df2 = pd.DataFrame(
         {'title': {1134038: 'МОСКОВСКИЙ ОРДЕНА ЛЕНИНА И ОРДЕНА ТРУДОВОГО КРАСНОГО ЗНАМЕНИ МЕТРОПОЛИТЕН ИМЕНИ В.И.ЛЕНИНА'},
          'inn': {1134038: '7702038150'}}
     )
-    assert rename(df2).title[1134038] == 'Московский метрополитен'
+    assert rename_rows(df2).title[1134038] == 'Московский метрополитен'
 
 
 def test_okved3():

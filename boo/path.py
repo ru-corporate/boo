@@ -1,11 +1,14 @@
 from pathlib import Path
 from dataclasses import dataclass
 
+from boo.errors import DirectoryNotFound, NoRawFileError, NoProcessedFileError
+
 
 def default_data_folder() -> Path:
     home = Path.home() / ".boo"
     home.mkdir(exist_ok=True)
     return home
+
 
 
 def get_folder(directory=None) -> Path:
@@ -14,7 +17,7 @@ def get_folder(directory=None) -> Path:
     elif Path(directory).is_dir():
         return Path(directory)
     else:
-        raise FileNotFoundError(directory)
+        raise DirectoryNotFound(directory)
 
 
 def file(year, tag="", directory=None):
@@ -55,6 +58,10 @@ class Raw(File):
     def content(self):
         return self.path.read_text(encoding="cp1251")
 
+    def assert_exists(self):
+        if not self.exists():
+            raise NoRawFileError(self.year)
+
 
 class Processed(File):
     def __init__(self, year, directory):
@@ -62,6 +69,10 @@ class Processed(File):
 
     def content(self):
         return self.path.read_text(encoding="utf-8")
+
+    def assert_exists(self):
+        if not self.exists():
+            raise NoProcessedFileError(self.year)
 
 
 @dataclass

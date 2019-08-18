@@ -16,12 +16,11 @@ def region(df, x: int):
 
 
 def inn(df, x: str):
-    return df.loc[str(x), :]
-
-
-def inns(df, xs):
-    xs = list(map(str, xs))
-    ix = df.index.isin(xs)
+    if isinstance(x, (str, int)):
+      ix = str(x)
+    else:
+      xs = list(map(str, x))
+      ix = df.index.isin(xs)
     return df.loc[ix, :]
 
 
@@ -30,3 +29,7 @@ def industry(df, ok1, ok2=None):
         return df[df.ok1 == ok1]
     else:
         return df[(df.ok1 == ok1) & (df.ok2 == ok2)]
+
+
+def dim(df):
+    return f"Dataset has {df.shape[0]} rows and {df.shape[1]} columns."

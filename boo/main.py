@@ -76,10 +76,14 @@ def build(year, force=False, directory=None,
        Columns have names as in *COLUMNS_SHORT*.
        Rows will be modified by *worker* function.
     """
-    check_is_downloaded(year, directory)
     loc = locate(year, directory)
     src, dst = loc.raw, loc.processed
+    if dst.exists() and not force:
+        print("Already built:", dst)
+        print(help_force(year, "build"))
+        return
     preclean(dst.path, force)
+    check_is_downloaded(year, directory)
     if not dst.exists():
         print("Reading from", src)
         print("Saving to", dst)
@@ -87,9 +91,6 @@ def build(year, force=False, directory=None,
                   stream=map(worker, yield_rows(src.path)),
                   column_names=column_names)
         print("Saved", dst)
-    else:
-        print("Already built:", dst)
-        print(help_force(year, "build"))
 
 
 def read_intermediate_df(year: int, directory=None):

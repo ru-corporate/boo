@@ -89,7 +89,7 @@ def inspect(year: int, directory=None):
     loc = locate(year, directory)
     if loc.raw.exists():
         is_downloaded = True
-        print(f"Raw CSV file: {loc.raw}")
+        print(f"      Raw CSV file: {loc.raw}")                
         if loc.raw.mb() < 1:
             print("WARNING: file size too small. "
                   "Usual size is larger than 500Mb.")
@@ -98,7 +98,7 @@ def inspect(year: int, directory=None):
     if loc.processed.exists():
         is_processed = True
         print(f"Processed CSV file: {loc.processed}")
-        print(f"Use next: df=boo.read_dataframe({year}).")
+        print(f"          Use next: df=boo.read_dataframe({year})")
     else:    
         loc.processed.print_error()
     return is_downloaded, is_processed

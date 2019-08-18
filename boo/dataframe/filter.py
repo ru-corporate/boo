@@ -58,7 +58,7 @@ def medium_companies(df):
     _df = df.query("sales > 1_000") \
             .sort_values("sales", ascending=False)
     return to_mln(_df)
-    
+
 
 def shorthand(df):
     return df.rename(columns={'profit_before_tax': 'p',

@@ -17,10 +17,10 @@ def region(df, x: int):
 
 def inn(df, x: str):
     if isinstance(x, (str, int)):
-      ix = str(x)
+        ix = str(x)
     else:
-      xs = list(map(str, x))
-      ix = df.index.isin(xs)
+        xs = list(map(str, x))
+        ix = df.index.isin(xs)
     return df.loc[ix, :]
 
 

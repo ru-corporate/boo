@@ -10,7 +10,6 @@ def default_data_folder() -> Path:
     return home
 
 
-
 def get_folder(directory=None) -> Path:
     if directory is None:
         return default_data_folder()
@@ -49,12 +48,12 @@ class File():
 
     def __repr__(self):
         return repr(self.path)
-    
+
     def print_error(self):
         try:
             self.assert_exists()
         except FileNotFoundError as e:
-            print(e)       
+            print(e)
 
 
 class Raw(File):

@@ -15,6 +15,7 @@ from boo.path import locate
 from boo.curl import curl
 from boo.file import yield_rows, save_rows, read_df
 from boo.columns import CONVERTER_FUNC, SHORT_COLUMNS
+from boo.errors import NoRawFileError, NoProcessedFileError
 from boo.dataframe.canonic import canonic_df
 
 
@@ -26,31 +27,6 @@ def preclean(path, force: bool):
 
 def help_force(year, verb):
     return f"Use {verb}({year}, force=True) to overwrite existing file."
-
-
-class NoRawFileError(FileNotFoundError):
-    def __init__(self, year):
-        super().__init__(
-            f"Raw CSV file not downloaded for {year}. "
-            f"Try `boo.download({year})`.")
-
-
-class NoProcessedFileError(FileNotFoundError):
-    def __init__(self, year):
-        super().__init__(
-            f"Final CSV file not built for {year}. "
-            f"Try `boo.build({year})`."
-        )
-
-
-def check_is_downloaded(year, directory=None):
-    if not locate(year, directory).raw.exists():
-        raise NoRawFileError(year)
-
-
-def check_is_built(year, directory=None):
-    if not locate(year, directory).processed.exists():
-        raise NoProcessedFileError(year)
 
 
 def download(year: int, force=False, directory=None):
@@ -83,7 +59,7 @@ def build(year, force=False, directory=None,
         print(help_force(year, "build"))
         return
     preclean(dst.path, force)
-    check_is_downloaded(year, directory)
+    src.assert_exists()
     if not dst.exists():
         print("Reading from", src)
         print("Saving to", dst)
@@ -93,9 +69,9 @@ def build(year, force=False, directory=None,
         print("Saved", dst)
 
 
-def read_intermediate_df(year: int, directory=None):
-    check_is_built(year, directory)
+def read_intermediate_df(year: int, directory=None):    
     src = locate(year, directory).processed
+    src.assert_exists()
     return read_df(src.path, SHORT_COLUMNS.dtypes)
 
 
@@ -110,7 +86,6 @@ def read_dataframe(year: int, directory=None):
 
 def inspect(year: int, directory=None):
     is_downloaded, is_processed = False, False
-    print("URL:", make_url(year))
     loc = locate(year, directory)
     if loc.raw.exists():
         is_downloaded = True
@@ -118,16 +93,18 @@ def inspect(year: int, directory=None):
         if loc.raw.mb() < 1:
             print("WARNING: file size too small. "
                   "Usual size is larger than 500Mb.")
-    try:
-        check_is_downloaded(year, directory)
-    except NoRawFileError as e:
-        print(e)
+    else:        
+        try:
+            loc.raw.assert_exists()
+        except NoRawFileError as e:
+            print(e)
     if loc.processed.exists():
         is_processed = True
         print(f"Processed CSV file: {loc.processed}")
-        print(f"Use `df=boo.read_dataframe({year})` next.")
-    try:
-        check_is_built(year, directory)
-    except NoProcessedFileError as e:
-        print(e)
+        print(f"Use next: df=boo.read_dataframe({year}).")
+    else:    
+        try:
+            loc.processed.assert_exists()
+        except NoProcessedFileError as e:
+            print(e)
     return is_downloaded, is_processed

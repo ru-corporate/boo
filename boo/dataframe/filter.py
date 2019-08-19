@@ -55,9 +55,15 @@ def large_companies(df):
 
 
 def medium_companies(df):
-    _df = df.query("sales > 1_000") \
+    _df = df.query("sales >= 1_000") \
             .sort_values("sales", ascending=False)
     return to_mln(_df)
+
+
+def small_companies(df):
+    _df = df.query("sales <= 1_000") \
+            .sort_values("sales", ascending=False)
+    return to_mln(_df)    
 
 
 def shorthand(df):

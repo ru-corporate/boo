@@ -1,28 +1,12 @@
 import numpy
 import pandas as pd
 from boo.columns import SHORT_COLUMNS
+from boo.errors import UnclassifiableCodeError
+
 
 QUOTE_CHAR = '"'
 EMPTY = int(0)
 NUMERIC_COLUMNS = SHORT_COLUMNS.numeric
-
-
-def adjust_rub2(df, cols=NUMERIC_COLUMNS):
-    # billions
-    bf = df[df.unit == "385"]
-    bf.loc[:,cols] = bf.loc[:, cols].multiply(1000)
-    bf.loc[:, "unit"] = "384"
-    index = bf.index.tolist()
-
-    # thousands
-    tf = df[df.unit == "383"]
-    tf.loc[:,cols] = tf.loc[:, cols].divide(1000).round(0).astype(int)
-    tf.loc[:, "unit"] = "384"
-    index.extend(tf.index.tolist())
-
-    # concat
-    base_df = df[~df.index.isin(index)]
-    return pd.concat([base_df, bf, tf])
 
 
 def adjust_rub(df, cols=NUMERIC_COLUMNS):
@@ -84,17 +68,9 @@ def rename_rows(df):
         '9102048801': "Черноморнефтегаз",
         '7736036626': "РИТЭК"
     }
-    keys = list(RENAME_DICT.keys())
-
-    def actor(inn):
-        return RENAME_DICT[inn]
-    ix = df.inn.isin(keys)
-    df.loc[ix, 'title'] = df.loc[ix, 'inn'].apply(actor)
+    for k, v in RENAME_DICT.items():
+        df.loc[ix, 'title'] = v
     return df
-
-
-class UnclassifiableCodeError(ValueError):
-    pass
 
 
 def split_okved(code_string: str):
@@ -140,8 +116,10 @@ def canonic_df(df):
         * регион (по ИНН)
 
     """
-    df_ = more_columns(adjust_rub(df))
-    return rename_rows(df_)[canonic_columns()].set_index('inn')
+    df_ = add_okved_subcode(add_region(add_title(df)))
+    df_ = rename_rows(df_)
+    df_ = adjust_rub(df_)
+    return df_[canonic_columns()].set_index('inn')
 
 
 def canonic_columns(numeric=SHORT_COLUMNS.numeric):

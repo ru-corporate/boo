@@ -22,6 +22,10 @@ from pathlib import Path
 
 # 0.0.91 okved import changed
 
+
+with open('README.md', encoding='utf-8') as file:
+  readme_str = '\n'.join(file.readlines())
+
 setup(name='boo',
       version='0.0.92',
       description='Russian corporate reports 2012-2017',
@@ -30,7 +34,7 @@ setup(name='boo',
       author_email='e.pogrebnyak@gmail.com',
       license='MIT',
       packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
-      long_description = Path("README.md").read_text(),
+      long_description = readme_str,
       long_description_content_type="text/markdown",
       zip_safe=False, 
       install_requires=[

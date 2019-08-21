@@ -1,3 +1,9 @@
+class WrongYearError(ValueError):
+    def __init__(self, year):
+        super().__init__(f"Year not supported: {year}."
+                          " Try year starting 2012.")
+        
+
 class DirectoryNotFound(FileNotFoundError):
     pass
 

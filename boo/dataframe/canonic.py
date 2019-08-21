@@ -22,7 +22,7 @@ def adjust_rub2(df, cols=NUMERIC_COLUMNS):
 
     # concat
     base_df = df[~df.index.isin(index)]
-    return pd.concat([base_df, bf, rf])
+    return pd.concat([base_df, bf, tf])
 
 
 def adjust_rub(df, cols=NUMERIC_COLUMNS):

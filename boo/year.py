@@ -1,4 +1,6 @@
-# must manually hardcode new timestamps when new version arrives
+from boo.errors import WrongYearError
+
+# WARNING: must manually hardcode new timestamps when new version arrives
 TIMESTAMPS = {2012: 20190329,
               2013: 20190411,
               2014: 20190411,
@@ -6,21 +8,16 @@ TIMESTAMPS = {2012: 20190329,
               2016: 20190411,
               2017: 20190423}
 
-
 YEARS = list(TIMESTAMPS.keys())
-
-
-def error_year(year):
-    raise ValueError(f"Year not supported: {year}. Must be one of {YEARS}")
-
 
 def make_url(year: int) -> str:
     """
     Construct URL similar to
     http://www.gks.ru/opendata/storage/7708234640-bdboo2012/data-20181029t000000-structure-20121231t000000.csv
     """
-    if year == 0:
-        return 'https://raw.githubusercontent.com/ru-corporate/boo/master/assets/sample.txt'
+    if 0 <= year <= 1:
+        pat ='https://raw.githubusercontent.com/ru-corporate/boo/master/assets/sample{}.txt'
+        return pat.format(year)
     try:
         timestamp = TIMESTAMPS[year]
         return ('http://www.gks.ru/opendata/storage/'
@@ -29,4 +26,4 @@ def make_url(year: int) -> str:
                 f'{year}1231t000000.csv'
                 )
     except KeyError:
-        error_year(year)
+        raise WrongYearError(year)

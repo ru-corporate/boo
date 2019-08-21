@@ -1,3 +1,6 @@
+class UnclassifiableCodeError(ValueError):
+    pass
+
 class WrongYearError(ValueError):
     def __init__(self, year):
         super().__init__(f"Year not supported: {year}."

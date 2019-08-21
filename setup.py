@@ -27,7 +27,7 @@ with open('README.md', encoding='utf-8') as file:
   readme_str = '\n'.join(file.readlines())
 
 setup(name='boo',
-      version='0.0.92',
+      version='0.0.93',
       description='Russian corporate reports 2012-2017',
       url='http://github.com/ru-corporate/boo',
       author='Evgeniy Pogrebnyak',

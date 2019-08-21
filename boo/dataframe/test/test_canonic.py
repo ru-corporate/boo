@@ -107,8 +107,8 @@ def test_rename_rows():
     df2 = pd.DataFrame(
         {'title': {1134038: 'МОСКОВСКИЙ ОРДЕНА ЛЕНИНА И ОРДЕНА ТРУДОВОГО КРАСНОГО ЗНАМЕНИ МЕТРОПОЛИТЕН ИМЕНИ В.И.ЛЕНИНА'},
          'inn': {1134038: '7702038150'}}
-    )
-    assert rename_rows(df2).title[1134038] == 'Московский метрополитен'
+    ).set_index('inn')
+    assert rename_rows(df2).loc['7702038150', 'title'] == 'Московский метрополитен'
 
 
 def test_okved3():

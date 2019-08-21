@@ -68,8 +68,15 @@ def rename_rows(df):
         '9102048801': "Черноморнефтегаз",
         '7736036626': "РИТЭК"
     }
+    keys = RENAME_DICT.keys()
+    ix = df.index.isin(keys)
+    if not ix.any():
+        return df
+    sub = df.loc[ix, 'title']
     for k, v in RENAME_DICT.items():
-        df.loc[ix, 'title'] = v
+        if k in sub.index:
+            sub.loc[k] = v
+    df.loc[ix,'title'] = sub   
     return df
 
 
@@ -117,13 +124,14 @@ def canonic_df(df):
 
     """
     df_ = add_okved_subcode(add_region(add_title(df)))
-    df_ = rename_rows(df_)
     df_ = adjust_rub(df_)
-    return df_[canonic_columns()].set_index('inn')
+    df_ = df_.set_index('inn')
+    df_ = rename_rows(df_)
+    return df_[canonic_columns()]
 
 
 def canonic_columns(numeric=SHORT_COLUMNS.numeric):
-    return (['title', 'org', 'okpo', 'okopf', 'okfs', 'okved', 'inn'] +
+    return (['title', 'org', 'okpo', 'okopf', 'okfs', 'okved'] +
             ['unit'] +
             ['ok1', 'ok2', 'ok3', 'region'] +
             numeric)
@@ -138,8 +146,16 @@ def columns_typed_as_integer(numeric=SHORT_COLUMNS.numeric):
 
 
 def canonic_dtypes():
-    int_columns = columns_typed_as_integer()
-
     def switch(col):
+        int_columns = columns_typed_as_integer()
         return numpy.int64 if (col in int_columns) else str
-    return {col: switch(col) for col in canonic_columns()}
+    result = {col: switch(col) for col in canonic_columns()}
+    result['inn'] = str    
+    return result 
+
+
+zf = pd.DataFrame(dict(title=["a", "a", "a"]), 
+                       index=['333', '4716016979', '7721632827'])
+
+x = rename_rows(zf)
+x

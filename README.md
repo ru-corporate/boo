@@ -34,15 +34,41 @@ print(df.head())
 
 CSV files are located at `~/.boo` folder. `boo.locate(year)` will show exactly where they are.
 
+
 File name     | Description  | Column count |  Created by 
 --------------|--------------|:------------:|:------------:
 `raw<year>.csv` | Original CSV file from Rosstat website. No header row.    | 266 | `download(year)`
 `<year>.csv` | CSV file with column names in header row.  | 58 | `build(year)`
 
-`boo.build()` takes `raw<year>.csv` and creates a local CSV file `<year>.csv` with 
-column names.  `<year>.csv` is importable as pandas dataframe. `read_intermediate_df(year)` will return `<year>.csv` content.
+`boo.build()` takes `raw<year>.csv` and creates a local CSV file `<year>.csv` with column names.  `<year>.csv` is importable as pandas dataframe. 
 
-`df = read_dataframe(year)` returns reference ("canonic") dataset. This function transforms some columns in `<year>.csv`(eg. extracts `region` from `inn`) and applies filters to remove erroneous rows.
+`df = read_dataframe(year)` returns reference ("canonic") dataset. This function transforms some columns in `<year>.csv`(eg. extracts `region` from `inn`) and applies filters to remove erroneous rows. Tax identificator (`inn`) used as an index.
+
+Use `read_intermediate_df(year)` if you want to see raw `<year>.csv` content.
+ 
+Raw file sizes are 0.5-1.6Gb. 
+
+|   Year |   Size (Mb) |
+|--------|-------------|
+|   2012 |         513 |
+|   2013 |        1162 |
+|   2014 |        1318 |
+|   2015 |        1565 |
+|   2016 |        1588 |
+|   2017 |        1594 |
+
+You can use `boo.file_length(year)` or `boo.file_length_mb(year)` to retrieve raw file sizes from Rosstat website. 
+
+
+```python
+>> from boo import file_length, file_length_mb
+>> file_length(2017) # size in bytes
+1671752977
+
+>> file_length_mb(2017) # size in Mb
+1594
+```
+
 
 ## Variables
 

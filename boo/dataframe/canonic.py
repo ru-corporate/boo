@@ -6,8 +6,6 @@ QUOTE_CHAR = '"'
 EMPTY = int(0)
 NUMERIC_COLUMNS = SHORT_COLUMNS.numeric
 
-# FIXME: very slow code, even on small data
-
 
 def adjust_rub2(df, cols=NUMERIC_COLUMNS):
     # billions

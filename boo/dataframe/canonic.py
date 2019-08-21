@@ -18,7 +18,7 @@ def adjust_rub2(df, cols=NUMERIC_COLUMNS):
     tf = df[df.unit == "383"]
     tf.loc[:,cols] = tf.loc[:, cols].divide(1000).round(0).astype(int)
     tf.loc[:, "unit"] = "384"
-    index.extend(rf.index.tolist())
+    index.extend(tf.index.tolist())
 
     # concat
     base_df = df[~df.index.isin(index)]

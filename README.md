@@ -7,6 +7,10 @@
 
 `boo` is a Python client to download and transform annual corporate reports from Rosstat website. 
 
+`boo` is an acronym for 'accounting reports of organisations' in Russian ('бухгалтерская отчетность организаций'),
+a term Rosstat uses for the original datasets.
+
+
 ## Install
 
 ```

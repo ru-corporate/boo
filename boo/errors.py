@@ -3,8 +3,9 @@ class UnclassifiableCodeError(ValueError):
 
 class WrongYearError(ValueError):
     def __init__(self, year):
-        super().__init__(f"Year not supported: {year}."
-                          " Try year starting 2012.")
+        super().__init__(f"Year not supported: {year}.\n"
+                          "Try year starting 2012 up to recent year.\n"
+                          "Update definitions in year.py if necessary")
         
 
 class DirectoryNotFound(FileNotFoundError):

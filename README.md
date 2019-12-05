@@ -36,9 +36,9 @@ df = read_dataframe(2012)
 print(df.head())
 ```
 
-### Use data filters to work on smaller subsets
+### Use data filters to make smaller subsets
 
-```
+```python
 from boo.dataframe.filter import (large_companies, 
                                   minimal_columns, 
                                   shorthand)

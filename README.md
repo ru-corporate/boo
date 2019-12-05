@@ -52,7 +52,7 @@ Use `read_intermediate_df(year)` if you want to see raw `<year>.csv` content.
 
 ### Years and file size
 
-Suported years are listed below:
+Suported years are listed below. Raw file sizes are from 500Mb to 1.6Gb. 
 
 |   Year |   Size (Mb) |
 |--------|-------------|
@@ -62,9 +62,7 @@ Suported years are listed below:
 |   2015 |        1565 |
 |   2016 |        1588 |
 |   2017 |        1594 |
-
-
-Raw file sizes are from 500Mb to 1.6Gb. 
+|   2018 |        1549 |
 
 You can use `boo.file_length(year)` and `boo.file_length_mb(year)` to retrieve raw file sizes from Rosstat website. 
 

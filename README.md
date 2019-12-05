@@ -51,7 +51,7 @@ Please refer to Google Colab link above for examples.
 
 ## Files
 
-CSV files are located at `~/.boo` folder. `boo.locate(year)` will show exactly where they are.
+CSV files are located at `~/.boo` folder. Function `boo.locate(year)` will show exactly where they are.
 
 
 File name     | Description  | Column count |  Created by 
@@ -61,9 +61,10 @@ File name     | Description  | Column count |  Created by
 
 `boo.build()` takes `raw<year>.csv` and creates a local CSV file `<year>.csv` with column names.  `<year>.csv` is importable as pandas dataframe. 
 
-`df = read_dataframe(year)` returns reference ("canonic") dataset. This function transforms some columns in `<year>.csv`(for example extracts `region` from `inn`) and applies filters to remove erroneous rows. Tax identificator (`inn`) used as an index.
+`df = read_dataframe(year)` returns a reference ("canonic") dataset, that is suggested as a starting point for analysis. 
+`read_dataframe(year)` reads `<year>.csv`, transforms some columns (for example, extracts `region` from `inn`) and applies filters to remove erroneous rows. Tax identificator (`inn`) used as an index.
 
-Use `read_intermediate_df(year)` if you want to see raw `<year>.csv` content.
+If you want to see `<year>.csv` raw content without transformation or corrections, use `read_intermediate_df(year)`. 
 
 ### Years and file size
 
@@ -148,8 +149,9 @@ The Rosstat dataset contains balance sheet, profit and loss and cash flow statem
 #### User
 
 - CSV files are quite big, start with year 2012 to experiment.
-- Use link above for Google Colab to run package remotely.
+- Use link above for Google Colab to run package remotely. It runs fairly quickly.
 - Use `read_dataframe(year)` to read canonic CSV file. 
+- Several filters and utility functions are avilable from `boo.dataframe.filter` and `boo.dataframe.util`.
 
 #### Developper
 

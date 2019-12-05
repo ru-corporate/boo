@@ -152,10 +152,3 @@ def canonic_dtypes():
     result = {col: switch(col) for col in canonic_columns()}
     result['inn'] = str    
     return result 
-
-
-zf = pd.DataFrame(dict(title=["a", "a", "a"]), 
-                       index=['333', '4716016979', '7721632827'])
-
-x = rename_rows(zf)
-x

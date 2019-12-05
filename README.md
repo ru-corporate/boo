@@ -5,10 +5,10 @@
 
 # boo
 
-`boo` is a Python client to download and transform annual corporate reports from Rosstat website. 
+`boo` is a Python client to download and meaningfully transform annual corporate accounting reports from Rosstat website. 
 
 `boo` is an acronym for 'accounting reports of organisations' in Russian ('бухгалтерская отчетность организаций'),
-a term Rosstat uses for the original datasets.
+a term Rosstat uses to describe original datasets.
 
 
 ## Install
@@ -46,11 +46,13 @@ File name     | Description  | Column count |  Created by
 
 `boo.build()` takes `raw<year>.csv` and creates a local CSV file `<year>.csv` with column names.  `<year>.csv` is importable as pandas dataframe. 
 
-`df = read_dataframe(year)` returns reference ("canonic") dataset. This function transforms some columns in `<year>.csv`(eg. extracts `region` from `inn`) and applies filters to remove erroneous rows. Tax identificator (`inn`) used as an index.
+`df = read_dataframe(year)` returns reference ("canonic") dataset. This function transforms some columns in `<year>.csv`(for example extracts `region` from `inn`) and applies filters to remove erroneous rows. Tax identificator (`inn`) used as an index.
 
 Use `read_intermediate_df(year)` if you want to see raw `<year>.csv` content.
- 
-Raw file sizes are 0.5-1.6Gb. 
+
+### Years and file size
+
+Suported years are listed below:
 
 |   Year |   Size (Mb) |
 |--------|-------------|
@@ -61,8 +63,10 @@ Raw file sizes are 0.5-1.6Gb.
 |   2016 |        1588 |
 |   2017 |        1594 |
 
-You can use `boo.file_length(year)` or `boo.file_length_mb(year)` to retrieve raw file sizes from Rosstat website. 
 
+Raw file sizes are from 500Mb to 1.6Gb. 
+
+You can use `boo.file_length(year)` and `boo.file_length_mb(year)` to retrieve raw file sizes from Rosstat website. 
 
 ```python
 >> from boo import file_length, file_length_mb
@@ -72,7 +76,6 @@ You can use `boo.file_length(year)` or `boo.file_length_mb(year)` to retrieve ra
 >> file_length_mb(2017) # size in Mb
 1594
 ```
-
 
 ## Variables
 

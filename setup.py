@@ -22,13 +22,16 @@ from pathlib import Path
 
 # 0.0.91 okved import changed
 
+# 0.1.0 year 2018 added
+
+# See 
 
 with open('README.md', encoding='utf-8') as file:
   readme_str = '\n'.join(file.readlines())
 
 setup(name='boo',
-      version='0.0.93',
-      description='Russian corporate reports 2012-2017',
+      version='0.1.0',
+      description='Russian corporate reports 2012-2018',
       url='http://github.com/ru-corporate/boo',
       author='Evgeniy Pogrebnyak',
       author_email='e.pogrebnyak@gmail.com',

@@ -24,13 +24,13 @@ from pathlib import Path
 
 # 0.1.0 year 2018 added
 
-# See 
+# Use script upload.bat to update pipy package. 
 
 with open('README.md', encoding='utf-8') as file:
   readme_str = '\n'.join(file.readlines())
 
 setup(name='boo',
-      version='0.1.0',
+      version='0.1.1',
       description='Russian corporate reports 2012-2018',
       url='http://github.com/ru-corporate/boo',
       author='Evgeniy Pogrebnyak',

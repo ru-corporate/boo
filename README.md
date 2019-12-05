@@ -7,8 +7,8 @@
 
 `boo` is a Python client to download and meaningfully transform annual corporate accounting reports from Rosstat website. 
 
-`boo` is an acronym for 'accounting reports of organisations' in Russian ('бухгалтерская отчетность организаций'),
-a term Rosstat uses to describe original datasets.
+`boo` is an acronym for 'accounting reports of organisations' (in Russian 'бухгалтерская отчетность организаций'),
+a term Rosstat uses for original datasets.
 
 
 ## Install
@@ -25,6 +25,8 @@ pip install git+https://github.com/ru-corporate/boo.git@master
 
 ## Usage
 
+### Download, build and read full dataframe
+
 ```python
 from boo import download, build, read_dataframe
 
@@ -33,6 +35,19 @@ build(2012)
 df = read_dataframe(2012)
 print(df.head())
 ```
+
+### Use data filters to work on smaller subsets
+
+```
+from boo.dataframe.filter import (large_companies, 
+                                  minimal_columns, 
+                                  shorthand)
+df2 = shorthand(minimal_columns(large_companies(df)))
+print(df2.head())
+```
+
+Please refer to Google Colab link above for examples.
+
 
 ## Files
 

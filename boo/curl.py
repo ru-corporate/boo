@@ -7,6 +7,8 @@ from boo.file import panic
 from boo.year import make_url
 
 # Note: probably may use pycurl instead
+
+
 def curl(path: str, url: str, max_chunk=None):
     panic(path)
     r = requests.get(url, stream=True)
@@ -22,11 +24,11 @@ def curl(path: str, url: str, max_chunk=None):
 
 
 def file_length(year: int):
-  url = make_url(year)
-  with urlopen(url) as f:
-      return int(f.info()['Content-Length'])
+    url = make_url(year)
+    with urlopen(url) as f:
+        return int(f.info()['Content-Length'])
 
 
 def file_length_mb(year: int):
-  x = file_length(year)
-  return int(round(x / (1024 ** 2), 0))
+    x = file_length(year)
+    return int(round(x / (1024 ** 2), 0))

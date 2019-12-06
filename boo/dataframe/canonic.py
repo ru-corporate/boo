@@ -76,7 +76,7 @@ def rename_rows(df):
     for k, v in RENAME_DICT.items():
         if k in sub.index:
             sub.loc[k] = v
-    df.loc[ix,'title'] = sub   
+    df.loc[ix, 'title'] = sub
     return df
 
 
@@ -150,5 +150,5 @@ def canonic_dtypes():
         int_columns = columns_typed_as_integer()
         return numpy.int64 if (col in int_columns) else str
     result = {col: switch(col) for col in canonic_columns()}
-    result['inn'] = str    
-    return result 
+    result['inn'] = str
+    return result

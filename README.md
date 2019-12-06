@@ -7,8 +7,8 @@
 
 `boo` is a Python client to download and meaningfully transform annual corporate accounting reports from Rosstat website. 
 
-`boo` is an acronym for 'accounting reports of organisations' in Russian ('бухгалтерская отчетность организаций'),
-a term Rosstat uses to describe original datasets.
+`boo` is an acronym for 'accounting reports of organisations' (in Russian 'бухгалтерская отчетность организаций'),
+a term Rosstat uses for original datasets.
 
 
 ## Install
@@ -25,6 +25,8 @@ pip install git+https://github.com/ru-corporate/boo.git@master
 
 ## Usage
 
+### Download, build and read full dataframe
+
 ```python
 from boo import download, build, read_dataframe
 
@@ -34,9 +36,22 @@ df = read_dataframe(2012)
 print(df.head())
 ```
 
+### Use data filters to make smaller subsets
+
+```python
+from boo.dataframe.filter import (large_companies, 
+                                  minimal_columns, 
+                                  shorthand)
+df2 = shorthand(minimal_columns(large_companies(df)))
+print(df2.head())
+```
+
+Please refer to Google Colab link above for examples.
+
+
 ## Files
 
-CSV files are located at `~/.boo` folder. `boo.locate(year)` will show exactly where they are.
+CSV files are located at `~/.boo` folder. Function `boo.locate(year)` will show exactly where they are.
 
 
 File name     | Description  | Column count |  Created by 
@@ -46,9 +61,10 @@ File name     | Description  | Column count |  Created by
 
 `boo.build()` takes `raw<year>.csv` and creates a local CSV file `<year>.csv` with column names.  `<year>.csv` is importable as pandas dataframe. 
 
-`df = read_dataframe(year)` returns reference ("canonic") dataset. This function transforms some columns in `<year>.csv`(for example extracts `region` from `inn`) and applies filters to remove erroneous rows. Tax identificator (`inn`) used as an index.
+`df = read_dataframe(year)` returns a reference ("canonic") dataset, that is suggested as a starting point for analysis. 
+`read_dataframe(year)` reads `<year>.csv`, transforms some columns (for example, extracts `region` from `inn`) and applies filters to remove erroneous rows. Tax identificator (`inn`) used as an index.
 
-Use `read_intermediate_df(year)` if you want to see raw `<year>.csv` content.
+If you want to see `<year>.csv` raw content without transformation or corrections, use `read_intermediate_df(year)`. 
 
 ### Years and file size
 
@@ -133,8 +149,9 @@ The Rosstat dataset contains balance sheet, profit and loss and cash flow statem
 #### User
 
 - CSV files are quite big, start with year 2012 to experiment.
-- Use link above for Google Colab to run package remotely.
+- Use link above for Google Colab to run package remotely. It runs fairly quickly.
 - Use `read_dataframe(year)` to read canonic CSV file. 
+- Several filters and utility functions are avilable from `boo.dataframe.filter` and `boo.dataframe.util`.
 
 #### Developper
 

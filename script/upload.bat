@@ -1,6 +1,6 @@
 cd ..
 
-REM will prompt for passwaord unless staored locally in a config file
+REM will prompt for password unless stored locally in a config file
 python setup.py sdist bdist_wheel
 twine upload dist/*
 

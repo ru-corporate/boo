@@ -1,7 +1,6 @@
 [![PyPI](https://img.shields.io/pypi/v/boo.svg)](https://pypi.python.org/pypi/boo/#history)
 [![Build Status](https://travis-ci.com/ru-corporate/boo.svg?branch=master)](https://travis-ci.com/ru-corporate/boo)
 [![Coverage Status](https://coveralls.io/repos/github/ru-corporate/boo/badge.svg?branch=master&service=github)](https://coveralls.io/github/ru-corporate/boo?branch=master)
-[![colab](https://img.shields.io/badge/colab-launch-blue.svg)](https://colab.research.google.com/drive/11g70BD78BnM6PqVrT4uZ27zrNBQ2ae3s#scrollTo=YD-la400CQyT)
 [![на русском](https://img.shields.io/badge/README-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-blue)](README.ru.md)
 
 
@@ -48,8 +47,12 @@ df2 = shorthand(minimal_columns(large_companies(df)))
 print(df2.head())
 ```
 
+### Colab examples [![colab](https://img.shields.io/badge/colab-launch-blue.svg)]
+
 Please refer to Google Colab link above for examples.
 
+1. [Data access](https://colab.research.google.com/drive/11g70BD78BnM6PqVrT4uZ27zrNBQ2ae3s)
+2. [Usage discussion](https://colab.research.google.com/drive/1lpB2jIPyQDZvri13DOpgyD5_NWRWqi-H)
 
 ## Files
 

@@ -63,16 +63,16 @@ pip install git+https://github.com/ru-corporate/sandbox.git@master
 ```python
 from boo import download, build, read_dataframe
 
-download("sample")
-build("sample")
-df_0 = read_dataframe("sample")
+download(0)
+build(0)
+df_0 = read_dataframe(0)
 print(df_0)
 ```
 `df_0` содержит отчетность нескольких компаний за 2012 год. 
 
 ### б) Фактические данные
 
-[`example_start.py`](example_start.py) содержит следующий пример:
+[`example.py`](example_start.py) содержит следующий пример:
 
 ```python
 from boo import download, build, read_dataframe
@@ -107,7 +107,7 @@ print(processed_filepath(2017))
 
 Датафрейм `df` имеет следующие колонки:
 
-<!-- FIMXE: Колонки частично устарели (нужно перебилдить файл)-->
+<!-- FIMXE: Колонки частично устарели (нужно перебилдить документацию)-->
 
 ```
 df.columns

@@ -72,7 +72,7 @@ print(df_0)
 
 ### б) Фактические данные
 
-[`example.py`](example_start.py) содержит следующий пример:
+[`example.py`](example.py) содержит следующий пример:
 
 ```python
 from boo import download, build, read_dataframe

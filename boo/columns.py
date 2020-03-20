@@ -410,6 +410,7 @@ class ColumnLabel:
     def as_string(self):
         return self.code + ("_lag" if self.lagged else "")
 
+
 def rename_with(x: ColumnLabel, mapper: dict):
     try:
         new_code = mapper[x.code]

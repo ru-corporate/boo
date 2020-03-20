@@ -1,13 +1,15 @@
 class UnclassifiableCodeError(ValueError):
     pass
 
+def commas(xs):
+    return ", ".join(map(str, xs))
 
 class WrongYearError(ValueError):
-    def __init__(self, year):
-        super().__init__(f"Year not supported: {year}.\n"
-                         "Try year starting 2012 up to recent year.\n"
-                         "Update definitions in year.py if necessary")
-
+    def __init__(self, year: int, allowed: [int]):
+        super().__init__("Year not supported.\n"
+                         f"Provided year: {year}.\n"
+                         f"Allowed years: {commas(allowed)}.\n"
+                         "Update timestamp definitions in year.py if necessary")
 
 class DirectoryNotFound(FileNotFoundError):
     pass

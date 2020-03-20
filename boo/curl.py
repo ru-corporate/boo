@@ -1,16 +1,13 @@
 """File download utility."""
 from urllib.request import urlopen
+from dataclasses import dataclass
+
 import requests
 from tqdm import tqdm
 
-from boo.file import panic
 from boo.year import make_url
 
-# Note: probably may use pycurl instead
-
-
 def curl(path: str, url: str, max_chunk=None):
-    panic(path)
     r = requests.get(url, stream=True)
     iterable = tqdm(r.iter_content(chunk_size=1024), unit=' k')
     with open(path, 'wb') as f:
@@ -23,12 +20,24 @@ def curl(path: str, url: str, max_chunk=None):
                 break
 
 
-def file_length(year: int):
-    url = make_url(year)
+def url_content_length(url: str) -> int:    
     with urlopen(url) as f:
         return int(f.info()['Content-Length'])
 
 
-def file_length_mb(year: int):
-    x = file_length(year)
-    return int(round(x / (1024 ** 2), 0))
+def file_length(year: int):
+    return url_content_length(url = make_url(year))
+
+
+def file_length_mb(year: int):    
+    return Size(file_length(year)).mb
+
+
+@dataclass
+class Size:
+    bytes: int
+
+    @property
+    def mb(self):
+       m = self.bytes / (1024 ** 2)
+       return int(round(m, 0))

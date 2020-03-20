@@ -281,19 +281,19 @@ TTL_COLUMNS = [
 ]
 
 # -- Текстовые поля
-text_fields = [
-    ("Наименование", "name"),
-    ("ОКПО", "okpo"),
-    ("ОКОПФ", "okopf"),
-    ("ОКФС", "okfs"),
-    ("ОКВЭД", "okved"),
-    ("ИНН", "inn"),
-    ("Код единицы измерения", "unit"),
-    ("Тип отчета", "report_type"),
-    ("Дата актуализации", "date_published"),
-]
-
-TEXT_FIELDS = OrderedDict(text_fields)
+TEXT_FIELDS = OrderedDict(
+    [
+        ("Наименование", "name"),
+        ("ОКПО", "okpo"),
+        ("ОКОПФ", "okopf"),
+        ("ОКФС", "okfs"),
+        ("ОКВЭД", "okved"),
+        ("ИНН", "inn"),
+        ("Код единицы измерения", "unit"),
+        ("Тип отчета", "report_type"),
+        ("Дата актуализации", "date_published"),
+    ]
+)
 
 # --  Баланс
 balance = [
@@ -352,7 +352,6 @@ cf_fin = [
 
 DATA_FIELDS = OrderedDict(balance + opu + cf_total + cf_oper + cf_inv + cf_fin)
 
-
 def split(text: str):
     def fst(text):
         return text[0]
@@ -372,117 +371,93 @@ def split(text: str):
     return code, is_lagged
 
 
-class Label:
-    def __init__(self, text):
-        self.code, self.lag = split(text)
-        self.previous_code = self.code
-
-    def rename_with(self, mapper_dict):
-        self.previous_code = self.code
-        self.code = mapper_dict.get(self.code, self.code)
-        return self
-
-    def is_changed(self):
-        return self.code != self.previous_code
-
-    def __repr__(self):
-        return "Label({}, {})".format(self.code, self.lag)
-
-    def __str__(self):
-        return self.code + ("_lag" if self.lag else "")
-
-    def __eq__(self, x):
-        return (self.code, self.lag) == (x.code, x.lag)
-
-
 @dataclass
-class Mapper:
-    data: dict
-    text: dict
-
-    def combined(self):
-        return {**self.data, **self.text}
-
-    def reverse(self, name):
-        return [code for code, n in self.combined().items() if name == n]
-
-    def rename(self, label):
-        return label.rename_with(self.combined())
-
-    def is_text(self, label):
-        return label.code in self.text.values()
-
-    def is_data(self, label):
-        return label.code in self.data.values()
-
-    def rename_text(self, text):
-        label = Label(text)
-        return self.rename(label)
-
-
 class Columns:
-    def __init__(self, alls, numeric):
-        def as_str(xs):
-            return [str(x) for x in xs]
-
-        self.all = as_str(alls)
-        self.numeric = as_str(numeric)
+    all: [str]
+    numeric: [str]
 
     @property
     def text(self):
         return [item for item in self.all if item not in self.numeric]
 
-    @property
-    def dtypes(self):
-        def switch(item):
+    def switch(self, item):
             return numpy.int64 if (item in self.numeric) else str
 
-        return {c: switch(c) for c in self.all}
+
+    @property
+    def dtypes(self):
+        return {c: self.switch(c) for c in self.all}
 
 
-class Converter:
-    def __init__(self, data_mapper=DATA_FIELDS, text_mapper=TEXT_FIELDS):
-        self.mapper = Mapper(data=data_mapper, text=text_mapper)
+# new code
 
-    def names(self, colnames):
-        return [self.mapper.rename_text(text) for text in colnames]
+@dataclass
+class ColumnLabel:
+    code: str
+    lagged: bool
 
-    def names_short(self, colnames):
-        return [c for c in self.names(colnames) if c.is_changed()]
-
-    def names_short_numeric(self, colnames):
-        return [c for c in self.names_short(colnames) if self.mapper.is_data(c)]
-
-    def short_columns(self, colnames):
-        return Columns(
-            alls=self.names_short(colnames), numeric=self.names_short_numeric(colnames)
-        )
-
-    def index(self, colnames):
-        shorts = self.names_short(colnames)
-        longs = self.names(colnames)
-        return [i for (i, col) in enumerate(longs) if col in shorts]
-
-    def make_shortener(self, colnames):
-        index = self.index(colnames)
-
-        def shorten(row):
-            try:
-                return [row[i] for i in index]
-            except IndexError:
-                raise ValueError(f"Failed extracting index {index} " f"from {row}")
-
-        return shorten
+    def as_string(self):
+        return self.code + ("_lag" if self.lagged else "")
 
 
-conv = Converter(DATA_FIELDS, TEXT_FIELDS)
-SHORT_COLUMNS = conv.short_columns(TTL_COLUMNS)
-CONVERTER_FUNC = conv.make_shortener(TTL_COLUMNS)
-
-
-def name_to_code(name, data_mapper=DATA_FIELDS, text_mapper=TEXT_FIELDS):
-    m = Mapper(data_mapper, text_mapper)
+def rename_with(lab: ColumnLabel, mapper: dict):
     try:
-        return m.reverse(name)[0]
-    except IndexError:
+        new_name = mapper[lab.code]
+    except KeyError:
+        new_name = lab.code
+    return ColumnLabel(new_name, lab.lagged)
+
+def merge(d1: dict, d2: dict) -> dict:
+    return {**d1, **d2}
+
+MAPPER = merge(TEXT_FIELDS, DATA_FIELDS)
+
+from typing import List
+
+Labels = List[ColumnLabel]
+
+def as_labels(columns: [str]) -> Labels:
+    return [ColumnLabel(*split(x)) for x in columns]
+
+def update_with(colnames: Labels, mapper: dict) -> Labels:
+    return [rename_with(x, mapper) for x in colnames]
+
+def get_index(columns: [str], mapper: dict):
+    xs = as_labels(columns) 
+    ys = update_with(xs, mapper)
+    n = len(xs)
+    return [i for (x, y, i) in zip(xs, ys, range(n)) if x != y]
+
+def columns_picked_and_renamed(columns=TTL_COLUMNS, mapper=MAPPER):
+    xs = as_labels(columns) 
+    ys = update_with(xs, mapper)
+    return [y.as_string() for (x, y) in zip(xs, ys) if x != y]
+
+def make_row_shortener(columns=TTL_COLUMNS, mapper=MAPPER):
+    ixs = get_index(columns, mapper)
+    def row_shortener(rows):
+       return [rows[i] for i in ixs]
+    return row_shortener
+
+def unlag(s: str) -> str:
+    return s[:-4] if s.endswith("_lag") else s
+
+def filter_by(columns: [str], mapper: dict) -> [str]:
+    return [s for s in columns if unlag(s) in mapper.values()]
+
+short_all = columns_picked_and_renamed(columns=TTL_COLUMNS, mapper=MAPPER)
+
+SHORT_COLUMNS = Columns(all = short_all, 
+                        numeric = filter_by(short_all, DATA_FIELDS))
+CONVERTER_FUNC = make_row_shortener(columns=TTL_COLUMNS, mapper=MAPPER)
+
+def reverse(mapper):
+    return {name:code for code, name in mapper.items()}
+
+def name_to_code(name, mapper=MAPPER):
+    try:
+        return reverse(mapper)[name]
+    except KeyError:
         return None
+    
+assert name_to_code('ta') == '1600'    

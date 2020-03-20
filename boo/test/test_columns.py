@@ -1,4 +1,4 @@
-from boo.columns import SHORT_COLUMNS, Converter, CONVERTER_FUNC, TTL_COLUMNS
+from boo.columns import SHORT_COLUMNS, CONVERTER_FUNC, TTL_COLUMNS
 
 
 def test_sc_all():
@@ -132,7 +132,6 @@ def test_sc_text():
     ]
 
 
-def test_converter_class_pass_through():
-    v = Converter()
+def test_converter_length():
     already_short = CONVERTER_FUNC(TTL_COLUMNS)
-    assert SHORT_COLUMNS.all == v.short_columns(already_short).all
+    assert len(SHORT_COLUMNS.all) == len(already_short)

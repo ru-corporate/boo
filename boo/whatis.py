@@ -133,7 +133,7 @@ ACCOUNT_NAMES_TEXT = """БУХГАЛТЕРСКИЙ БАЛАНС	1000
 Остаток средств на конец отчетного года	6400"""
 
 
-def items(doc: str):
+def items_from_doc(doc: str):
     for x in doc.split("\n"):
         y = x.split("\t")
         try:
@@ -142,7 +142,7 @@ def items(doc: str):
             raise ValueError(y)
 
 
-ACCOUNT_NAMES = dict(items(ACCOUNT_NAMES_TEXT))
+ACCOUNT_NAMES = dict(items_from_doc(ACCOUNT_NAMES_TEXT))
 
 
 def okv(text):

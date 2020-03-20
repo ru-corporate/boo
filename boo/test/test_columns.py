@@ -1,4 +1,4 @@
-from boo.columns import SHORT_COLUMNS, CONVERTER_FUNC, TTL_COLUMNS
+from boo.columns import SHORT_COLUMNS, CONVERTER_FUNC, TTL_COLUMNS, name_to_code
 
 
 def test_sc_all():
@@ -135,3 +135,7 @@ def test_sc_text():
 def test_converter_length():
     already_short = CONVERTER_FUNC(TTL_COLUMNS)
     assert len(SHORT_COLUMNS.all) == len(already_short)
+
+
+def test_name_to_code_works_for_one_arg():
+    assert name_to_code("ta") == "1600"

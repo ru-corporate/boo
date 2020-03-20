@@ -207,6 +207,13 @@ Index(['ok1', 'ok2', 'ok3', 'org', 'title', 'region', 'inn', 'okpo', 'okopf',
 
 <!-- END TABLE -->
 
+### Пример отчтености
+
+Описания полей отчетности можно посмотреть на примере конкретной компании ([АвтоВАЗ](http://info.avtovaz.ru/files/avtovaz_ras_fs_2012_rus_secured.pdf))
+
+Более подробно о формах отчтености [тут](http://www.consultant.ru/document/cons_doc_LAW_103394/b990bf4a13bd23fda86e0bba50c462a174c0d123/#dst100515)
+
+
 ## Хитрости и тонкости
 
 - Чтобы ноутбуки каталога `notebook` могли использвоать `boo.read_dataframe()`

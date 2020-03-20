@@ -1,13 +1,25 @@
-#
+"""Преобразование сырых названий столбцов в названия переменных.
+
+1) Список названий переменных
+   TTL_COLUMNS: [str] -> MAPPER: dict -> SHORT_COLUMNS: Columns
+
+2) Функция для получения укороченного ряда данных  
+   TTL_COLUMNS: [str] -> MAPPER: dict -> CONVERTER_FUNC: [str] -> [str]
+
+3) Поиск кода поназванию переменных
+   MAPPER: dict -> name_to_code: (str -> str)
+
 # Описания полей отчетности можно посмотреть например в:
 # http://info.avtovaz.ru/files/avtovaz_ras_fs_2012_rus_secured.pdf
-#
-# Более подробно:
+
+# Более подробно о формах:
 # http://www.consultant.ru/document/cons_doc_LAW_103394/b990bf4a13bd23fda86e0bba50c462a174c0d123/#dst100515
-#
+"""
 
 from collections import OrderedDict
+from typing import List, Tuple
 from dataclasses import dataclass
+
 import numpy
 
 # Column names as provided at Rosstat web site
@@ -351,8 +363,10 @@ cf_fin = [
 ]
 
 DATA_FIELDS = OrderedDict(balance + opu + cf_total + cf_oper + cf_inv + cf_fin)
+MAPPER = {**TEXT_FIELDS, **DATA_FIELDS}
 
-def split(text: str):
+
+def split(text: str) -> Tuple[str, bool]:
     def fst(text):
         return text[0]
 
@@ -380,16 +394,13 @@ class Columns:
     def text(self):
         return [item for item in self.all if item not in self.numeric]
 
-    def switch(self, item):
-            return numpy.int64 if (item in self.numeric) else str
-
+    def _switch(self, item):
+        return numpy.int64 if (item in self.numeric) else str
 
     @property
     def dtypes(self):
-        return {c: self.switch(c) for c in self.all}
+        return {c: self._switch(c) for c in self.all}
 
-
-# new code
 
 @dataclass
 class ColumnLabel:
@@ -399,65 +410,67 @@ class ColumnLabel:
     def as_string(self):
         return self.code + ("_lag" if self.lagged else "")
 
-
-def rename_with(lab: ColumnLabel, mapper: dict):
+def rename_with(x: ColumnLabel, mapper: dict):
     try:
-        new_name = mapper[lab.code]
+        new_code = mapper[x.code]
     except KeyError:
-        new_name = lab.code
-    return ColumnLabel(new_name, lab.lagged)
+        new_code = x.code
+    return ColumnLabel(new_code, x.lagged)
 
-def merge(d1: dict, d2: dict) -> dict:
-    return {**d1, **d2}
-
-MAPPER = merge(TEXT_FIELDS, DATA_FIELDS)
-
-from typing import List
 
 Labels = List[ColumnLabel]
+
 
 def as_labels(columns: [str]) -> Labels:
     return [ColumnLabel(*split(x)) for x in columns]
 
+
 def update_with(colnames: Labels, mapper: dict) -> Labels:
     return [rename_with(x, mapper) for x in colnames]
 
+
 def get_index(columns: [str], mapper: dict):
-    xs = as_labels(columns) 
+    xs = as_labels(columns)
     ys = update_with(xs, mapper)
     n = len(xs)
     return [i for (x, y, i) in zip(xs, ys, range(n)) if x != y]
 
+
 def columns_picked_and_renamed(columns=TTL_COLUMNS, mapper=MAPPER):
-    xs = as_labels(columns) 
+    xs = as_labels(columns)
     ys = update_with(xs, mapper)
     return [y.as_string() for (x, y) in zip(xs, ys) if x != y]
 
+
 def make_row_shortener(columns=TTL_COLUMNS, mapper=MAPPER):
-    ixs = get_index(columns, mapper)
+    ix = get_index(columns, mapper)
+
     def row_shortener(rows):
-       return [rows[i] for i in ixs]
+        return [rows[i] for i in ix]
+
     return row_shortener
+
 
 def unlag(s: str) -> str:
     return s[:-4] if s.endswith("_lag") else s
 
+
 def filter_by(columns: [str], mapper: dict) -> [str]:
     return [s for s in columns if unlag(s) in mapper.values()]
 
+
 short_all = columns_picked_and_renamed(columns=TTL_COLUMNS, mapper=MAPPER)
 
-SHORT_COLUMNS = Columns(all = short_all, 
-                        numeric = filter_by(short_all, DATA_FIELDS))
+SHORT_COLUMNS = Columns(all=short_all, numeric=filter_by(short_all, DATA_FIELDS))
 CONVERTER_FUNC = make_row_shortener(columns=TTL_COLUMNS, mapper=MAPPER)
 
+
 def reverse(mapper):
-    return {name:code for code, name in mapper.items()}
+    return {name: code for code, name in mapper.items()}
+
 
 def name_to_code(name, mapper=MAPPER):
     try:
         return reverse(mapper)[name]
     except KeyError:
         return None
-    
-assert name_to_code('ta') == '1600'    

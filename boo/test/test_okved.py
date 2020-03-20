@@ -3,7 +3,7 @@ from boo.okved import name_v2, all_codes_v2
 
 
 def test_name_v2():
-    assert name_v2(5) == 'Добыча угля'
+    assert name_v2(5) == "Добыча угля"
 
 
 def test_name_v2_failed():
@@ -100,4 +100,5 @@ def test_all_codes_v2():
         96,
         97,
         98,
-        99]
+        99,
+    ]

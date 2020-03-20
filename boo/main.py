@@ -45,9 +45,13 @@ def download(year: int, force=False, directory=None):
     return path
 
 
-def build(year, force=False, directory=None,
-          worker=CONVERTER_FUNC,
-          column_names=SHORT_COLUMNS.all):
+def build(
+    year,
+    force=False,
+    directory=None,
+    worker=CONVERTER_FUNC,
+    column_names=SHORT_COLUMNS.all,
+):
     """Create smaller CSV file with fewer columns.
        Columns have names as in *COLUMNS_SHORT*.
        Rows will be modified by *worker* function.
@@ -63,9 +67,11 @@ def build(year, force=False, directory=None,
     if not dst.exists():
         print("Reading from", src)
         print("Saving to", dst)
-        save_rows(path=dst.path,
-                  stream=map(worker, yield_rows(src.path)),
-                  column_names=column_names)
+        save_rows(
+            path=dst.path,
+            stream=map(worker, yield_rows(src.path)),
+            column_names=column_names,
+        )
         print("Saved", dst)
 
 
@@ -91,8 +97,10 @@ def inspect(year: int, directory=None):
         is_downloaded = True
         print(f"      Raw CSV file: {loc.raw}")
         if loc.raw.mb() < 1:
-            print("WARNING: file size too small. "
-                  "Usually file size is larger than 500Mb.")
+            print(
+                "WARNING: file size too small. "
+                "Usually file size is larger than 500Mb."
+            )
     else:
         loc.raw.print_error()
     if loc.processed.exists():

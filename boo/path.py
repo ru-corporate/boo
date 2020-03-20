@@ -2,6 +2,7 @@ from pathlib import Path
 from dataclasses import dataclass
 
 from boo.errors import DirectoryNotFound, NoRawFileError, NoProcessedFileError
+from boo.helper import as_mb
 
 
 def default_data_folder() -> Path:
@@ -23,7 +24,7 @@ def file(year, tag="", directory=None):
     return get_folder(directory) / f"{tag}{year}.csv"
 
 
-class File():
+class File:
     def __init__(self, year, tag, directory):
         self.path = file(year, tag, directory)
         self.year = year
@@ -32,7 +33,7 @@ class File():
         return self.path.stat().st_size
 
     def mb(self):
-        return round(self.size() / (1024 * 1024), 1)
+        return as_mb(self.size())
 
     def exists(self):
         return self.path.exists()
@@ -87,5 +88,4 @@ class Files:
 
 
 def locate(year, directory=None):
-    return Files(raw=Raw(year, directory),
-                 processed=Processed(year, directory))
+    return Files(raw=Raw(year, directory), processed=Processed(year, directory))

@@ -10,10 +10,10 @@ NUMERIC_COLUMNS = SHORT_COLUMNS.numeric
 
 
 def adjust_rub(df, cols=NUMERIC_COLUMNS):
-    rows = (df.unit == "385")
+    rows = df.unit == "385"
     df.loc[rows, cols] = df.loc[rows, cols].multiply(1000)
     df.loc[rows, "unit"] = "384"
-    rows = (df.unit == "383")
+    rows = df.unit == "383"
     df.loc[rows, cols] = df.loc[rows, cols].divide(1000).round(0).astype(int)
     df.loc[rows, "unit"] = "384"
     return df
@@ -35,48 +35,43 @@ def dequote(name: str):
 
 
 def replace_names(title: str):
-    return title .replace(
-        "ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО",
-        "ПАО") .replace(
-        "ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО",
-        "ОАО") .replace(
-            "АКЦИОНЕРНОЕ ОБЩЕСТВО ЭНЕРГЕТИКИ И ЭЛЕКТРИФИКАЦИИ",
-            "AO энерго") .replace(
-                "НЕФТЕПЕРЕРАБАТЫВАЮЩИЙ ЗАВОД",
-                "НПЗ") .replace(
-                    "ГЕНЕРИРУЮЩАЯ КОМПАНИЯ ОПТОВОГО РЫНКА ЭЛЕКТРОЭНЕРГИИ",
-                    "ОГК") .replace(
-                        "ГОРНО-ОБОГАТИТЕЛЬНЫЙ КОМБИНАТ",
-        "ГОК")
+    return (
+        title.replace("ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО", "ПАО")
+        .replace("ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО", "ОАО")
+        .replace("АКЦИОНЕРНОЕ ОБЩЕСТВО ЭНЕРГЕТИКИ И ЭЛЕКТРИФИКАЦИИ", "AO энерго")
+        .replace("НЕФТЕПЕРЕРАБАТЫВАЮЩИЙ ЗАВОД", "НПЗ")
+        .replace("ГЕНЕРИРУЮЩАЯ КОМПАНИЯ ОПТОВОГО РЫНКА ЭЛЕКТРОЭНЕРГИИ", "ОГК")
+        .replace("ГОРНО-ОБОГАТИТЕЛЬНЫЙ КОМБИНАТ", "ГОК")
+    )
 
 
 def add_title(df):
     s_ = df.name.apply(dequote)
-    df['org'] = s_.apply(lambda x: x[0])
-    df['title'] = s_.apply(lambda x: replace_names(x[1]))
+    df["org"] = s_.apply(lambda x: x[0])
+    df["title"] = s_.apply(lambda x: replace_names(x[1]))
     return df
 
 
 def rename_rows(df):
     RENAME_DICT = {
-        '2460066195': "РусГидро",
-        '4716016979': "ФСК ЕЭС",
-        '7702038150': "Московский метрополитен",
-        '7721632827': "Концерн Росэнергоатом",
-        '7706664260': "Атомэнергопром",
-        '7703683145': "Холдинг ВТБ Капитал АЙ БИ",
-        '9102048801': "Черноморнефтегаз",
-        '7736036626': "РИТЭК"
+        "2460066195": "РусГидро",
+        "4716016979": "ФСК ЕЭС",
+        "7702038150": "Московский метрополитен",
+        "7721632827": "Концерн Росэнергоатом",
+        "7706664260": "Атомэнергопром",
+        "7703683145": "Холдинг ВТБ Капитал АЙ БИ",
+        "9102048801": "Черноморнефтегаз",
+        "7736036626": "РИТЭК",
     }
     keys = RENAME_DICT.keys()
     ix = df.index.isin(keys)
     if not ix.any():
         return df
-    sub = df.loc[ix, 'title']
+    sub = df.loc[ix, "title"]
     for k, v in RENAME_DICT.items():
         if k in sub.index:
             sub.loc[k] = v
-    df.loc[ix, 'title'] = sub
+    df.loc[ix, "title"] = sub
     return df
 
 
@@ -92,7 +87,7 @@ def split_okved(code_string: str):
 
 
 def add_okved_subcode(df):
-    df['ok1'], df['ok2'], df['ok3'] = zip(*df.okved.apply(split_okved))
+    df["ok1"], df["ok2"], df["ok3"] = zip(*df.okved.apply(split_okved))
     return df
 
 
@@ -104,7 +99,7 @@ def fst(x):
 
 
 def add_region(df):
-    df['region'] = df.inn.apply(fst)
+    df["region"] = df.inn.apply(fst)
     return df
 
 
@@ -125,16 +120,18 @@ def canonic_df(df):
     """
     df_ = add_okved_subcode(add_region(add_title(df)))
     df_ = adjust_rub(df_)
-    df_ = df_.set_index('inn')
+    df_ = df_.set_index("inn")
     df_ = rename_rows(df_)
     return df_[canonic_columns()]
 
 
 def canonic_columns(numeric=SHORT_COLUMNS.numeric):
-    return (['title', 'org', 'okpo', 'okopf', 'okfs', 'okved'] +
-            ['unit'] +
-            ['ok1', 'ok2', 'ok3', 'region'] +
-            numeric)
+    return (
+        ["title", "org", "okpo", "okopf", "okfs", "okved"]
+        + ["unit"]
+        + ["ok1", "ok2", "ok3", "region"]
+        + numeric
+    )
 
 
 def is_numeric_column(name, numeric=SHORT_COLUMNS.numeric):
@@ -142,13 +139,14 @@ def is_numeric_column(name, numeric=SHORT_COLUMNS.numeric):
 
 
 def columns_typed_as_integer(numeric=SHORT_COLUMNS.numeric):
-    return numeric + ['ok1', 'ok2', 'ok3', 'region']
+    return numeric + ["ok1", "ok2", "ok3", "region"]
 
 
 def canonic_dtypes():
     def switch(col):
         int_columns = columns_typed_as_integer()
         return numpy.int64 if (col in int_columns) else str
+
     result = {col: switch(col) for col in canonic_columns()}
-    result['inn'] = str
+    result["inn"] = str
     return result

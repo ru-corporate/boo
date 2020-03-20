@@ -2,14 +2,15 @@ from boo.errors import WrongYearError
 
 # Note: must manually hardcode new timestamps when new version of data arrives.
 
-TIMESTAMPS = {2012: 20190329,
-              2013: 20190411,
-              2014: 20190411,
-              2015: 20190411,
-              2016: 20190411,
-              2017: 20190423,
-              2018: 20191029,
-              }
+TIMESTAMPS = {
+    2012: 20190329,
+    2013: 20190411,
+    2014: 20190411,
+    2015: 20190411,
+    2016: 20190411,
+    2017: 20190423,
+    2018: 20191029,
+}
 
 
 def years():
@@ -31,19 +32,23 @@ def rosstat_url(year: int, timestamps=TIMESTAMPS):
     using timestamps.
     """
     timestamp = get_timestamp(year)
-    return ('http://www.gks.ru/opendata/storage/'
-            f'7708234640-bdboo{year}/'
-            f'data-{timestamp}t000000-structure-'
-            f'{year}1231t000000.csv'
+    return (
+        "http://www.gks.ru/opendata/storage/"
+        f"7708234640-bdboo{year}/"
+        f"data-{timestamp}t000000-structure-"
+        f"{year}1231t000000.csv"
     )
 
+
 def testing_url(year: int):
-    return('https://raw.githubusercontent.com/'
-           'ru-corporate/boo/master/assets/'
-           f'sample{year}.txt')   
-    
+    return (
+        "https://raw.githubusercontent.com/"
+        "ru-corporate/boo/master/assets/"
+        f"sample{year}.txt"
+    )
+
 
 def make_url(year: int) -> str:
-    if year in [0, 1]: # allowed year numbers for testing
+    if year in [0, 1]:  # allowed year numbers for testing
         return testing_url(year)
     return rosstat_url(year)

@@ -134,8 +134,8 @@ ACCOUNT_NAMES_TEXT = """БУХГАЛТЕРСКИЙ БАЛАНС	1000
 
 
 def items(doc: str):
-    for x in doc.split('\n'):
-        y = x.split('\t')
+    for x in doc.split("\n"):
+        y = x.split("\t")
         try:
             yield y[1], y[0]
         except IndexError:
@@ -145,17 +145,19 @@ def items(doc: str):
 ACCOUNT_NAMES = dict(items(ACCOUNT_NAMES_TEXT))
 
 
-def okv(text): return f"Код ОКВЭД {text} уровня"
+def okv(text):
+    return f"Код ОКВЭД {text} уровня"
 
 
 ADDITIONAL_DICT = {
-    'ok1': okv("первого"),
-    'ok2': okv("второго"),
-    'ok3': okv("третьего"),
-    'org': "Тип юридического лица (часть наименования организации)",
-    'title': "Короткое название организации",
-    'region': "Код региона по ИНН",
-    'p': "Прибыль (убыток) до налогообложения"}
+    "ok1": okv("первого"),
+    "ok2": okv("второго"),
+    "ok3": okv("третьего"),
+    "org": "Тип юридического лица (часть наименования организации)",
+    "title": "Короткое название организации",
+    "region": "Код региона по ИНН",
+    "p": "Прибыль (убыток) до налогообложения",
+}
 
 
 def account_name(code: str, source=ACCOUNT_NAMES):
@@ -166,7 +168,7 @@ def account_name(code: str, source=ACCOUNT_NAMES):
 def whatis(varname: str):
     """Return text description for *varname*."""
     if varname.endswith("_lag"):
-        varname = varname[:-len("_lag")]
+        varname = varname[: -len("_lag")]
     try:
         return ADDITIONAL_DICT[varname]
     except KeyError:

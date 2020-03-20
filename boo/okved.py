@@ -2044,8 +2044,8 @@ DOCv1 = """	РАЗДЕЛ А СЕЛЬСКОЕ ХОЗЯЙСТВО, ОХОТА И �
 
 # TODO: make okved v1
 
-#k = [x.split('\t') for x in doc.split('\n')]
-#OKVED = {int(x[0]): x[1] for x in k if ('.' not in x[0] and x[0])}
+# k = [x.split('\t') for x in doc.split('\n')]
+# OKVED = {int(x[0]): x[1] for x in k if ('.' not in x[0] and x[0])}
 
 DOCv2 = """1	Растениеводство и животноводство, охота и предоставление соответствующих услуг в этих областях
 2	Лесоводство и лесозаготовки
@@ -2139,8 +2139,8 @@ DOCv2 = """1	Растениеводство и животноводство, о�
 
 def split_to_dict(doc: str = DOCv2) -> dict:
     result = {}
-    for line in doc.split('\n'):
-        a, b = line.split('\t')
+    for line in doc.split("\n"):
+        a, b = line.split("\t")
         d = {int(a): b}
         result.update(d)
     return result
@@ -2157,5 +2157,6 @@ def name_v2(code: int) -> str:
     try:
         return OKVEDv2[code]
     except KeyError:
-        raise ValueError(f"Cannot process code {code}. "
-                         f"Industry code must be in {all_codes_v2()}")
+        raise ValueError(
+            f"Cannot process code {code}. " f"Industry code must be in {all_codes_v2()}"
+        )

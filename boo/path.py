@@ -25,6 +25,9 @@ def file(year, tag="", directory=None):
 
 
 class File:
+    
+    nofile_error = FileNotFoundError
+
     def __init__(self, year, tag, directory):
         self.path = file(year, tag, directory)
         self.year = year
@@ -42,10 +45,11 @@ class File:
         return str(self.path.parent)
 
     def __str__(self):
+        prefix = self.path
         try:
-            return f"{self.path} ({self.mb()}M)"
+            return prefix + f" ({self.mb()}M)"
         except FileNotFoundError:
-            return f"{self.path} (does not exist)"
+            return prefix + "(does not exist)"
 
     def __repr__(self):
         return repr(self.path)
@@ -56,29 +60,31 @@ class File:
         except FileNotFoundError as e:
             print(e)
 
+    def assert_exists(self):
+        if not self.exists():
+            raise self.nofile_error(self.year)
+
 
 class Raw(File):
+
+    nofile_error = NoRawFileError
+
     def __init__(self, year, directory):
         super().__init__(year, "raw", directory)
 
     def content(self):
         return self.path.read_text(encoding="cp1251")
 
-    def assert_exists(self):
-        if not self.exists():
-            raise NoRawFileError(self.year)
-
 
 class Processed(File):
+
+    nofile_error = NoProcessedFileError
+
     def __init__(self, year, directory):
         super().__init__(year, "", directory)
 
     def content(self):
         return self.path.read_text(encoding="utf-8")
-
-    def assert_exists(self):
-        if not self.exists():
-            raise NoProcessedFileError(self.year)
 
 
 @dataclass
@@ -88,4 +94,5 @@ class Files:
 
 
 def locate(year, directory=None):
-    return Files(raw=Raw(year, directory), processed=Processed(year, directory))
+    args = year, directory
+    return Files(raw=Raw(*args), processed=Processed(*args))

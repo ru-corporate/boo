@@ -12,7 +12,7 @@ class WrongYearError(ValueError):
             "Year not supported.\n"
             f"Provided year: {year}.\n"
             f"Allowed years: {commas(allowed)}.\n"
-            "Update timestamp definitions in year.py if necessary"
+            "Update timestamp definitions in year.py if necessary."
         )
 
 

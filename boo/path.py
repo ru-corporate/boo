@@ -45,11 +45,11 @@ class File:
         return str(self.path.parent)
 
     def __str__(self):
-        prefix = self.path
+        prefix = str(self.path)
         try:
             return prefix + f" ({self.mb()}M)"
         except FileNotFoundError:
-            return prefix + "(does not exist)"
+            return prefix + " (does not exist)"
 
     def __repr__(self):
         return repr(self.path)

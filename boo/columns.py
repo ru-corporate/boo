@@ -365,6 +365,14 @@ cf_fin = [
 DATA_FIELDS = OrderedDict(balance + opu + cf_total + cf_oper + cf_inv + cf_fin)
 MAPPER = {**TEXT_FIELDS, **DATA_FIELDS}
 
+def code_to_varname(code: str, mapper: dict=MAPPER):
+    return mapper.get(code, code)
+
+def reverse(mapper):
+    return {name: code for code, name in mapper.items()}
+
+def varname_to_code(varname: str, mapper=MAPPER):
+    return reverse(mapper).get(varname, None)
 
 def split(text: str) -> Tuple[str, bool]:
     def fst(text):
@@ -407,19 +415,14 @@ class ColumnLabel:
     code: str
     lagged: bool
 
-    def as_string(self):
+    def __str__(self):
         return self.code + ("_lag" if self.lagged else "")
 
-
-def rename_with(x: ColumnLabel, mapper: dict):
-    try:
-        new_code = mapper[x.code]
-    except KeyError:
-        new_code = x.code
-    return ColumnLabel(new_code, x.lagged)
-
-
 Labels = List[ColumnLabel]
+
+def rename_with(x: ColumnLabel, mapper: dict) -> ColumnLabel:
+    return ColumnLabel(code=code_to_varname(x.code, mapper), 
+                       lagged=x.lagged)
 
 
 def as_labels(columns: [str]) -> Labels:
@@ -440,7 +443,7 @@ def get_index(columns: [str], mapper: dict):
 def columns_picked_and_renamed(columns=TTL_COLUMNS, mapper=MAPPER):
     xs = as_labels(columns)
     ys = update_with(xs, mapper)
-    return [y.as_string() for (x, y) in zip(xs, ys) if x != y]
+    return [str(y) for (x, y) in zip(xs, ys) if x != y]
 
 
 def make_row_shortener(columns=TTL_COLUMNS, mapper=MAPPER):
@@ -460,18 +463,11 @@ def filter_by(columns: [str], mapper: dict) -> [str]:
     return [s for s in columns if unlag(s) in mapper.values()]
 
 
+# Renamed columns
 short_all = columns_picked_and_renamed(columns=TTL_COLUMNS, mapper=MAPPER)
+short_num = filter_by(columns=short_all, mapper=DATA_FIELDS) 
+SHORT_COLUMNS = Columns(all=short_all, numeric=short_num)
 
-SHORT_COLUMNS = Columns(all=short_all, numeric=filter_by(short_all, DATA_FIELDS))
+
+# Row shortener function [str] -> [str]
 CONVERTER_FUNC = make_row_shortener(columns=TTL_COLUMNS, mapper=MAPPER)
-
-
-def reverse(mapper):
-    return {name: code for code, name in mapper.items()}
-
-
-def name_to_code(name, mapper=MAPPER):
-    try:
-        return reverse(mapper)[name]
-    except KeyError:
-        return None

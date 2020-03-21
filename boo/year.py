@@ -13,7 +13,7 @@ TIMESTAMPS = {
 }
 
 
-def years():
+def available_years():
     """List available years with datasets."""
     return list(TIMESTAMPS.keys())
 
@@ -22,7 +22,7 @@ def get_timestamp(year: int, timestamps=TIMESTAMPS):
     try:
         return timestamps[year]
     except KeyError:
-        raise WrongYearError(year, allowed=years())
+        raise WrongYearError(year, allowed=available_years())
 
 
 def rosstat_url(year: int, timestamps=TIMESTAMPS):

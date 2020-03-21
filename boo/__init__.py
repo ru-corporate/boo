@@ -1,5 +1,5 @@
 from .main import download, build, read_dataframe, inspect
-from .year import make_url, years
+from .year import make_url, available_years
 from .path import locate
 from .whatis import whatis
 from .curl import file_length, file_length_mb

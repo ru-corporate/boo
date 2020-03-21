@@ -2,8 +2,6 @@
    http://www.consultant.ru/document/cons_doc_LAW_103394/c8c663513ad32e5a0eb8ca96753ea3e0911415db/
 """
 
-from boo.columns import name_to_code
-
 ACCOUNT_NAMES_TEXT = """БУХГАЛТЕРСКИЙ БАЛАНС	1000
 Итого внеоборотных активов	1100
 Нематериальные активы	1110
@@ -142,7 +140,10 @@ def items_from_doc(doc: str):
             raise ValueError(y)
 
 
-ACCOUNT_NAMES = dict(items_from_doc(ACCOUNT_NAMES_TEXT))
+def code_to_description(code: str, doc=ACCOUNT_NAMES_TEXT):
+    """Return account text description by code."""
+    acc_names = dict(items_from_doc(doc))
+    return acc_names.get(code)
 
 
 def okv(text):
@@ -160,16 +161,13 @@ ADDITIONAL_DICT = {
 }
 
 
-def account_name(code: str, source=ACCOUNT_NAMES):
-    """Return account text description by code."""
-    return source.get(str(code))
-
-
-def whatis(varname: str):
+def whatis(varname: str, additional_codes: dict = ADDITIONAL_DICT):
     """Return text description for *varname*."""
-    if varname.endswith("_lag"):
-        varname = varname[: -len("_lag")]
+    from boo.columns import unlag, varname_to_code
+    varname = unlag(varname)
     try:
-        return ADDITIONAL_DICT[varname]
+        return additional_codes[varname]
     except KeyError:
-        return account_name(name_to_code(varname))
+        return code_to_description(code=varname_to_code(varname))
+
+    

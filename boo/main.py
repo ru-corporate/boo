@@ -4,11 +4,8 @@ Basic use:
     build(year)
     read_dataframe(year)
 
-Helpers:
-    whatis(column_name)
-    locate(year)
+Helper:
     inspect(year)
-    make_url(year) #does not show html page
 """
 
 from boo.year import make_url
@@ -19,7 +16,7 @@ from boo.columns import CONVERTER_FUNC, SHORT_COLUMNS
 from boo.dataframe.canonic import canonic_df
 
 
-def preclean(path, force: bool):
+def conditional_delete(path, force: bool):
     """Delete an exisiting file at *path* if *force* flag is set to True"""
     if force is True and path.exists():
         path.unlink()
@@ -34,7 +31,7 @@ def download(year: int, force=False, directory=None):
     raw_file = locate(year, directory).raw
     path = raw_file.path
     url = make_url(year)
-    preclean(path, force)
+    conditional_delete(path, force)
     if not path.exists():
         print(f"Downloading source file for {year} from", url)
         curl(path, url)
@@ -62,7 +59,7 @@ def build(
         print("Already built:", dst)
         print(force_message(year, "build"))
         return
-    preclean(dst.path, force)
+    conditional_delete(dst.path, force)
     src.assert_exists()
     if not dst.exists():
         print("Reading from", src)
@@ -91,6 +88,7 @@ def read_dataframe(year: int, directory=None):
 
 
 def inspect(year: int, directory=None):
+    """Diagnose local files for *year*."""
     is_downloaded, is_processed = False, False
     loc = locate(year, directory)
     if loc.raw.exists():
@@ -110,3 +108,5 @@ def inspect(year: int, directory=None):
     else:
         loc.processed.print_error()
     return is_downloaded, is_processed
+
+

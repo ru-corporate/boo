@@ -41,6 +41,19 @@ def download(year: int, force=False, directory=None):
         print(force_message(year, "download"))
     return path
 
+def download_direct(url: str, year:int, force=False, directory=None):
+    raw_file = RawFile(year, directory)
+    path = raw_file.path
+    conditional_delete(path, force)
+    if not path.exists():
+        print(f"Downloading source file for {year} from {url}")
+        curl(path, url)
+        print("Saved as", raw_file)
+    else:
+        print("Already downloaded:", raw_file)
+        print(force_message(year, "download"))
+    return path
+
 
 def read_intermediate_df(year: int, directory=None, **kwargs):
     import pandas as pd

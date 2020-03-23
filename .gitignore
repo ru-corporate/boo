@@ -107,3 +107,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 pyvenv.cfg
+processed_2018.xlsx

@@ -322,7 +322,7 @@ balance = [
     ("1520", "payables"),
     ("1530", "tp_short_future_income"),
     ("1540", "tp_short_estimated"),
-    ("1550", "tp_short_other"),    
+    ("1550", "tp_short_other"),
     ("1700", "tp"),
 ]
 
@@ -369,14 +369,18 @@ cf_fin = [
 DATA_FIELDS = OrderedDict(balance + opu + cf_total + cf_oper + cf_inv + cf_fin)
 MAPPER = {**TEXT_FIELDS, **DATA_FIELDS}
 
-def code_to_varname(code: str, mapper: dict=MAPPER):
+
+def code_to_varname(code: str, mapper: dict = MAPPER):
     return mapper.get(code, code)
+
 
 def reverse(mapper):
     return {name: code for code, name in mapper.items()}
 
+
 def varname_to_code(varname: str, mapper=MAPPER):
     return reverse(mapper).get(varname, None)
+
 
 def split(text: str) -> Tuple[str, bool]:
     def fst(text):
@@ -422,11 +426,12 @@ class ColumnLabel:
     def __str__(self):
         return self.code + ("_lag" if self.lagged else "")
 
+
 Labels = List[ColumnLabel]
 
+
 def rename_with(x: ColumnLabel, mapper: dict) -> ColumnLabel:
-    return ColumnLabel(code=code_to_varname(x.code, mapper), 
-                       lagged=x.lagged)
+    return ColumnLabel(code=code_to_varname(x.code, mapper), lagged=x.lagged)
 
 
 def as_labels(columns: [str]) -> Labels:
@@ -460,7 +465,6 @@ def filter_by(columns: [str], mapper: dict) -> [str]:
 
 # Renamed columns
 short_all = columns_picked_and_renamed(columns=TTL_COLUMNS, mapper=MAPPER)
-short_num = filter_by(columns=short_all, mapper=DATA_FIELDS) 
+short_num = filter_by(columns=short_all, mapper=DATA_FIELDS)
 SHORT_COLUMNS = Columns(all=short_all, numeric=short_num)
 SHORT_INDEX = get_index(columns=TTL_COLUMNS, mapper=MAPPER)
-

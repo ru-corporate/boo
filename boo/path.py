@@ -25,7 +25,7 @@ def file(year, tag="", directory=None):
 
 class RawFile:
     encoding = "cp1251"
-    
+
     def __init__(self, year, directory):
         self.path = file(year, "raw", directory)
         self.year = year
@@ -58,10 +58,9 @@ class RawFile:
     def assert_exists(self):
         if not self.exists():
             raise NoRawFileError(self.year)
-            
+
     def print_error(self):
         try:
             self.assert_exists()
         except FileNotFoundError as e:
             print(e)
-            

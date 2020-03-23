@@ -2,7 +2,7 @@ import pytest
 import os
 from pathlib import Path
 
-from boo.path import RawFile,  get_folder
+from boo.path import RawFile, get_folder
 
 
 def test_get_folder(ARGS_YEAR_0):

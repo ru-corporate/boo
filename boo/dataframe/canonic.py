@@ -140,4 +140,3 @@ def is_numeric_column(name, numeric=SHORT_COLUMNS.numeric):
 
 def columns_typed_as_integer(numeric=SHORT_COLUMNS.numeric):
     return numeric + ["ok1", "ok2", "ok3", "region"]
-

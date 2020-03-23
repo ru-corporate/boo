@@ -17,7 +17,7 @@ from boo.dataframe.canonic import canonic_df
 
 def conditional_delete(path, force: bool):
     """Delete an exisiting file at *path* if *force* flag is set to True"""
-    if force is True and path.exists():        
+    if force is True and path.exists():
         path.unlink()
         print("Deleted", path)
 
@@ -44,15 +44,18 @@ def download(year: int, force=False, directory=None):
 
 def read_intermediate_df(year: int, directory=None, **kwargs):
     import pandas as pd
+
     src = RawFile(year, directory).path
-    return pd.read_csv(src, 
-                       encoding="windows-1251", 
-                       sep=";", 
-                       header=None, 
-                       usecols=SHORT_INDEX,     # read only a subset of columns
-                       names=SHORT_COLUMNS.all, # give new names to columns
-                       dtype=SHORT_COLUMNS.dtypes, # assert string types 
-                       **kwargs)
+    return pd.read_csv(
+        src,
+        encoding="windows-1251",
+        sep=";",
+        header=None,
+        usecols=SHORT_INDEX,  # read only a subset of columns
+        names=SHORT_COLUMNS.all,  # give new names to columns
+        dtype=SHORT_COLUMNS.dtypes,  # assert string types
+        **kwargs,
+    )
 
 
 def read_dataframe(year: int, directory=None, **kwargs):
@@ -65,7 +68,7 @@ def read_dataframe(year: int, directory=None, **kwargs):
 
 
 def inspect(year: int, directory=None):
-    """Diagnose local data file for *year*."""    
+    """Diagnose local data file for *year*."""
     raw = RawFile(year, directory)
     if raw.exists():
         print(f"      Raw CSV file: {raw}")
@@ -76,4 +79,4 @@ def inspect(year: int, directory=None):
             )
     else:
         raw.print_error()
-    return  str(raw.path)
+    return str(raw.path)

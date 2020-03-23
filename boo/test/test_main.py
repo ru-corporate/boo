@@ -33,7 +33,6 @@ def test_download():
         pass
 
 
-
 def test_read_dataframe():
     with TemporaryDirectory() as temp_dir:
         copy("raw0.csv", temp_dir)

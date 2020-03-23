@@ -9,17 +9,17 @@ Helper:
 """
 
 from boo.year import make_url
-from boo.path import locate
+from boo.path import RawFile
 from boo.curl import curl
-from boo.file import yield_rows, save_rows, read_df
-from boo.columns import CONVERTER_FUNC, SHORT_COLUMNS
+from boo.columns import SHORT_COLUMNS, SHORT_INDEX
 from boo.dataframe.canonic import canonic_df
 
 
 def conditional_delete(path, force: bool):
     """Delete an exisiting file at *path* if *force* flag is set to True"""
-    if force is True and path.exists():
+    if force is True and path.exists():        
         path.unlink()
+        print("Deleted", path)
 
 
 def force_message(year, verb):
@@ -28,7 +28,7 @@ def force_message(year, verb):
 
 def download(year: int, force=False, directory=None):
     """Download file from Rosstat web site."""
-    raw_file = locate(year, directory).raw
+    raw_file = RawFile(year, directory)
     path = raw_file.path
     url = make_url(year)
     conditional_delete(path, force)
@@ -42,71 +42,38 @@ def download(year: int, force=False, directory=None):
     return path
 
 
-def build(
-    year,
-    force=False,
-    directory=None,
-    worker=CONVERTER_FUNC,
-    column_names=SHORT_COLUMNS.all,
-):
-    """Create smaller CSV file with fewer columns.
-       Columns have names as in *COLUMNS_SHORT*.
-       Rows will be modified by *worker* function.
-    """
-    loc = locate(year, directory)
-    src, dst = loc.raw, loc.processed
-    if dst.exists() and not force:
-        print("Already built:", dst)
-        print(force_message(year, "build"))
-        return
-    conditional_delete(dst.path, force)
-    src.assert_exists()
-    if not dst.exists():
-        print("Reading from", src)
-        print("Saving to", dst)
-        save_rows(
-            path=dst.path,
-            stream=map(worker, yield_rows(src.path)),
-            column_names=column_names,
-        )
-        print("Saved", dst)
+def read_intermediate_df(year: int, directory=None, **kwargs):
+    import pandas as pd
+    src = RawFile(year, directory).path
+    return pd.read_csv(src, 
+                       encoding="windows-1251", 
+                       sep=";", 
+                       header=None, 
+                       usecols=SHORT_INDEX,     # read only a subset of columns
+                       names=SHORT_COLUMNS.all, # give new names to columns
+                       dtype=SHORT_COLUMNS.dtypes, # assert string types 
+                       **kwargs)
 
 
-def read_intermediate_df(year: int, directory=None):
-    src = locate(year, directory).processed
-    src.assert_exists()
-    return read_df(src.path, SHORT_COLUMNS.dtypes)
-
-
-def read_dataframe(year: int, directory=None):
+def read_dataframe(year: int, directory=None, **kwargs):
     """Read canonic data for *year* as dataframe.
 
     Returns:
         pandas.DataFrame
     """
-    return canonic_df(read_intermediate_df(year, directory))
+    return canonic_df(read_intermediate_df(year, directory, **kwargs))
 
 
 def inspect(year: int, directory=None):
-    """Diagnose local files for *year*."""
-    is_downloaded, is_processed = False, False
-    loc = locate(year, directory)
-    if loc.raw.exists():
-        is_downloaded = True
-        print(f"      Raw CSV file: {loc.raw}")
-        if loc.raw.mb() < 1:
+    """Diagnose local data file for *year*."""    
+    raw = RawFile(year, directory)
+    if raw.exists():
+        print(f"      Raw CSV file: {raw}")
+        if raw.mb() < 1:
             print(
                 "WARNING: file size too small. "
                 "Usually file size is larger than 500Mb."
             )
     else:
-        loc.raw.print_error()
-    if loc.processed.exists():
-        is_processed = True
-        print(f"Processed CSV file: {loc.processed}")
-        print(f"          Use next: df=boo.read_dataframe({year})")
-    else:
-        loc.processed.print_error()
-    return is_downloaded, is_processed
-
-
+        raw.print_error()
+    return  str(raw.path)

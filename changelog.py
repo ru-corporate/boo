@@ -21,4 +21,4 @@
 
 # 0.1.0 year 2018 added
 
-version_str = "0.1.2"
+version_str = "0.1.3"

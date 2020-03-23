@@ -319,6 +319,10 @@ balance = [
     ("1410", "debt_long"),
     ("1500", "tp_short"),
     ("1510", "debt_short"),
+    ("1520", "payables"),
+    ("1530", "tp_short_future_income"),
+    ("1540", "tp_short_estimated"),
+    ("1550", "tp_short_other"),    
     ("1700", "tp"),
 ]
 
@@ -446,15 +450,6 @@ def columns_picked_and_renamed(columns=TTL_COLUMNS, mapper=MAPPER):
     return [str(y) for (x, y) in zip(xs, ys) if x != y]
 
 
-def make_row_shortener(columns=TTL_COLUMNS, mapper=MAPPER):
-    ix = get_index(columns, mapper)
-
-    def row_shortener(rows):
-        return [rows[i] for i in ix]
-
-    return row_shortener
-
-
 def unlag(s: str) -> str:
     return s[:-4] if s.endswith("_lag") else s
 
@@ -467,7 +462,5 @@ def filter_by(columns: [str], mapper: dict) -> [str]:
 short_all = columns_picked_and_renamed(columns=TTL_COLUMNS, mapper=MAPPER)
 short_num = filter_by(columns=short_all, mapper=DATA_FIELDS) 
 SHORT_COLUMNS = Columns(all=short_all, numeric=short_num)
+SHORT_INDEX = get_index(columns=TTL_COLUMNS, mapper=MAPPER)
 
-
-# Row shortener function [str] -> [str]
-CONVERTER_FUNC = make_row_shortener(columns=TTL_COLUMNS, mapper=MAPPER)

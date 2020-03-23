@@ -93,10 +93,3 @@ class Columns:
 
 def minimal_columns(df):
     return shorthand(df[Columns.MINIMAL])
-
-
-# Identities:
-#   ta = tp
-#   ta_fix + ta_nonfix = ta
-#   tp = tp_capital + tp_long + tp_short + ...
-#   cf_oper + cf_inv + cf_fin = cf

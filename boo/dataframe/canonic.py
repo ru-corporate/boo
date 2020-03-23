@@ -141,12 +141,3 @@ def is_numeric_column(name, numeric=SHORT_COLUMNS.numeric):
 def columns_typed_as_integer(numeric=SHORT_COLUMNS.numeric):
     return numeric + ["ok1", "ok2", "ok3", "region"]
 
-
-def canonic_dtypes():
-    def switch(col):
-        int_columns = columns_typed_as_integer()
-        return numpy.int64 if (col in int_columns) else str
-
-    result = {col: switch(col) for col in canonic_columns()}
-    result["inn"] = str
-    return result

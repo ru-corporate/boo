@@ -81,7 +81,7 @@ def no_lags(df):
 
 
 class Columns:
-    MINIMAL = ["region", "ok1", "ok2", "title"] + [
+    MINIMAL = ["region", "ok1", "title"] + [
         "ta",
         "of",
         "sales",

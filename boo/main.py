@@ -8,6 +8,8 @@ Helper:
     inspect(year)
 """
 
+import pandas as pd
+
 from boo.year import make_url
 from boo.path import RawFile
 from boo.curl import curl
@@ -41,7 +43,8 @@ def download(year: int, force=False, directory=None):
         print(force_message(year, "download"))
     return path
 
-def download_direct(url: str, year:int, force=False, directory=None):
+
+def download_direct(url: str, year: int, force=False, directory=None):
     raw_file = RawFile(year, directory)
     path = raw_file.path
     conditional_delete(path, force)
@@ -56,9 +59,8 @@ def download_direct(url: str, year:int, force=False, directory=None):
 
 
 def read_intermediate_df(year: int, directory=None, **kwargs):
-    import pandas as pd
-
     src = RawFile(year, directory).path
+    print(f"Reading dataframe from {src}")
     return pd.read_csv(
         src,
         encoding="windows-1251",
@@ -66,7 +68,7 @@ def read_intermediate_df(year: int, directory=None, **kwargs):
         header=None,
         usecols=SHORT_INDEX,  # read only a subset of columns
         names=SHORT_COLUMNS.all,  # give new names to columns
-        dtype=SHORT_COLUMNS.dtypes,  # assert string types
+        dtype=SHORT_COLUMNS.dtypes,  # assert string or int types
         **kwargs,
     )
 

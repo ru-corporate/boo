@@ -8,12 +8,13 @@ Helper:
     inspect(year)
 """
 
+import numpy as np
 import pandas as pd
 
 from boo.year import make_url
 from boo.path import RawFile
 from boo.curl import curl
-from boo.columns import SHORT_COLUMNS, SHORT_INDEX
+from boo.columns import INDEX, NAMES
 from boo.dataframe.canonic import canonic_df
 
 
@@ -66,9 +67,9 @@ def read_intermediate_df(year: int, directory=None, **kwargs):
         encoding="windows-1251",
         sep=";",
         header=None,
-        usecols=SHORT_INDEX,  # read only a subset of columns
-        names=SHORT_COLUMNS.all,  # give new names to columns
-        dtype=SHORT_COLUMNS.dtypes,  # assert string or int types
+        usecols=INDEX,  # read only a subset of columns
+        names=[x for x in NAMES.keys()],  # give new names to these columns
+        dtype=NAMES,  # enforce string or int types
         **kwargs,
     )
 

@@ -1,12 +1,10 @@
-import numpy
-import pandas as pd
-from boo.columns import SHORT_COLUMNS
+from boo.columns import NAMES
 from boo.errors import UnclassifiableCodeError
 
 
 QUOTE_CHAR = '"'
 EMPTY = int(0)
-NUMERIC_COLUMNS = SHORT_COLUMNS.numeric
+NUMERIC_COLUMNS = [name for (name, dtype) in NAMES.items() if dtype != str]
 
 
 def adjust_rub(df, cols=NUMERIC_COLUMNS):
@@ -125,7 +123,7 @@ def canonic_df(df):
     return df_[canonic_columns()]
 
 
-def canonic_columns(numeric=SHORT_COLUMNS.numeric):
+def canonic_columns(numeric=NUMERIC_COLUMNS):
     return (
         ["title", "org", "okpo", "okopf", "okfs", "okved"]
         + ["unit"]
@@ -134,9 +132,9 @@ def canonic_columns(numeric=SHORT_COLUMNS.numeric):
     )
 
 
-def is_numeric_column(name, numeric=SHORT_COLUMNS.numeric):
+def is_numeric_column(name, numeric=NUMERIC_COLUMNS):
     return name in numeric
 
 
-def columns_typed_as_integer(numeric=SHORT_COLUMNS.numeric):
+def columns_typed_as_integer(numeric=NUMERIC_COLUMNS):
     return numeric + ["ok1", "ok2", "ok3", "region"]

@@ -161,17 +161,22 @@ ADDITIONAL_DICT = {
     "okopf": "Общероссийский классификатор организационно-правовых форм (ОКОПФ)",
     "okfs": "Общероссийский классификатор форм собственности (ОКФС)",
     "okved": "Общероссийский классификатор видов экономической деятельности (ОКВЭД)",
-    "unit": "Исходный код единицы измерения (384 - тыс. руб.)",
+    "unit": "Код единицы измерения (384 - тыс. руб.)",
     "p": "Прибыль (убыток) до налогообложения",
 }
 
 
+def unlag(x):
+    return x.replace("_lag", "") if x.endswith("_lag") else x
+
+
 def whatis(varname: str, additional_codes: dict = ADDITIONAL_DICT):
     """Return text description for *varname*."""
-    from boo.columns import unlag, varname_to_code
+    from boo.columns import MAPPER
 
+    reverse = {v: k for k, v in MAPPER.items()}
     varname = unlag(varname)
     try:
         return additional_codes[varname]
     except KeyError:
-        return code_to_description(code=varname_to_code(varname))
+        return code_to_description(reverse.get(varname))

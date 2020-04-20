@@ -1,23 +1,14 @@
 """Преобразование сырых названий столбцов в названия переменных.
 
-1) Список названий переменных
-   TTL_COLUMNS: [str] -> MAPPER: dict -> SHORT_COLUMNS: Columns
+Описания полей отчетности можно посмотреть например в:
+http://info.avtovaz.ru/files/avtovaz_ras_fs_2012_rus_secured.pdf
 
-2) Функция для получения укороченного ряда данных  
-   TTL_COLUMNS: [str] -> MAPPER: dict -> CONVERTER_FUNC: [str] -> [str]
+Более подробно о формах:
+http://www.consultant.ru/document/cons_doc_LAW_103394/b990bf4a13bd23fda86e0bba50c462a174c0d123/#dst100515
 
-3) Поиск кода поназванию переменных
-   MAPPER: dict -> name_to_code: (str -> str)
-
-# Описания полей отчетности можно посмотреть например в:
-# http://info.avtovaz.ru/files/avtovaz_ras_fs_2012_rus_secured.pdf
-
-# Более подробно о формах:
-# http://www.consultant.ru/document/cons_doc_LAW_103394/b990bf4a13bd23fda86e0bba50c462a174c0d123/#dst100515
 """
 
 from collections import OrderedDict
-from typing import List, Tuple
 from dataclasses import dataclass
 
 import numpy
@@ -293,7 +284,7 @@ TTL_COLUMNS = [
 ]
 
 # -- Текстовые поля
-TEXT_FIELDS = OrderedDict(
+MAPPER = OrderedDict(
     [
         ("Наименование", "name"),
         ("ОКПО", "okpo"),
@@ -304,167 +295,145 @@ TEXT_FIELDS = OrderedDict(
         ("Код единицы измерения", "unit"),
         ("Тип отчета", "report_type"),
         ("Дата актуализации", "date_published"),
+        # --  Баланс
+        # --  Внеоборотные активы
+        ("1100", "ta_fix"),
+        ("1150", "of"),
+        ("1170", "ta_fix_fin"),
+        # --  Оборотные активы
+        ("1200", "ta_nonfix"),
+        ("1210", "inventory"),
+        ("1230", "receivables"),
+        ("1240", "ta_nonfix_fin"),
+        ("1250", "cash"),
+        ("1600", "ta"),
+        # --  Пассивы
+        ("1300", "tp_capital"),
+        ("1360", "retained_earnings"),
+        ("1400", "tp_long"),
+        ("1410", "debt_long"),
+        ("1500", "tp_short"),
+        ("1510", "debt_short"),
+        ("1520", "payables"),
+        ("1700", "tp"),
+        # --  ОПУ
+        ("2110", "sales"),
+        ("2120", "costs"),
+        ("2200", "profit_oper"),
+        ("2330", "exp_interest"),
+        ("2300", "profit_before_tax"),
+        ("2400", "profit_after_tax"),
+        # -- ОДДС
+        ("4400", "cf"),
+        # -- Операционная деятельность
+        ("4100", "cf_oper"),
+        ("4110", "cf_oper_in"),
+        ("4111", "cf_oper_in_sales"),
+        ("4120", "cf_oper_out"),
+        ("4121", "paid_to_supplier"),
+        ("4122", "paid_to_worker"),
+        ("4123", "paid_interest"),
+        ("4124", "paid_profit_tax"),
+        # -- Инвестицонная деятельность
+        ("4200", "cf_inv"),
+        ("4210", "cf_inv_in"),
+        ("4220", "cf_inv_out"),
+        ("4221", "paid_fa_investment"),
+        # -- Финансовая деятельность
+        ("4300", "cf_fin"),
+        ("4310", "cf_fin_in"),
+        ("4311", "cf_loan_in"),
+        ("4312", "cf_eq_in_1"),
+        ("4313", "cf_eq_in_2"),
+        ("4314", "cf_bond_in"),
+        ("4320", "cf_fin_out"),
+        ("4321", "cf_eq_out"),
+        ("4322", "cf_div_out"),
+        ("4323", "cf_debt_out"),
     ]
 )
 
-# --  Баланс
-balance = [
-    ("1100", "ta_fix"),
-    ("1150", "of"),
-    ("1200", "ta_nonfix"),
-    ("1250", "cash"),
-    ("1600", "ta"),
-    ("1300", "tp_capital"),
-    ("1400", "tp_long"),
-    ("1410", "debt_long"),
-    ("1500", "tp_short"),
-    ("1510", "debt_short"),
-    ("1520", "payables"),
-    ("1530", "tp_short_future_income"),
-    ("1540", "tp_short_estimated"),
-    ("1550", "tp_short_other"),
-    ("1700", "tp"),
-]
 
-# --  ОПУ
-opu = [
-    ("2110", "sales"),
-    ("2200", "profit_oper"),
-    ("2330", "exp_interest"),
-    ("2300", "profit_before_tax"),
-    ("2400", "profit_after_tax"),
-]
-
-# --  ОДДС
-cf_total = [("4400", "cf")]
-
-cf_oper = [
-    # -- Операционная деятельность
-    ("4100", "cf_oper"),
-    ("4110", "cf_oper_in"),
-    ("4111", "cf_oper_in_sales"),
-    ("4120", "cf_oper_out"),
-    ("4121", "paid_to_supplier"),
-    ("4122", "paid_to_worker"),
-    ("4123", "paid_interest"),
-    ("4124", "paid_profit_tax"),
-    ("4129", "paid_other_costs"),
-]
-
-cf_inv = [
-    # -- Инвестицонная деятельность
-    ("4200", "cf_inv"),
-    ("4210", "cf_inv_in"),
-    ("4220", "cf_inv_out"),
-    ("4221", "paid_fa_investment"),
-]
-
-cf_fin = [
-    # -- Финансовая деятельность
-    ("4300", "cf_fin"),
-    ("4310", "cf_fin_in"),
-    ("4320", "cf_fin_out"),
-]
-
-DATA_FIELDS = OrderedDict(balance + opu + cf_total + cf_oper + cf_inv + cf_fin)
-MAPPER = {**TEXT_FIELDS, **DATA_FIELDS}
+def ask(code):
+    return MAPPER.get(str(code))
 
 
-def code_to_varname(code: str, mapper: dict = MAPPER):
-    return mapper.get(code, code)
+def fst(text):
+    return text[0]
 
 
-def reverse(mapper):
-    return {name: code for code, name in mapper.items()}
+def last(text):
+    return text[-1]
 
 
-def varname_to_code(varname: str, mapper=MAPPER):
-    return reverse(mapper).get(varname, None)
+def trim(text):
+    return text[0:-1]
 
 
-def split(text: str) -> Tuple[str, bool]:
-    def fst(text):
-        return text[0]
-
-    def last(text):
-        return text[-1]
-
-    def trim(text):
-        return text[0:-1]
-
-    code = text
-    is_lagged = False
-    if fst(text) != "3" and last(text) in ["3", "4"]:
-        code = trim(text)
-        if last(text) == "4":
-            is_lagged = True
-    return code, is_lagged
+NON_NUMERIC = "x"
 
 
 @dataclass
-class Columns:
-    all: [str]
-    numeric: [str]
-
-    @property
-    def text(self):
-        return [item for item in self.all if item not in self.numeric]
-
-    def _switch(self, item):
-        return numpy.int64 if (item in self.numeric) else str
-
-    @property
-    def dtypes(self):
-        return {c: self._switch(c) for c in self.all}
-
-
-@dataclass
-class ColumnLabel:
+class Column:
     code: str
-    lagged: bool
+    section: str
+    lag: bool
 
-    def __str__(self):
-        return self.code + ("_lag" if self.lagged else "")
+    def rename_with(self, mapper: dict):
+        new_code = mapper.get(self.code, self.code)
+        return Column(new_code, self.section, self.lag)
 
+    def is_numeric(self):
+        return self.section != NON_NUMERIC
 
-Labels = List[ColumnLabel]
+    @property
+    def label(self):
+        return self.code + ("_lag" if self.lag else "")
 
-
-def rename_with(x: ColumnLabel, mapper: dict) -> ColumnLabel:
-    return ColumnLabel(code=code_to_varname(x.code, mapper), lagged=x.lagged)
-
-
-def as_labels(columns: [str]) -> Labels:
-    return [ColumnLabel(*split(x)) for x in columns]
-
-
-def update_with(colnames: Labels, mapper: dict) -> Labels:
-    return [rename_with(x, mapper) for x in colnames]
+    @property
+    def dtype(self):
+        return numpy.int64 if self.is_numeric() else str
 
 
-def get_index(columns: [str], mapper: dict):
-    xs = as_labels(columns)
-    ys = update_with(xs, mapper)
-    n = len(xs)
-    return [i for (x, y, i) in zip(xs, ys, range(n)) if x != y]
+def is_lagged(text):
+    if fst(text) == "3":
+        return False
+    if last(text) == "3":
+        return False
+    if last(text) == "4":
+        return True
+    return None
 
 
-def columns_picked_and_renamed(columns=TTL_COLUMNS, mapper=MAPPER):
-    xs = as_labels(columns)
-    ys = update_with(xs, mapper)
-    return [str(y) for (x, y) in zip(xs, ys) if x != y]
+assert is_lagged("63243") is False
+assert is_lagged("Дата актуализации") is None
+assert is_lagged("23304") is True
 
 
-def unlag(s: str) -> str:
-    return s[:-4] if s.endswith("_lag") else s
+def section(text):
+    num = text[0]
+    return {
+        "1": "Баланс",
+        "2": "ОПУ",
+        "3": "Изменения капитала",
+        "4": "ОДДС",
+        "6": "Extras",
+    }.get(num, NON_NUMERIC)
 
 
-def filter_by(columns: [str], mapper: dict) -> [str]:
-    return [s for s in columns if unlag(s) in mapper.values()]
+def code(text):
+    if fst(text) in ["1", "2", "4", "6"]:
+        return text[0:-1]
+    else:
+        return text
 
 
-# Renamed columns
-short_all = columns_picked_and_renamed(columns=TTL_COLUMNS, mapper=MAPPER)
-short_num = filter_by(columns=short_all, mapper=DATA_FIELDS)
-SHORT_COLUMNS = Columns(all=short_all, numeric=short_num)
-SHORT_INDEX = get_index(columns=TTL_COLUMNS, mapper=MAPPER)
+def column(text):
+    return Column(code(text), section(text), is_lagged(text))
+
+columns = [column(x) for x in TTL_COLUMNS]
+INDEX = [i for (i, c) in enumerate(columns) if c.rename_with(MAPPER) != c]
+columns_short = [c.rename_with(MAPPER) for c in columns if c.rename_with(MAPPER) != c]
+NAMES = {c.label: c.dtype for c in columns_short}
+
+assert len(INDEX) == len(NAMES)

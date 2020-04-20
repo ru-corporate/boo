@@ -51,11 +51,10 @@ checks = dict(
     delta_cash=df.cash - df.cash_lag - df.cf,
 )
 
-checks["balance"].hist(log=True)
-checks["assets"].hist(log=True)
-checks["liab"].hist(log=True)
-checks["cash_flow"].hist(log=True)
-checks["delta_cash"].hist(log=True)
+for name in checks.keys():
+    plt.figure()
+    checks[name].hist(log=True)
+    plt.title(name)
 
 
 # Create 'other' variables
@@ -145,6 +144,8 @@ s.head(20)
 
 
 3. Дополнительно / обсуждение:
+
+   - заполнить несколько позиций в `my_inn`
    - предложения по другим проверкам или показателям (free cash flow?)
    - идеи как улучшить показатель ebitda_proxy()
    - показатели cash-flow холдинговых компаний

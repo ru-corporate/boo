@@ -69,7 +69,9 @@ def read_intermediate_df(year: int, directory=None, **kwargs):
         header=None,
         usecols=INDEX,  # read only a subset of columns
         names=[x for x in NAMES.keys()],  # give new names to these columns
-        dtype=NAMES,  # enforce string or int types
+        # ERROR:
+        # Shutting down dtypes temporarliy due to https://github.com/ru-corporate/boo/issues/18
+        #dtype=NAMES,  # enforce string or int types
         **kwargs,
     )
 

@@ -26,7 +26,7 @@ pip install git+https://github.com/ru-corporate/boo.git@master
 
 ## Usage
 
-### Download, build and read full dataframe
+### Download and read full dataframe
 
 ```python
 from boo import download, read_dataframe

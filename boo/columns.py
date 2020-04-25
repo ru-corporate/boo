@@ -3,9 +3,8 @@
 Описания полей отчетности можно посмотреть например в:
 http://info.avtovaz.ru/files/avtovaz_ras_fs_2012_rus_secured.pdf
 
-Более подробно о формах:
+Более подробно о публикуемой форме отчетности:
 http://www.consultant.ru/document/cons_doc_LAW_103394/b990bf4a13bd23fda86e0bba50c462a174c0d123/#dst100515
-
 """
 
 from collections import OrderedDict

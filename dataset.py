@@ -1,3 +1,5 @@
+"""Create processed_2018.csv, processed_2018.xlsx and variables.json stable files."""
+
 import json
 import os
 

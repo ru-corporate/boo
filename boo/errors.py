@@ -1,3 +1,6 @@
+"""Custom error types."""
+
+
 class UnclassifiableCodeError(ValueError):
     pass
 

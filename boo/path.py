@@ -1,3 +1,4 @@
+"""Local paths to data files."""
 from pathlib import Path
 
 from boo.errors import DirectoryNotFound, NoRawFileError

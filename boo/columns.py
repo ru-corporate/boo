@@ -12,6 +12,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 
 import numpy
+import pandas as pd
 
 # Column names as provided at Rosstat web site
 TTL_COLUMNS = [
@@ -371,7 +372,11 @@ def trim(text):
 
 
 NON_NUMERIC = "x"
-
+# This type assures missing interger values will be converted to NaNs
+# See https://pandas.pydata.org/pandas-docs/stable/user_guide/integer_na.html
+# and  
+INT_TYPE = pd.Int64Dtype()
+   
 
 @dataclass
 class Column:
@@ -392,7 +397,7 @@ class Column:
 
     @property
     def dtype(self):
-        return numpy.int64 if self.is_numeric() else str
+        return INT_TYPE if self.is_numeric() else str
 
 
 def is_lagged(text):

@@ -71,7 +71,7 @@ def read_intermediate_df(year: int, directory=None, **kwargs):
         names=[x for x in NAMES.keys()],  # give new names to these columns
         # ERROR:
         # Shutting down dtypes temporarliy due to https://github.com/ru-corporate/boo/issues/18
-        #dtype=NAMES,  # enforce string or int types
+        # dtype=NAMES,  # enforce string or int types
         **kwargs,
     )
 

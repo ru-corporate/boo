@@ -12,5 +12,6 @@ def test_is_lagged():
     assert is_lagged("Дата актуализации") is None
     assert is_lagged("23304") is True
 
+
 def test_ask():
     assert ask("4320") == "cf_fin_out"

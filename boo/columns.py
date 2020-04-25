@@ -431,6 +431,7 @@ def code(text):
 def column(text):
     return Column(code(text), section(text), is_lagged(text))
 
+
 columns = [column(x) for x in TTL_COLUMNS]
 INDEX = [i for (i, c) in enumerate(columns) if c.rename_with(MAPPER) != c]
 columns_short = [c.rename_with(MAPPER) for c in columns if c.rename_with(MAPPER) != c]

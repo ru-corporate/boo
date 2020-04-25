@@ -21,4 +21,9 @@
 
 # 0.1.0 year 2018 added
 
-version_str = "0.1.3"
+semvers = [
+    ("0.1.4", "Fixes treatment of NaN values in border cases"),
+    ("0.1.5", "Documentation update about build() depreciation"),
+]
+
+version_str = "0.1.5"

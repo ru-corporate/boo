@@ -3,7 +3,7 @@ from pathlib import Path
 
 from changelog import version_str
 
-# Use script upload.bat to update pipy package.
+# Use script/upload.bat to update pipy package.
 
 with open("README.md", encoding="utf-8") as file:
     readme_str = "\n".join(file.readlines())

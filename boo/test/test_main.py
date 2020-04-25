@@ -17,7 +17,6 @@ def raw_content():
     return (DATA_FOLDER / "raw0.csv").read_text(encoding="cp1251")
 
 
-
 def copy(filename, destination_folder):
     src = DATA_FOLDER / filename
     dst = Path(destination_folder) / filename
@@ -45,6 +44,7 @@ def test_read_dataframe():
 
 def make_tempfile(folder, filename, content):
     import pathlib
+
     path = pathlib.Path(folder) / filename
     path.write_text(content, encoding="windows-1251")
     return path
@@ -59,11 +59,12 @@ def file_with_missing_value():
     with TemporaryDirectory() as temp_dir:
         make_tempfile(temp_dir, "raw0.csv", content)
         yield 0, temp_dir
-    
+
+
 def test_read_dataframe_with_missing_values(file_with_missing_value):
     year, folder = file_with_missing_value
     df = read_dataframe(year, folder)
-    assert pd.isnull(df.loc['2308227978', 'okpo'])
+    assert pd.isnull(df.loc["2308227978", "okpo"])
 
 
 def test_inspect_on_existing_data_is_callable(ARGS_YEAR_0):

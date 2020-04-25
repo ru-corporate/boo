@@ -377,7 +377,7 @@ NON_NUMERIC = "x"
 # See https://pandas.pydata.org/pandas-docs/stable/user_guide/integer_na.html
 # and https://github.com/ru-corporate/boo/issues/18
 INT_TYPE = pd.Int64Dtype()
-   
+
 
 @dataclass
 class Column:

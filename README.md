@@ -29,22 +29,11 @@ pip install git+https://github.com/ru-corporate/boo.git@master
 ### Download, build and read full dataframe
 
 ```python
-from boo import download, build, read_dataframe
+from boo import download, read_dataframe
 
 download(2012)
-build(2012)
 df = read_dataframe(2012)
 print(df.head())
-```
-
-### Use data filters to make smaller subsets
-
-```python
-from boo.dataframe.filter import (large_companies, 
-                                  minimal_columns, 
-                                  shorthand)
-df2 = shorthand(minimal_columns(large_companies(df)))
-print(df2.head())
 ```
 
 ### Colab examples [![colab](https://img.shields.io/badge/colab-launch-blue.svg)]
@@ -204,6 +193,17 @@ build(2012)
 
 - No timeseries: we can access cross-section of all data by year, but not several years of data by each firm. 
 - No database: we store files as plain CSV, not in a database.
+
+
+### Slightly advanced use: data filters for smaller subsets
+
+```python
+from boo.dataframe.filter import (large_companies, 
+                                  minimal_columns, 
+                                  shorthand)
+df2 = shorthand(minimal_columns(large_companies(df)))
+print(df2.head())
+```
 
 ## Contributors
 

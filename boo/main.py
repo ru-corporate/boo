@@ -1,14 +1,5 @@
-"""
-Basic use:
-    download(year)
-    build(year)
-    read_dataframe(year)
+"""Download frile form Rosstat and read dataframe."""
 
-Helper:
-    inspect(year)
-"""
-
-import numpy as np
 import pandas as pd
 
 from boo.year import make_url

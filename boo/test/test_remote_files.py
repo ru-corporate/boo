@@ -1,4 +1,5 @@
-from boo import available_years, file_length_mb
+from boo.curl import file_length_mb
+from boo.year import available_years
 
 
 def test_rosstat_files_are_available_and_big_in_size():

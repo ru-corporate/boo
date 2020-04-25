@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>boo.dataframe.canonic API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>boo.dataframe.canonic</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from boo.columns import NAMES
+from boo.errors import UnclassifiableCodeError
+
+
+QUOTE_CHAR = &#39;&#34;&#39;
+EMPTY = int(0)
+NUMERIC_COLUMNS = [name for (name, dtype) in NAMES.items() if dtype != str]
+
+
+def adjust_rub(df, cols=NUMERIC_COLUMNS):
+    rows = df.unit == &#34;385&#34;
+    df.loc[rows, cols] = df.loc[rows, cols].multiply(1000)
+    df.loc[rows, &#34;unit&#34;] = &#34;384&#34;
+    rows = df.unit == &#34;383&#34;
+    df.loc[rows, cols] = df.loc[rows, cols].divide(1000).round(0).astype(int)
+    df.loc[rows, &#34;unit&#34;] = &#34;384&#34;
+    return df
+
+
+def dequote(name: str):
+    &#34;&#34;&#34;Split company *name* to organisation and title.&#34;&#34;&#34;
+    # Warning: will not work well on company names with more than 4 quotechars
+    parts = name.split(QUOTE_CHAR)
+    org = parts[0].strip()
+    cnt = name.count(QUOTE_CHAR)
+    if cnt == 2:
+        title = parts[1].strip()
+    elif cnt &gt; 2:
+        title = QUOTE_CHAR.join(parts[1:])
+    else:
+        title = name
+    return org, title.strip()
+
+
+def replace_names(title: str):
+    return (
+        title.replace(&#34;ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО&#34;, &#34;ПАО&#34;)
+        .replace(&#34;ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО&#34;, &#34;ОАО&#34;)
+        .replace(&#34;АКЦИОНЕРНОЕ ОБЩЕСТВО ЭНЕРГЕТИКИ И ЭЛЕКТРИФИКАЦИИ&#34;, &#34;AO энерго&#34;)
+        .replace(&#34;НЕФТЕПЕРЕРАБАТЫВАЮЩИЙ ЗАВОД&#34;, &#34;НПЗ&#34;)
+        .replace(&#34;ГЕНЕРИРУЮЩАЯ КОМПАНИЯ ОПТОВОГО РЫНКА ЭЛЕКТРОЭНЕРГИИ&#34;, &#34;ОГК&#34;)
+        .replace(&#34;ГОРНО-ОБОГАТИТЕЛЬНЫЙ КОМБИНАТ&#34;, &#34;ГОК&#34;)
+    )
+
+
+def add_title(df):
+    s_ = df.name.apply(dequote)
+    df[&#34;org&#34;] = s_.apply(lambda x: x[0])
+    df[&#34;title&#34;] = s_.apply(lambda x: replace_names(x[1]))
+    return df
+
+
+def rename_rows(df):
+    RENAME_DICT = {
+        &#34;2460066195&#34;: &#34;РусГидро&#34;,
+        &#34;4716016979&#34;: &#34;ФСК ЕЭС&#34;,
+        &#34;7702038150&#34;: &#34;Московский метрополитен&#34;,
+        &#34;7721632827&#34;: &#34;Концерн Росэнергоатом&#34;,
+        &#34;7706664260&#34;: &#34;Атомэнергопром&#34;,
+        &#34;7703683145&#34;: &#34;Холдинг ВТБ Капитал АЙ БИ&#34;,
+        &#34;9102048801&#34;: &#34;Черноморнефтегаз&#34;,
+        &#34;7736036626&#34;: &#34;РИТЭК&#34;,
+    }
+    keys = RENAME_DICT.keys()
+    ix = df.index.isin(keys)
+    if not ix.any():
+        return df
+    sub = df.loc[ix, &#34;title&#34;]
+    for k, v in RENAME_DICT.items():
+        if k in sub.index:
+            sub.loc[k] = v
+    df.loc[ix, &#34;title&#34;] = sub
+    return df
+
+
+def split_okved(code_string: str):
+    &#34;&#34;&#34;Get 3 levels of OKVED codes from *code_string*.&#34;&#34;&#34;
+    if code_string.count(&#34;.&#34;) &gt; 2:
+        raise UnclassifiableCodeError(code_string)
+    try:
+        codes = [int(x) for x in code_string.split(&#34;.&#34;)]
+    except ValueError:
+        raise UnclassifiableCodeError(code_string)
+    return codes + [0] * (3 - len(codes))
+
+
+def add_okved_subcode(df):
+    df[&#34;ok1&#34;], df[&#34;ok2&#34;], df[&#34;ok3&#34;] = zip(*df.okved.apply(split_okved))
+    return df
+
+
+def fst(x):
+    try:
+        return int(x[0:2])
+    except TypeError:
+        return 0
+
+
+def add_region(df):
+    df[&#34;region&#34;] = df.inn.apply(fst)
+    return df
+
+
+def more_columns(df):
+    return add_okved_subcode(add_region(add_title(df)))
+
+
+def canonic_df(df):
+    &#34;&#34;&#34;Преобразовать данные внтури датафрейма:
+
+    - Привести все строки к одинаковым единицам измерения (тыс. руб.)
+    - Убрать  неиспользуемые колонки (date_revised, report_type)
+    - Новые колонки:
+        * короткое название компании
+        * три уровня кода ОКВЭД
+        * регион (по ИНН)
+
+    &#34;&#34;&#34;
+    df_ = add_okved_subcode(add_region(add_title(df)))
+    df_ = adjust_rub(df_)
+    df_ = df_.set_index(&#34;inn&#34;)
+    df_ = rename_rows(df_)
+    return df_[canonic_columns()]
+
+
+def canonic_columns(numeric=NUMERIC_COLUMNS):
+    return (
+        [&#34;title&#34;, &#34;org&#34;, &#34;okpo&#34;, &#34;okopf&#34;, &#34;okfs&#34;, &#34;okved&#34;]
+        + [&#34;unit&#34;]
+        + [&#34;ok1&#34;, &#34;ok2&#34;, &#34;ok3&#34;, &#34;region&#34;]
+        + numeric
+    )
+
+
+def is_numeric_column(name, numeric=NUMERIC_COLUMNS):
+    return name in numeric
+
+
+def columns_typed_as_integer(numeric=NUMERIC_COLUMNS):
+    return numeric + [&#34;ok1&#34;, &#34;ok2&#34;, &#34;ok3&#34;, &#34;region&#34;]</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="boo.dataframe.canonic.add_okved_subcode"><code class="name flex">
+<span>def <span class="ident">add_okved_subcode</span></span>(<span>df)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_okved_subcode(df):
+    df[&#34;ok1&#34;], df[&#34;ok2&#34;], df[&#34;ok3&#34;] = zip(*df.okved.apply(split_okved))
+    return df</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.canonic.add_region"><code class="name flex">
+<span>def <span class="ident">add_region</span></span>(<span>df)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_region(df):
+    df[&#34;region&#34;] = df.inn.apply(fst)
+    return df</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.canonic.add_title"><code class="name flex">
+<span>def <span class="ident">add_title</span></span>(<span>df)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_title(df):
+    s_ = df.name.apply(dequote)
+    df[&#34;org&#34;] = s_.apply(lambda x: x[0])
+    df[&#34;title&#34;] = s_.apply(lambda x: replace_names(x[1]))
+    return df</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.canonic.adjust_rub"><code class="name flex">
+<span>def <span class="ident">adjust_rub</span></span>(<span>df, cols=['of', 'of_lag', 'ta_fix_fin', 'ta_fix_fin_lag', 'ta_fix', 'ta_fix_lag', 'inventory', 'inventory_lag', 'receivables', 'receivables_lag', 'ta_nonfix_fin', 'ta_nonfix_fin_lag', 'cash', 'cash_lag', 'ta_nonfix', 'ta_nonfix_lag', 'ta', 'ta_lag', 'retained_earnings', 'retained_earnings_lag', 'tp_capital', 'tp_capital_lag', 'debt_long', 'debt_long_lag', 'tp_long', 'tp_long_lag', 'debt_short', 'debt_short_lag', 'payables', 'payables_lag', 'tp_short', 'tp_short_lag', 'tp', 'tp_lag', 'sales', 'sales_lag', 'costs', 'costs_lag', 'profit_oper', 'profit_oper_lag', 'exp_interest', 'exp_interest_lag', 'profit_before_tax', 'profit_before_tax_lag', 'profit_after_tax', 'profit_after_tax_lag', 'cf_oper_in', 'cf_oper_in_sales', 'cf_oper_out', 'paid_to_supplier', 'paid_to_worker', 'paid_interest', 'paid_profit_tax', 'cf_oper', 'cf_inv_in', 'cf_inv_out', 'paid_fa_investment', 'cf_inv', 'cf_fin_in', 'cf_loan_in', 'cf_eq_in_1', 'cf_eq_in_2', 'cf_bond_in', 'cf_fin_out', 'cf_eq_out', 'cf_div_out', 'cf_debt_out', 'cf_fin', 'cf'])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def adjust_rub(df, cols=NUMERIC_COLUMNS):
+    rows = df.unit == &#34;385&#34;
+    df.loc[rows, cols] = df.loc[rows, cols].multiply(1000)
+    df.loc[rows, &#34;unit&#34;] = &#34;384&#34;
+    rows = df.unit == &#34;383&#34;
+    df.loc[rows, cols] = df.loc[rows, cols].divide(1000).round(0).astype(int)
+    df.loc[rows, &#34;unit&#34;] = &#34;384&#34;
+    return df</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.canonic.canonic_columns"><code class="name flex">
+<span>def <span class="ident">canonic_columns</span></span>(<span>numeric=['of', 'of_lag', 'ta_fix_fin', 'ta_fix_fin_lag', 'ta_fix', 'ta_fix_lag', 'inventory', 'inventory_lag', 'receivables', 'receivables_lag', 'ta_nonfix_fin', 'ta_nonfix_fin_lag', 'cash', 'cash_lag', 'ta_nonfix', 'ta_nonfix_lag', 'ta', 'ta_lag', 'retained_earnings', 'retained_earnings_lag', 'tp_capital', 'tp_capital_lag', 'debt_long', 'debt_long_lag', 'tp_long', 'tp_long_lag', 'debt_short', 'debt_short_lag', 'payables', 'payables_lag', 'tp_short', 'tp_short_lag', 'tp', 'tp_lag', 'sales', 'sales_lag', 'costs', 'costs_lag', 'profit_oper', 'profit_oper_lag', 'exp_interest', 'exp_interest_lag', 'profit_before_tax', 'profit_before_tax_lag', 'profit_after_tax', 'profit_after_tax_lag', 'cf_oper_in', 'cf_oper_in_sales', 'cf_oper_out', 'paid_to_supplier', 'paid_to_worker', 'paid_interest', 'paid_profit_tax', 'cf_oper', 'cf_inv_in', 'cf_inv_out', 'paid_fa_investment', 'cf_inv', 'cf_fin_in', 'cf_loan_in', 'cf_eq_in_1', 'cf_eq_in_2', 'cf_bond_in', 'cf_fin_out', 'cf_eq_out', 'cf_div_out', 'cf_debt_out', 'cf_fin', 'cf'])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def canonic_columns(numeric=NUMERIC_COLUMNS):
+    return (
+        [&#34;title&#34;, &#34;org&#34;, &#34;okpo&#34;, &#34;okopf&#34;, &#34;okfs&#34;, &#34;okved&#34;]
+        + [&#34;unit&#34;]
+        + [&#34;ok1&#34;, &#34;ok2&#34;, &#34;ok3&#34;, &#34;region&#34;]
+        + numeric
+    )</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.canonic.canonic_df"><code class="name flex">
+<span>def <span class="ident">canonic_df</span></span>(<span>df)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Преобразовать данные внтури датафрейма:</p>
+<ul>
+<li>Привести все строки к одинаковым единицам измерения (тыс. руб.)</li>
+<li>Убрать
+неиспользуемые колонки (date_revised, report_type)</li>
+<li>Новые колонки:<ul>
+<li>короткое название компании</li>
+<li>три уровня кода ОКВЭД</li>
+<li>регион (по ИНН)</li>
+</ul>
+</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def canonic_df(df):
+    &#34;&#34;&#34;Преобразовать данные внтури датафрейма:
+
+    - Привести все строки к одинаковым единицам измерения (тыс. руб.)
+    - Убрать  неиспользуемые колонки (date_revised, report_type)
+    - Новые колонки:
+        * короткое название компании
+        * три уровня кода ОКВЭД
+        * регион (по ИНН)
+
+    &#34;&#34;&#34;
+    df_ = add_okved_subcode(add_region(add_title(df)))
+    df_ = adjust_rub(df_)
+    df_ = df_.set_index(&#34;inn&#34;)
+    df_ = rename_rows(df_)
+    return df_[canonic_columns()]</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.canonic.columns_typed_as_integer"><code class="name flex">
+<span>def <span class="ident">columns_typed_as_integer</span></span>(<span>numeric=['of', 'of_lag', 'ta_fix_fin', 'ta_fix_fin_lag', 'ta_fix', 'ta_fix_lag', 'inventory', 'inventory_lag', 'receivables', 'receivables_lag', 'ta_nonfix_fin', 'ta_nonfix_fin_lag', 'cash', 'cash_lag', 'ta_nonfix', 'ta_nonfix_lag', 'ta', 'ta_lag', 'retained_earnings', 'retained_earnings_lag', 'tp_capital', 'tp_capital_lag', 'debt_long', 'debt_long_lag', 'tp_long', 'tp_long_lag', 'debt_short', 'debt_short_lag', 'payables', 'payables_lag', 'tp_short', 'tp_short_lag', 'tp', 'tp_lag', 'sales', 'sales_lag', 'costs', 'costs_lag', 'profit_oper', 'profit_oper_lag', 'exp_interest', 'exp_interest_lag', 'profit_before_tax', 'profit_before_tax_lag', 'profit_after_tax', 'profit_after_tax_lag', 'cf_oper_in', 'cf_oper_in_sales', 'cf_oper_out', 'paid_to_supplier', 'paid_to_worker', 'paid_interest', 'paid_profit_tax', 'cf_oper', 'cf_inv_in', 'cf_inv_out', 'paid_fa_investment', 'cf_inv', 'cf_fin_in', 'cf_loan_in', 'cf_eq_in_1', 'cf_eq_in_2', 'cf_bond_in', 'cf_fin_out', 'cf_eq_out', 'cf_div_out', 'cf_debt_out', 'cf_fin', 'cf'])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def columns_typed_as_integer(numeric=NUMERIC_COLUMNS):
+    return numeric + [&#34;ok1&#34;, &#34;ok2&#34;, &#34;ok3&#34;, &#34;region&#34;]</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.canonic.dequote"><code class="name flex">
+<span>def <span class="ident">dequote</span></span>(<span>name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Split company <em>name</em> to organisation and title.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def dequote(name: str):
+    &#34;&#34;&#34;Split company *name* to organisation and title.&#34;&#34;&#34;
+    # Warning: will not work well on company names with more than 4 quotechars
+    parts = name.split(QUOTE_CHAR)
+    org = parts[0].strip()
+    cnt = name.count(QUOTE_CHAR)
+    if cnt == 2:
+        title = parts[1].strip()
+    elif cnt &gt; 2:
+        title = QUOTE_CHAR.join(parts[1:])
+    else:
+        title = name
+    return org, title.strip()</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.canonic.fst"><code class="name flex">
+<span>def <span class="ident">fst</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fst(x):
+    try:
+        return int(x[0:2])
+    except TypeError:
+        return 0</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.canonic.is_numeric_column"><code class="name flex">
+<span>def <span class="ident">is_numeric_column</span></span>(<span>name, numeric=['of', 'of_lag', 'ta_fix_fin', 'ta_fix_fin_lag', 'ta_fix', 'ta_fix_lag', 'inventory', 'inventory_lag', 'receivables', 'receivables_lag', 'ta_nonfix_fin', 'ta_nonfix_fin_lag', 'cash', 'cash_lag', 'ta_nonfix', 'ta_nonfix_lag', 'ta', 'ta_lag', 'retained_earnings', 'retained_earnings_lag', 'tp_capital', 'tp_capital_lag', 'debt_long', 'debt_long_lag', 'tp_long', 'tp_long_lag', 'debt_short', 'debt_short_lag', 'payables', 'payables_lag', 'tp_short', 'tp_short_lag', 'tp', 'tp_lag', 'sales', 'sales_lag', 'costs', 'costs_lag', 'profit_oper', 'profit_oper_lag', 'exp_interest', 'exp_interest_lag', 'profit_before_tax', 'profit_before_tax_lag', 'profit_after_tax', 'profit_after_tax_lag', 'cf_oper_in', 'cf_oper_in_sales', 'cf_oper_out', 'paid_to_supplier', 'paid_to_worker', 'paid_interest', 'paid_profit_tax', 'cf_oper', 'cf_inv_in', 'cf_inv_out', 'paid_fa_investment', 'cf_inv', 'cf_fin_in', 'cf_loan_in', 'cf_eq_in_1', 'cf_eq_in_2', 'cf_bond_in', 'cf_fin_out', 'cf_eq_out', 'cf_div_out', 'cf_debt_out', 'cf_fin', 'cf'])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_numeric_column(name, numeric=NUMERIC_COLUMNS):
+    return name in numeric</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.canonic.more_columns"><code class="name flex">
+<span>def <span class="ident">more_columns</span></span>(<span>df)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def more_columns(df):
+    return add_okved_subcode(add_region(add_title(df)))</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.canonic.rename_rows"><code class="name flex">
+<span>def <span class="ident">rename_rows</span></span>(<span>df)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rename_rows(df):
+    RENAME_DICT = {
+        &#34;2460066195&#34;: &#34;РусГидро&#34;,
+        &#34;4716016979&#34;: &#34;ФСК ЕЭС&#34;,
+        &#34;7702038150&#34;: &#34;Московский метрополитен&#34;,
+        &#34;7721632827&#34;: &#34;Концерн Росэнергоатом&#34;,
+        &#34;7706664260&#34;: &#34;Атомэнергопром&#34;,
+        &#34;7703683145&#34;: &#34;Холдинг ВТБ Капитал АЙ БИ&#34;,
+        &#34;9102048801&#34;: &#34;Черноморнефтегаз&#34;,
+        &#34;7736036626&#34;: &#34;РИТЭК&#34;,
+    }
+    keys = RENAME_DICT.keys()
+    ix = df.index.isin(keys)
+    if not ix.any():
+        return df
+    sub = df.loc[ix, &#34;title&#34;]
+    for k, v in RENAME_DICT.items():
+        if k in sub.index:
+            sub.loc[k] = v
+    df.loc[ix, &#34;title&#34;] = sub
+    return df</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.canonic.replace_names"><code class="name flex">
+<span>def <span class="ident">replace_names</span></span>(<span>title: str)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def replace_names(title: str):
+    return (
+        title.replace(&#34;ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО&#34;, &#34;ПАО&#34;)
+        .replace(&#34;ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО&#34;, &#34;ОАО&#34;)
+        .replace(&#34;АКЦИОНЕРНОЕ ОБЩЕСТВО ЭНЕРГЕТИКИ И ЭЛЕКТРИФИКАЦИИ&#34;, &#34;AO энерго&#34;)
+        .replace(&#34;НЕФТЕПЕРЕРАБАТЫВАЮЩИЙ ЗАВОД&#34;, &#34;НПЗ&#34;)
+        .replace(&#34;ГЕНЕРИРУЮЩАЯ КОМПАНИЯ ОПТОВОГО РЫНКА ЭЛЕКТРОЭНЕРГИИ&#34;, &#34;ОГК&#34;)
+        .replace(&#34;ГОРНО-ОБОГАТИТЕЛЬНЫЙ КОМБИНАТ&#34;, &#34;ГОК&#34;)
+    )</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.canonic.split_okved"><code class="name flex">
+<span>def <span class="ident">split_okved</span></span>(<span>code_string: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get 3 levels of OKVED codes from <em>code_string</em>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def split_okved(code_string: str):
+    &#34;&#34;&#34;Get 3 levels of OKVED codes from *code_string*.&#34;&#34;&#34;
+    if code_string.count(&#34;.&#34;) &gt; 2:
+        raise UnclassifiableCodeError(code_string)
+    try:
+        codes = [int(x) for x in code_string.split(&#34;.&#34;)]
+    except ValueError:
+        raise UnclassifiableCodeError(code_string)
+    return codes + [0] * (3 - len(codes))</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="boo.dataframe" href="index.html">boo.dataframe</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="boo.dataframe.canonic.add_okved_subcode" href="#boo.dataframe.canonic.add_okved_subcode">add_okved_subcode</a></code></li>
+<li><code><a title="boo.dataframe.canonic.add_region" href="#boo.dataframe.canonic.add_region">add_region</a></code></li>
+<li><code><a title="boo.dataframe.canonic.add_title" href="#boo.dataframe.canonic.add_title">add_title</a></code></li>
+<li><code><a title="boo.dataframe.canonic.adjust_rub" href="#boo.dataframe.canonic.adjust_rub">adjust_rub</a></code></li>
+<li><code><a title="boo.dataframe.canonic.canonic_columns" href="#boo.dataframe.canonic.canonic_columns">canonic_columns</a></code></li>
+<li><code><a title="boo.dataframe.canonic.canonic_df" href="#boo.dataframe.canonic.canonic_df">canonic_df</a></code></li>
+<li><code><a title="boo.dataframe.canonic.columns_typed_as_integer" href="#boo.dataframe.canonic.columns_typed_as_integer">columns_typed_as_integer</a></code></li>
+<li><code><a title="boo.dataframe.canonic.dequote" href="#boo.dataframe.canonic.dequote">dequote</a></code></li>
+<li><code><a title="boo.dataframe.canonic.fst" href="#boo.dataframe.canonic.fst">fst</a></code></li>
+<li><code><a title="boo.dataframe.canonic.is_numeric_column" href="#boo.dataframe.canonic.is_numeric_column">is_numeric_column</a></code></li>
+<li><code><a title="boo.dataframe.canonic.more_columns" href="#boo.dataframe.canonic.more_columns">more_columns</a></code></li>
+<li><code><a title="boo.dataframe.canonic.rename_rows" href="#boo.dataframe.canonic.rename_rows">rename_rows</a></code></li>
+<li><code><a title="boo.dataframe.canonic.replace_names" href="#boo.dataframe.canonic.replace_names">replace_names</a></code></li>
+<li><code><a title="boo.dataframe.canonic.split_okved" href="#boo.dataframe.canonic.split_okved">split_okved</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

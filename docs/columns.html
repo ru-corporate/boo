@@ -1,0 +1,748 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>boo.columns API documentation</title>
+<meta name="description" content="Преобразование сырых названий столбцов в названия переменных …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>boo.columns</code></h1>
+</header>
+<section id="section-intro">
+<p>Преобразование сырых названий столбцов в названия переменных.</p>
+<p>Описания полей отчетности можно посмотреть например в:
+<a href="http://info.avtovaz.ru/files/avtovaz_ras_fs_2012_rus_secured.pdf">http://info.avtovaz.ru/files/avtovaz_ras_fs_2012_rus_secured.pdf</a></p>
+<p>Более подробно о формах:
+<a href="http://www.consultant.ru/document/cons_doc_LAW_103394/b990bf4a13bd23fda86e0bba50c462a174c0d123/#dst100515">http://www.consultant.ru/document/cons_doc_LAW_103394/b990bf4a13bd23fda86e0bba50c462a174c0d123/#dst100515</a></p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Преобразование сырых названий столбцов в названия переменных.
+
+Описания полей отчетности можно посмотреть например в:
+http://info.avtovaz.ru/files/avtovaz_ras_fs_2012_rus_secured.pdf
+
+Более подробно о формах:
+http://www.consultant.ru/document/cons_doc_LAW_103394/b990bf4a13bd23fda86e0bba50c462a174c0d123/#dst100515
+
+&#34;&#34;&#34;
+
+from collections import OrderedDict
+from dataclasses import dataclass
+
+import numpy
+import pandas as pd
+
+# Column names as provided at Rosstat web site
+TTL_COLUMNS = [
+    &#34;Наименование&#34;,
+    &#34;ОКПО&#34;,
+    &#34;ОКОПФ&#34;,
+    &#34;ОКФС&#34;,
+    &#34;ОКВЭД&#34;,
+    &#34;ИНН&#34;,
+    &#34;Код единицы измерения&#34;,
+    &#34;Тип отчета&#34;,
+    &#34;11103&#34;,
+    &#34;11104&#34;,
+    &#34;11203&#34;,
+    &#34;11204&#34;,
+    &#34;11303&#34;,
+    &#34;11304&#34;,
+    &#34;11403&#34;,
+    &#34;11404&#34;,
+    &#34;11503&#34;,
+    &#34;11504&#34;,
+    &#34;11603&#34;,
+    &#34;11604&#34;,
+    &#34;11703&#34;,
+    &#34;11704&#34;,
+    &#34;11803&#34;,
+    &#34;11804&#34;,
+    &#34;11903&#34;,
+    &#34;11904&#34;,
+    &#34;11003&#34;,
+    &#34;11004&#34;,
+    &#34;12103&#34;,
+    &#34;12104&#34;,
+    &#34;12203&#34;,
+    &#34;12204&#34;,
+    &#34;12303&#34;,
+    &#34;12304&#34;,
+    &#34;12403&#34;,
+    &#34;12404&#34;,
+    &#34;12503&#34;,
+    &#34;12504&#34;,
+    &#34;12603&#34;,
+    &#34;12604&#34;,
+    &#34;12003&#34;,
+    &#34;12004&#34;,
+    &#34;16003&#34;,
+    &#34;16004&#34;,
+    &#34;13103&#34;,
+    &#34;13104&#34;,
+    &#34;13203&#34;,
+    &#34;13204&#34;,
+    &#34;13403&#34;,
+    &#34;13404&#34;,
+    &#34;13503&#34;,
+    &#34;13504&#34;,
+    &#34;13603&#34;,
+    &#34;13604&#34;,
+    &#34;13703&#34;,
+    &#34;13704&#34;,
+    &#34;13003&#34;,
+    &#34;13004&#34;,
+    &#34;14103&#34;,
+    &#34;14104&#34;,
+    &#34;14203&#34;,
+    &#34;14204&#34;,
+    &#34;14303&#34;,
+    &#34;14304&#34;,
+    &#34;14503&#34;,
+    &#34;14504&#34;,
+    &#34;14003&#34;,
+    &#34;14004&#34;,
+    &#34;15103&#34;,
+    &#34;15104&#34;,
+    &#34;15203&#34;,
+    &#34;15204&#34;,
+    &#34;15303&#34;,
+    &#34;15304&#34;,
+    &#34;15403&#34;,
+    &#34;15404&#34;,
+    &#34;15503&#34;,
+    &#34;15504&#34;,
+    &#34;15003&#34;,
+    &#34;15004&#34;,
+    &#34;17003&#34;,
+    &#34;17004&#34;,
+    &#34;21103&#34;,
+    &#34;21104&#34;,
+    &#34;21203&#34;,
+    &#34;21204&#34;,
+    &#34;21003&#34;,
+    &#34;21004&#34;,
+    &#34;22103&#34;,
+    &#34;22104&#34;,
+    &#34;22203&#34;,
+    &#34;22204&#34;,
+    &#34;22003&#34;,
+    &#34;22004&#34;,
+    &#34;23103&#34;,
+    &#34;23104&#34;,
+    &#34;23203&#34;,
+    &#34;23204&#34;,
+    &#34;23303&#34;,
+    &#34;23304&#34;,
+    &#34;23403&#34;,
+    &#34;23404&#34;,
+    &#34;23503&#34;,
+    &#34;23504&#34;,
+    &#34;23003&#34;,
+    &#34;23004&#34;,
+    &#34;24103&#34;,
+    &#34;24104&#34;,
+    &#34;24213&#34;,
+    &#34;24214&#34;,
+    &#34;24303&#34;,
+    &#34;24304&#34;,
+    &#34;24503&#34;,
+    &#34;24504&#34;,
+    &#34;24603&#34;,
+    &#34;24604&#34;,
+    &#34;24003&#34;,
+    &#34;24004&#34;,
+    &#34;25103&#34;,
+    &#34;25104&#34;,
+    &#34;25203&#34;,
+    &#34;25204&#34;,
+    &#34;25003&#34;,
+    &#34;25004&#34;,
+    &#34;32003&#34;,
+    &#34;32004&#34;,
+    &#34;32005&#34;,
+    &#34;32006&#34;,
+    &#34;32007&#34;,
+    &#34;32008&#34;,
+    &#34;33103&#34;,
+    &#34;33104&#34;,
+    &#34;33105&#34;,
+    &#34;33106&#34;,
+    &#34;33107&#34;,
+    &#34;33108&#34;,
+    &#34;33117&#34;,
+    &#34;33118&#34;,
+    &#34;33125&#34;,
+    &#34;33127&#34;,
+    &#34;33128&#34;,
+    &#34;33135&#34;,
+    &#34;33137&#34;,
+    &#34;33138&#34;,
+    &#34;33143&#34;,
+    &#34;33144&#34;,
+    &#34;33145&#34;,
+    &#34;33148&#34;,
+    &#34;33153&#34;,
+    &#34;33154&#34;,
+    &#34;33155&#34;,
+    &#34;33157&#34;,
+    &#34;33163&#34;,
+    &#34;33164&#34;,
+    &#34;33165&#34;,
+    &#34;33166&#34;,
+    &#34;33167&#34;,
+    &#34;33168&#34;,
+    &#34;33203&#34;,
+    &#34;33204&#34;,
+    &#34;33205&#34;,
+    &#34;33206&#34;,
+    &#34;33207&#34;,
+    &#34;33208&#34;,
+    &#34;33217&#34;,
+    &#34;33218&#34;,
+    &#34;33225&#34;,
+    &#34;33227&#34;,
+    &#34;33228&#34;,
+    &#34;33235&#34;,
+    &#34;33237&#34;,
+    &#34;33238&#34;,
+    &#34;33243&#34;,
+    &#34;33244&#34;,
+    &#34;33245&#34;,
+    &#34;33247&#34;,
+    &#34;33248&#34;,
+    &#34;33253&#34;,
+    &#34;33254&#34;,
+    &#34;33255&#34;,
+    &#34;33257&#34;,
+    &#34;33258&#34;,
+    &#34;33263&#34;,
+    &#34;33264&#34;,
+    &#34;33265&#34;,
+    &#34;33266&#34;,
+    &#34;33267&#34;,
+    &#34;33268&#34;,
+    &#34;33277&#34;,
+    &#34;33278&#34;,
+    &#34;33305&#34;,
+    &#34;33306&#34;,
+    &#34;33307&#34;,
+    &#34;33406&#34;,
+    &#34;33407&#34;,
+    &#34;33003&#34;,
+    &#34;33004&#34;,
+    &#34;33005&#34;,
+    &#34;33006&#34;,
+    &#34;33007&#34;,
+    &#34;33008&#34;,
+    &#34;36003&#34;,
+    &#34;36004&#34;,
+    &#34;41103&#34;,
+    &#34;41113&#34;,
+    &#34;41123&#34;,
+    &#34;41133&#34;,
+    &#34;41193&#34;,
+    &#34;41203&#34;,
+    &#34;41213&#34;,
+    &#34;41223&#34;,
+    &#34;41233&#34;,
+    &#34;41243&#34;,
+    &#34;41293&#34;,
+    &#34;41003&#34;,
+    &#34;42103&#34;,
+    &#34;42113&#34;,
+    &#34;42123&#34;,
+    &#34;42133&#34;,
+    &#34;42143&#34;,
+    &#34;42193&#34;,
+    &#34;42203&#34;,
+    &#34;42213&#34;,
+    &#34;42223&#34;,
+    &#34;42233&#34;,
+    &#34;42243&#34;,
+    &#34;42293&#34;,
+    &#34;42003&#34;,
+    &#34;43103&#34;,
+    &#34;43113&#34;,
+    &#34;43123&#34;,
+    &#34;43133&#34;,
+    &#34;43143&#34;,
+    &#34;43193&#34;,
+    &#34;43203&#34;,
+    &#34;43213&#34;,
+    &#34;43223&#34;,
+    &#34;43233&#34;,
+    &#34;43293&#34;,
+    &#34;43003&#34;,
+    &#34;44003&#34;,
+    &#34;44903&#34;,
+    &#34;61003&#34;,
+    &#34;62103&#34;,
+    &#34;62153&#34;,
+    &#34;62203&#34;,
+    &#34;62303&#34;,
+    &#34;62403&#34;,
+    &#34;62503&#34;,
+    &#34;62003&#34;,
+    &#34;63103&#34;,
+    &#34;63113&#34;,
+    &#34;63123&#34;,
+    &#34;63133&#34;,
+    &#34;63203&#34;,
+    &#34;63213&#34;,
+    &#34;63223&#34;,
+    &#34;63233&#34;,
+    &#34;63243&#34;,
+    &#34;63253&#34;,
+    &#34;63263&#34;,
+    &#34;63303&#34;,
+    &#34;63503&#34;,
+    &#34;63003&#34;,
+    &#34;64003&#34;,
+    &#34;Дата актуализации&#34;,
+]
+
+# -- Текстовые поля
+MAPPER = OrderedDict(
+    [
+        (&#34;Наименование&#34;, &#34;name&#34;),
+        (&#34;ОКПО&#34;, &#34;okpo&#34;),
+        (&#34;ОКОПФ&#34;, &#34;okopf&#34;),
+        (&#34;ОКФС&#34;, &#34;okfs&#34;),
+        (&#34;ОКВЭД&#34;, &#34;okved&#34;),
+        (&#34;ИНН&#34;, &#34;inn&#34;),
+        (&#34;Код единицы измерения&#34;, &#34;unit&#34;),
+        (&#34;Тип отчета&#34;, &#34;report_type&#34;),
+        (&#34;Дата актуализации&#34;, &#34;date_published&#34;),
+        # --  Баланс
+        # --  Внеоборотные активы
+        (&#34;1100&#34;, &#34;ta_fix&#34;),
+        (&#34;1150&#34;, &#34;of&#34;),
+        (&#34;1170&#34;, &#34;ta_fix_fin&#34;),
+        # --  Оборотные активы
+        (&#34;1200&#34;, &#34;ta_nonfix&#34;),
+        (&#34;1210&#34;, &#34;inventory&#34;),
+        (&#34;1230&#34;, &#34;receivables&#34;),
+        (&#34;1240&#34;, &#34;ta_nonfix_fin&#34;),
+        (&#34;1250&#34;, &#34;cash&#34;),
+        (&#34;1600&#34;, &#34;ta&#34;),
+        # --  Пассивы
+        (&#34;1300&#34;, &#34;tp_capital&#34;),
+        (&#34;1360&#34;, &#34;retained_earnings&#34;),
+        (&#34;1400&#34;, &#34;tp_long&#34;),
+        (&#34;1410&#34;, &#34;debt_long&#34;),
+        (&#34;1500&#34;, &#34;tp_short&#34;),
+        (&#34;1510&#34;, &#34;debt_short&#34;),
+        (&#34;1520&#34;, &#34;payables&#34;),
+        (&#34;1700&#34;, &#34;tp&#34;),
+        # --  ОПУ
+        (&#34;2110&#34;, &#34;sales&#34;),
+        (&#34;2120&#34;, &#34;costs&#34;),
+        (&#34;2200&#34;, &#34;profit_oper&#34;),
+        (&#34;2330&#34;, &#34;exp_interest&#34;),
+        (&#34;2300&#34;, &#34;profit_before_tax&#34;),
+        (&#34;2400&#34;, &#34;profit_after_tax&#34;),
+        # -- ОДДС
+        (&#34;4400&#34;, &#34;cf&#34;),
+        # -- Операционная деятельность
+        (&#34;4100&#34;, &#34;cf_oper&#34;),
+        (&#34;4110&#34;, &#34;cf_oper_in&#34;),
+        (&#34;4111&#34;, &#34;cf_oper_in_sales&#34;),
+        (&#34;4120&#34;, &#34;cf_oper_out&#34;),
+        (&#34;4121&#34;, &#34;paid_to_supplier&#34;),
+        (&#34;4122&#34;, &#34;paid_to_worker&#34;),
+        (&#34;4123&#34;, &#34;paid_interest&#34;),
+        (&#34;4124&#34;, &#34;paid_profit_tax&#34;),
+        # -- Инвестицонная деятельность
+        (&#34;4200&#34;, &#34;cf_inv&#34;),
+        (&#34;4210&#34;, &#34;cf_inv_in&#34;),
+        (&#34;4220&#34;, &#34;cf_inv_out&#34;),
+        (&#34;4221&#34;, &#34;paid_fa_investment&#34;),
+        # -- Финансовая деятельность
+        (&#34;4300&#34;, &#34;cf_fin&#34;),
+        (&#34;4310&#34;, &#34;cf_fin_in&#34;),
+        (&#34;4311&#34;, &#34;cf_loan_in&#34;),
+        (&#34;4312&#34;, &#34;cf_eq_in_1&#34;),
+        (&#34;4313&#34;, &#34;cf_eq_in_2&#34;),
+        (&#34;4314&#34;, &#34;cf_bond_in&#34;),
+        (&#34;4320&#34;, &#34;cf_fin_out&#34;),
+        (&#34;4321&#34;, &#34;cf_eq_out&#34;),
+        (&#34;4322&#34;, &#34;cf_div_out&#34;),
+        (&#34;4323&#34;, &#34;cf_debt_out&#34;),
+    ]
+)
+
+
+def ask(code):
+    return MAPPER.get(str(code))
+
+
+def fst(text):
+    return text[0]
+
+
+def last(text):
+    return text[-1]
+
+
+def trim(text):
+    return text[0:-1]
+
+
+NON_NUMERIC = &#34;x&#34;
+
+# This type assures missing interger values will be converted to NaNs
+# See https://pandas.pydata.org/pandas-docs/stable/user_guide/integer_na.html
+# and https://github.com/ru-corporate/boo/issues/18
+INT_TYPE = pd.Int64Dtype()
+
+
+@dataclass
+class Column:
+    code: str
+    section: str
+    lag: bool
+
+    def rename_with(self, mapper: dict):
+        new_code = mapper.get(self.code, self.code)
+        return Column(new_code, self.section, self.lag)
+
+    def is_numeric(self):
+        return self.section != NON_NUMERIC
+
+    @property
+    def label(self):
+        return self.code + (&#34;_lag&#34; if self.lag else &#34;&#34;)
+
+    @property
+    def dtype(self):
+        return INT_TYPE if self.is_numeric() else str
+
+
+def is_lagged(text):
+    if fst(text) == &#34;3&#34;:
+        return False
+    if last(text) == &#34;3&#34;:
+        return False
+    if last(text) == &#34;4&#34;:
+        return True
+    return None
+
+
+assert is_lagged(&#34;63243&#34;) is False
+assert is_lagged(&#34;Дата актуализации&#34;) is None
+assert is_lagged(&#34;23304&#34;) is True
+
+
+def section(text):
+    num = text[0]
+    return {
+        &#34;1&#34;: &#34;Баланс&#34;,
+        &#34;2&#34;: &#34;ОПУ&#34;,
+        &#34;3&#34;: &#34;Изменения капитала&#34;,
+        &#34;4&#34;: &#34;ОДДС&#34;,
+        &#34;6&#34;: &#34;Extras&#34;,
+    }.get(num, NON_NUMERIC)
+
+
+def code(text):
+    if fst(text) in [&#34;1&#34;, &#34;2&#34;, &#34;4&#34;, &#34;6&#34;]:
+        return text[0:-1]
+    else:
+        return text
+
+
+def column(text):
+    return Column(code(text), section(text), is_lagged(text))
+
+
+columns = [column(x) for x in TTL_COLUMNS]
+INDEX = [i for (i, c) in enumerate(columns) if c.rename_with(MAPPER) != c]
+columns_short = [c.rename_with(MAPPER) for c in columns if c.rename_with(MAPPER) != c]
+NAMES = {c.label: c.dtype for c in columns_short}
+
+assert len(INDEX) == len(NAMES)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="boo.columns.ask"><code class="name flex">
+<span>def <span class="ident">ask</span></span>(<span>code)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ask(code):
+    return MAPPER.get(str(code))</code></pre>
+</details>
+</dd>
+<dt id="boo.columns.code"><code class="name flex">
+<span>def <span class="ident">code</span></span>(<span>text)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def code(text):
+    if fst(text) in [&#34;1&#34;, &#34;2&#34;, &#34;4&#34;, &#34;6&#34;]:
+        return text[0:-1]
+    else:
+        return text</code></pre>
+</details>
+</dd>
+<dt id="boo.columns.column"><code class="name flex">
+<span>def <span class="ident">column</span></span>(<span>text)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def column(text):
+    return Column(code(text), section(text), is_lagged(text))</code></pre>
+</details>
+</dd>
+<dt id="boo.columns.fst"><code class="name flex">
+<span>def <span class="ident">fst</span></span>(<span>text)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fst(text):
+    return text[0]</code></pre>
+</details>
+</dd>
+<dt id="boo.columns.is_lagged"><code class="name flex">
+<span>def <span class="ident">is_lagged</span></span>(<span>text)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_lagged(text):
+    if fst(text) == &#34;3&#34;:
+        return False
+    if last(text) == &#34;3&#34;:
+        return False
+    if last(text) == &#34;4&#34;:
+        return True
+    return None</code></pre>
+</details>
+</dd>
+<dt id="boo.columns.last"><code class="name flex">
+<span>def <span class="ident">last</span></span>(<span>text)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def last(text):
+    return text[-1]</code></pre>
+</details>
+</dd>
+<dt id="boo.columns.section"><code class="name flex">
+<span>def <span class="ident">section</span></span>(<span>text)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def section(text):
+    num = text[0]
+    return {
+        &#34;1&#34;: &#34;Баланс&#34;,
+        &#34;2&#34;: &#34;ОПУ&#34;,
+        &#34;3&#34;: &#34;Изменения капитала&#34;,
+        &#34;4&#34;: &#34;ОДДС&#34;,
+        &#34;6&#34;: &#34;Extras&#34;,
+    }.get(num, NON_NUMERIC)</code></pre>
+</details>
+</dd>
+<dt id="boo.columns.trim"><code class="name flex">
+<span>def <span class="ident">trim</span></span>(<span>text)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def trim(text):
+    return text[0:-1]</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="boo.columns.Column"><code class="flex name class">
+<span>class <span class="ident">Column</span></span>
+<span>(</span><span>code: str, section: str, lag: bool)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Column(code: str, section: str, lag: bool)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Column:
+    code: str
+    section: str
+    lag: bool
+
+    def rename_with(self, mapper: dict):
+        new_code = mapper.get(self.code, self.code)
+        return Column(new_code, self.section, self.lag)
+
+    def is_numeric(self):
+        return self.section != NON_NUMERIC
+
+    @property
+    def label(self):
+        return self.code + (&#34;_lag&#34; if self.lag else &#34;&#34;)
+
+    @property
+    def dtype(self):
+        return INT_TYPE if self.is_numeric() else str</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="boo.columns.Column.dtype"><code class="name">var <span class="ident">dtype</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def dtype(self):
+    return INT_TYPE if self.is_numeric() else str</code></pre>
+</details>
+</dd>
+<dt id="boo.columns.Column.label"><code class="name">var <span class="ident">label</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def label(self):
+    return self.code + (&#34;_lag&#34; if self.lag else &#34;&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="boo.columns.Column.is_numeric"><code class="name flex">
+<span>def <span class="ident">is_numeric</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_numeric(self):
+    return self.section != NON_NUMERIC</code></pre>
+</details>
+</dd>
+<dt id="boo.columns.Column.rename_with"><code class="name flex">
+<span>def <span class="ident">rename_with</span></span>(<span>self, mapper: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rename_with(self, mapper: dict):
+    new_code = mapper.get(self.code, self.code)
+    return Column(new_code, self.section, self.lag)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="boo" href="index.html">boo</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="boo.columns.ask" href="#boo.columns.ask">ask</a></code></li>
+<li><code><a title="boo.columns.code" href="#boo.columns.code">code</a></code></li>
+<li><code><a title="boo.columns.column" href="#boo.columns.column">column</a></code></li>
+<li><code><a title="boo.columns.fst" href="#boo.columns.fst">fst</a></code></li>
+<li><code><a title="boo.columns.is_lagged" href="#boo.columns.is_lagged">is_lagged</a></code></li>
+<li><code><a title="boo.columns.last" href="#boo.columns.last">last</a></code></li>
+<li><code><a title="boo.columns.section" href="#boo.columns.section">section</a></code></li>
+<li><code><a title="boo.columns.trim" href="#boo.columns.trim">trim</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="boo.columns.Column" href="#boo.columns.Column">Column</a></code></h4>
+<ul class="">
+<li><code><a title="boo.columns.Column.dtype" href="#boo.columns.Column.dtype">dtype</a></code></li>
+<li><code><a title="boo.columns.Column.is_numeric" href="#boo.columns.Column.is_numeric">is_numeric</a></code></li>
+<li><code><a title="boo.columns.Column.label" href="#boo.columns.Column.label">label</a></code></li>
+<li><code><a title="boo.columns.Column.rename_with" href="#boo.columns.Column.rename_with">rename_with</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

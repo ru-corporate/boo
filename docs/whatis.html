@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>boo.whatis API documentation</title>
+<meta name="description" content="Code descriptions based on
+http://www.consultant.ru/document/cons_doc_LAW_103394/c8c663513ad32e5a0eb8ca96753ea3e0911415db/" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>boo.whatis</code></h1>
+</header>
+<section id="section-intro">
+<p>Code descriptions based on
+<a href="http://www.consultant.ru/document/cons_doc_LAW_103394/c8c663513ad32e5a0eb8ca96753ea3e0911415db/">http://www.consultant.ru/document/cons_doc_LAW_103394/c8c663513ad32e5a0eb8ca96753ea3e0911415db/</a></p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Code descriptions based on
+   http://www.consultant.ru/document/cons_doc_LAW_103394/c8c663513ad32e5a0eb8ca96753ea3e0911415db/
+&#34;&#34;&#34;
+
+ACCOUNT_NAMES_TEXT = &#34;&#34;&#34;БУХГАЛТЕРСКИЙ БАЛАНС    1000
+Итого внеоборотных активов      1100
+Нематериальные активы   1110
+Результаты исследований и разработок    1120
+Нематериальные поисковые активы 1130
+Материальные поисковые активы   1140
+Основные средства       1150
+Доходные вложения в материальные ценности       1160
+Финансовые вложения     1170
+Отложенные налоговые активы     1180
+Прочие внеоборотные активы      1190
+Итого оборотных активов 1200
+Запасы  1210
+Налог на добавленную стоимость по приобретенным ценностям       1220
+Дебиторская задолженность       1230
+Финансовые вложения (за исключением денежных эквивалентов)      1240
+Денежные средства и денежные эквиваленты        1250
+Прочие оборотные активы 1260
+БАЛАНС (актив)  1600
+Итого капитал   1300
+Уставный капитал (складочный капитал, уставный фонд, вклады товарищей)  1310
+Собственные акции, выкупленные у акционеров     1320
+Переоценка внеоборотных активов 1340
+Добавочный капитал (без переоценки)     1350
+Резервный капитал       1360
+Нераспределенная прибыль (непокрытый убыток)    1370
+Долгосрочные заемные средства   1410
+Отложенные налоговые обязательства      1420
+Оценочные обязательства 1430
+Прочие долгосрочные обязательства       1450
+Итого долгосрочных обязательств 1400
+Краткосрочные заемные обязательства     1510
+Краткосрочная кредиторская задолженность        1520
+Доходы будущих периодов 1530
+Оценочные обязательства 1540
+Прочие краткосрочные обязательства      1550
+Итого краткосрочных обязательств        1500
+БАЛАНС (пассив) 1700
+ОТЧЕТ О ФИНАНСОВЫХ РЕЗУЛЬТАТАХ  2000
+Выручка 2110
+Себестоимость продаж    2120
+Валовая прибыль (убыток)        2100
+Коммерческие расходы    2210
+Управленческие расходы  2220
+Прибыль (убыток) от продаж      2200
+Доходы от участия в других организациях 2310
+Проценты к получению    2320
+Проценты к уплате       2330
+Прочие доходы   2340
+Прочие расходы  2350
+Прибыль (убыток) до налогообложения     2300
+Текущий налог на прибыль        2410
+Постоянные налоговые обязательства (активы)     2421
+Изменение отложенных налоговых обязательств     2430
+Изменение отложенных налоговых активов  2450
+Прочее  2460
+Чистая прибыль (убыток) 2400
+Результат от переоценки внеоборотных активов, не включаемый в чистую прибыль (убыток)   2510
+Результат от прочих операций, не включаемый в чистую прибыль (убыток) периода   2520
+Совокупный финансовый результат периода 2500
+Базовая прибыль (убыток) на акцию       2900
+Разводненная прибыль (убыток) на акцию  2910
+ОТЧЕТ О ДВИЖЕНИИ ДЕНЕЖНЫХ СРЕДСТВ       4000
+Поступления - всего     4110
+От продажи продукции, товаров, работ и услуг    4111
+Арендных платежей, лицензионных платежей, роялти, комиссионных и иных аналогичных платежей      4112
+От перепродажи финансовых вложений      4113
+Прочие поступления      4119
+Платежи - всего 4120
+Поставщикам (подрядчикам) за сырье, материалы, работы, услуги   4121
+В связи с оплатой труда работников      4122
+Проценты по долговым обязательствам     4123
+Налога на прибыль организаций   4124
+Прочие платежи  4129
+Сальдо денежных потоков от текущих операций     4100
+Поступления - всего     4210
+От продажи внеоборотных активов (кроме финансовых вложений)     4211
+От продажи акций других организаций (долей участия)     4212
+От возврата предоставленных займов, от продажи долговых ценных бумаг (прав требования денежных средств к другим лицам)  4213
+Дивидендов, процентов по долговым финансовым вложениям и аналогичных поступлений от долевого участия в других организациях      4214
+Прочие поступления      4219
+Платежи - всего 4220
+В связи с приобретением, созданием, модернизацией, реконструкцией и подготовкой к использованию внеоборотны активов     4221
+В связи с приобретением акций других организаций (долей участия)        4222
+В связи с приобретением долговых ценных бумаг (прав требования денежных средств к другим лицам), предоставление займов другим лицам     4223
+Процентов по долговым обязательствам, включаемым в стоимость инвестиционного актива     4224
+Прочие платежи  4229
+Сальдо денежных потоков от инвестиционных операций      4200
+Поступления - всего     4310
+Получение кредитов и займов     4311
+Денежных вкладов собственников (участников)     4312
+От выпуска акций, увеличения долей участия      4313
+От выпуска облигаций, векселей и других долговых ценных бумаг и др.     4314
+Прочие поступления      4319
+Платежи - всего 4320
+Собственникам (участникам) в связи с выкупом у них акций (долей участия) организации или их выходом из состава участников       4321
+На уплату дивидендов и иных платежей по распределению прибыли в пользу собственников (участников)       4322
+В связи с погашением (выкупом) векселей и других долговы ценных бумаг, возврат кредитов и займов        4323
+Прочие платежи  4329
+Сальдо денежных потоков от финансовых операций  4300
+Сальдо денежных потоков за отчетный период      4400
+Остаток денежных средств и денежных эквивалентов на начало отчетного периода    4450
+Остаток денежных средств и денежных эквивалентов на конец отчетного периода     4500
+Величина влияния изменений курса иностранной валюты по отношению к рублю        4490
+Остаток средств на начало отчетного года        6100
+Поступило средств - всего       6200
+Вступительные взносы    6210
+Членские взносы 6215
+Целевые взносы  6220
+Добровольные имущественные взносы и пожертвования       6230
+Прибыль от предпринимательской деятельности организации 6240
+Прочие  6250
+Использовано средств - всего    6300
+Расходы на целевые мероприятия  6310
+социальная и благотворительная помощь   6311
+проведение конференций, совещаний, семинаров и т.п.     6312
+иные мероприятия        6313
+Расходы на содержание аппарата управления       6320
+расходы, связанные с оплатой труда (включая начисления) 6321
+выплаты, связанные с оплатой труда      6322
+расходы на служебные командировки и деловые поездки     6323
+содержание помещений, зданий, автомобильного транспорта и иного имущества (кроме ремонта)       6324
+ремонт основных средств и иного имущества       6325
+прочие  6326
+Приобретение основных средств, инвентаря и иного имущества      6330
+Прочие  6350
+Остаток средств на конец отчетного года 6400&#34;&#34;&#34;
+
+
+def items_from_doc(doc: str):
+    for x in doc.split(&#34;\n&#34;):
+        y = x.split(&#34;\t&#34;)
+        try:
+            yield y[1], y[0]
+        except IndexError:
+            raise ValueError(y)
+
+
+def code_to_description(code: str, doc=ACCOUNT_NAMES_TEXT):
+    &#34;&#34;&#34;Return account text description by code.&#34;&#34;&#34;
+    acc_names = dict(items_from_doc(doc))
+    return acc_names.get(code)
+
+
+def okv(text):
+    return f&#34;Код ОКВЭД {text} уровня&#34;
+
+
+ADDITIONAL_DICT = {
+    &#34;ok1&#34;: okv(&#34;первого&#34;),
+    &#34;ok2&#34;: okv(&#34;второго&#34;),
+    &#34;ok3&#34;: okv(&#34;третьего&#34;),
+    &#34;org&#34;: &#34;Тип юридического лица (часть наименования организации)&#34;,
+    &#34;title&#34;: &#34;Короткое название организации&#34;,
+    &#34;region&#34;: &#34;Код региона по ИНН&#34;,
+    &#34;okpo&#34;: &#34;Общероссийский классификатор предприятий и организаций (ОКПО)&#34;,
+    &#34;okopf&#34;: &#34;Общероссийский классификатор организационно-правовых форм (ОКОПФ)&#34;,
+    &#34;okfs&#34;: &#34;Общероссийский классификатор форм собственности (ОКФС)&#34;,
+    &#34;okved&#34;: &#34;Общероссийский классификатор видов экономической деятельности (ОКВЭД)&#34;,
+    &#34;unit&#34;: &#34;Код единицы измерения (384 - тыс. руб.)&#34;,
+    &#34;p&#34;: &#34;Прибыль (убыток) до налогообложения&#34;,
+}
+
+
+def unlag(x):
+    return x.replace(&#34;_lag&#34;, &#34;&#34;) if x.endswith(&#34;_lag&#34;) else x
+
+
+def whatis(varname: str, additional_codes: dict = ADDITIONAL_DICT):
+    &#34;&#34;&#34;Return text description for *varname*.&#34;&#34;&#34;
+    from boo.columns import MAPPER
+
+    reverse = {v: k for k, v in MAPPER.items()}
+    varname = unlag(varname)
+    try:
+        return additional_codes[varname]
+    except KeyError:
+        return code_to_description(reverse.get(varname))</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="boo.whatis.code_to_description"><code class="name flex">
+<span>def <span class="ident">code_to_description</span></span>(<span>code: str, doc='БУХГАЛТЕРСКИЙ БАЛАНС\t1000\nИтого внеоборотных активов\t1100\nНематериальные активы\t1110\nРезультаты исследований и разработок\t1120\nНематериальные поисковые активы\t1130\nМатериальные поисковые активы\t1140\nОсновные средства\t1150\nДоходные вложения в материальные ценности\t1160\nФинансовые вложения\t1170\nОтложенные налоговые активы\t1180\nПрочие внеоборотные активы\t1190\nИтого оборотных активов\t1200\nЗапасы\t1210\nНалог на добавленную стоимость по приобретенным ценностям\t1220\nДебиторская задолженность\t1230\nФинансовые вложения (за исключением денежных эквивалентов)\t1240\nДенежные средства и денежные эквиваленты\t1250\nПрочие оборотные активы\t1260\nБАЛАНС (актив)\t1600\nИтого капитал\t1300\nУставный капитал (складочный капитал, уставный фонд, вклады товарищей)\t1310\nСобственные акции, выкупленные у акционеров\t1320\nПереоценка внеоборотных активов\t1340\nДобавочный капитал (без переоценки)\t1350\nРезервный капитал\t1360\nНераспределенная прибыль (непокрытый убыток)\t1370\nДолгосрочные заемные средства\t1410\nОтложенные налоговые обязательства\t1420\nОценочные обязательства\t1430\nПрочие долгосрочные обязательства\t1450\nИтого долгосрочных обязательств\t1400\nКраткосрочные заемные обязательства\t1510\nКраткосрочная кредиторская задолженность\t1520\nДоходы будущих периодов\t1530\nОценочные обязательства\t1540\nПрочие краткосрочные обязательства\t1550\nИтого краткосрочных обязательств\t1500\nБАЛАНС (пассив)\t1700\nОТЧЕТ О ФИНАНСОВЫХ РЕЗУЛЬТАТАХ\t2000\nВыручка\t2110\nСебестоимость продаж\t2120\nВаловая прибыль (убыток)\t2100\nКоммерческие расходы\t2210\nУправленческие расходы\t2220\nПрибыль (убыток) от продаж\t2200\nДоходы от участия в других организациях\t2310\nПроценты к получению\t2320\nПроценты к уплате\t2330\nПрочие доходы\t2340\nПрочие расходы\t2350\nПрибыль (убыток) до налогообложения\t2300\nТекущий налог на прибыль\t2410\nПостоянные налоговые обязательства (активы)\t2421\nИзменение отложенных налоговых обязательств\t2430\nИзменение отложенных налоговых активов\t2450\nПрочее\t2460\nЧистая прибыль (убыток)\t2400\nРезультат от переоценки внеоборотных активов, не включаемый в чистую прибыль (убыток)\t2510\nРезультат от прочих операций, не включаемый в чистую прибыль (убыток) периода\t2520\nСовокупный финансовый результат периода\t2500\nБазовая прибыль (убыток) на акцию\t2900\nРазводненная прибыль (убыток) на акцию\t2910\nОТЧЕТ О ДВИЖЕНИИ ДЕНЕЖНЫХ СРЕДСТВ\t4000\nПоступления - всего\t4110\nОт продажи продукции, товаров, работ и услуг\t4111\nАрендных платежей, лицензионных платежей, роялти, комиссионных и иных аналогичных платежей\t4112\nОт перепродажи финансовых вложений\t4113\nПрочие поступления\t4119\nПлатежи - всего\t4120\nПоставщикам (подрядчикам) за сырье, материалы, работы, услуги\t4121\nВ связи с оплатой труда работников\t4122\nПроценты по долговым обязательствам\t4123\nНалога на прибыль организаций\t4124\nПрочие платежи\t4129\nСальдо денежных потоков от текущих операций\t4100\nПоступления - всего\t4210\nОт продажи внеоборотных активов (кроме финансовых вложений)\t4211\nОт продажи акций других организаций (долей участия)\t4212\nОт возврата предоставленных займов, от продажи долговых ценных бумаг (прав требования денежных средств к другим лицам)\t4213\nДивидендов, процентов по долговым финансовым вложениям и аналогичных поступлений от долевого участия в других организациях\t4214\nПрочие поступления\t4219\nПлатежи - всего\t4220\nВ связи с приобретением, созданием, модернизацией, реконструкцией и подготовкой к использованию внеоборотны активов\t4221\nВ связи с приобретением акций других организаций (долей участия)\t4222\nВ связи с приобретением долговых ценных бумаг (прав требования денежных средств к другим лицам), предоставление займов другим лицам\t4223\nПроцентов по долговым обязательствам, включаемым в стоимость инвестиционного актива\t4224\nПрочие платежи\t4229\nСальдо денежных потоков от инвестиционных операций\t4200\nПоступления - всего\t4310\nПолучение кредитов и займов\t4311\nДенежных вкладов собственников (участников)\t4312\nОт выпуска акций, увеличения долей участия\t4313\nОт выпуска облигаций, векселей и других долговых ценных бумаг и др.\t4314\nПрочие поступления\t4319\nПлатежи - всего\t4320\nСобственникам (участникам) в связи с выкупом у них акций (долей участия) организации или их выходом из состава участников\t4321\nНа уплату дивидендов и иных платежей по распределению прибыли в пользу собственников (участников)\t4322\nВ связи с погашением (выкупом) векселей и других долговы ценных бумаг, возврат кредитов и займов\t4323\nПрочие платежи\t4329\nСальдо денежных потоков от финансовых операций\t4300\nСальдо денежных потоков за отчетный период\t4400\nОстаток денежных средств и денежных эквивалентов на начало отчетного периода\t4450\nОстаток денежных средств и денежных эквивалентов на конец отчетного периода\t4500\nВеличина влияния изменений курса иностранной валюты по отношению к рублю\t4490\nОстаток средств на начало отчетного года\t6100\nПоступило средств - всего\t6200\nВступительные взносы\t6210\nЧленские взносы\t6215\nЦелевые взносы\t6220\nДобровольные имущественные взносы и пожертвования\t6230\nПрибыль от предпринимательской деятельности организации\t6240\nПрочие\t6250\nИспользовано средств - всего\t6300\nРасходы на целевые мероприятия\t6310\nсоциальная и благотворительная помощь\t6311\nпроведение конференций, совещаний, семинаров и т.п.\t6312\nиные мероприятия\t6313\nРасходы на содержание аппарата управления\t6320\nрасходы, связанные с оплатой труда (включая начисления)\t6321\nвыплаты, связанные с оплатой труда\t6322\nрасходы на служебные командировки и деловые поездки\t6323\nсодержание помещений, зданий, автомобильного транспорта и иного имущества (кроме ремонта)\t6324\nремонт основных средств и иного имущества\t6325\nпрочие\t6326\nПриобретение основных средств, инвентаря и иного имущества\t6330\nПрочие\t6350\nОстаток средств на конец отчетного года\t6400')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Return account text description by code.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def code_to_description(code: str, doc=ACCOUNT_NAMES_TEXT):
+    &#34;&#34;&#34;Return account text description by code.&#34;&#34;&#34;
+    acc_names = dict(items_from_doc(doc))
+    return acc_names.get(code)</code></pre>
+</details>
+</dd>
+<dt id="boo.whatis.items_from_doc"><code class="name flex">
+<span>def <span class="ident">items_from_doc</span></span>(<span>doc: str)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def items_from_doc(doc: str):
+    for x in doc.split(&#34;\n&#34;):
+        y = x.split(&#34;\t&#34;)
+        try:
+            yield y[1], y[0]
+        except IndexError:
+            raise ValueError(y)</code></pre>
+</details>
+</dd>
+<dt id="boo.whatis.okv"><code class="name flex">
+<span>def <span class="ident">okv</span></span>(<span>text)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def okv(text):
+    return f&#34;Код ОКВЭД {text} уровня&#34;</code></pre>
+</details>
+</dd>
+<dt id="boo.whatis.unlag"><code class="name flex">
+<span>def <span class="ident">unlag</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def unlag(x):
+    return x.replace(&#34;_lag&#34;, &#34;&#34;) if x.endswith(&#34;_lag&#34;) else x</code></pre>
+</details>
+</dd>
+<dt id="boo.whatis.whatis"><code class="name flex">
+<span>def <span class="ident">whatis</span></span>(<span>varname: str, additional_codes: dict = {'ok1': 'Код ОКВЭД первого уровня', 'ok2': 'Код ОКВЭД второго уровня', 'ok3': 'Код ОКВЭД третьего уровня', 'org': 'Тип юридического лица (часть наименования организации)', 'title': 'Короткое название организации', 'region': 'Код региона по ИНН', 'okpo': 'Общероссийский классификатор предприятий и организаций (ОКПО)', 'okopf': 'Общероссийский классификатор организационно-правовых форм (ОКОПФ)', 'okfs': 'Общероссийский классификатор форм собственности (ОКФС)', 'okved': 'Общероссийский классификатор видов экономической деятельности (ОКВЭД)', 'unit': 'Код единицы измерения (384 - тыс. руб.)', 'p': 'Прибыль (убыток) до налогообложения'})</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Return text description for <em>varname</em>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def whatis(varname: str, additional_codes: dict = ADDITIONAL_DICT):
+    &#34;&#34;&#34;Return text description for *varname*.&#34;&#34;&#34;
+    from boo.columns import MAPPER
+
+    reverse = {v: k for k, v in MAPPER.items()}
+    varname = unlag(varname)
+    try:
+        return additional_codes[varname]
+    except KeyError:
+        return code_to_description(reverse.get(varname))</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="boo" href="index.html">boo</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="boo.whatis.code_to_description" href="#boo.whatis.code_to_description">code_to_description</a></code></li>
+<li><code><a title="boo.whatis.items_from_doc" href="#boo.whatis.items_from_doc">items_from_doc</a></code></li>
+<li><code><a title="boo.whatis.okv" href="#boo.whatis.okv">okv</a></code></li>
+<li><code><a title="boo.whatis.unlag" href="#boo.whatis.unlag">unlag</a></code></li>
+<li><code><a title="boo.whatis.whatis" href="#boo.whatis.whatis">whatis</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

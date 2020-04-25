@@ -6,7 +6,7 @@ import pytest
 from requests.exceptions import ConnectionError
 import pandas as pd
 
-from boo.main import download, read_dataframe, inspect, read_intermediate_df
+from boo.main import download, read_dataframe, inspect
 from boo.path import RawFile
 
 

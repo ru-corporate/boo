@@ -372,9 +372,10 @@ def trim(text):
 
 
 NON_NUMERIC = "x"
+
 # This type assures missing interger values will be converted to NaNs
 # See https://pandas.pydata.org/pandas-docs/stable/user_guide/integer_na.html
-# and  
+# and https://github.com/ru-corporate/boo/issues/18
 INT_TYPE = pd.Int64Dtype()
    
 

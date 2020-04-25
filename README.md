@@ -43,6 +43,12 @@ Please refer to Google Colab link above for examples.
 1. [Data access](https://colab.research.google.com/drive/11g70BD78BnM6PqVrT4uZ27zrNBQ2ae3s)
 2. [Usage discussion](https://colab.research.google.com/drive/1lpB2jIPyQDZvri13DOpgyD5_NWRWqi-H)
 
+### Documentation
+
+<https://ru-corporate.github.io/boo/>
+
+
+
 ## Files
 
 CSV files are located at `~/.boo` folder. Function `boo.locate(year)` will show exactly where they are.

@@ -26,7 +26,7 @@ pip install git+https://github.com/ru-corporate/boo.git@master
 
 ## Usage
 
-### Download, build and read full dataframe
+### Download and read full dataframe
 
 ```python
 from boo import download, read_dataframe
@@ -42,6 +42,12 @@ Please refer to Google Colab link above for examples.
 
 1. [Data access](https://colab.research.google.com/drive/11g70BD78BnM6PqVrT4uZ27zrNBQ2ae3s)
 2. [Usage discussion](https://colab.research.google.com/drive/1lpB2jIPyQDZvri13DOpgyD5_NWRWqi-H)
+
+### Documentation
+
+<https://ru-corporate.github.io/boo/>
+
+
 
 ## Files
 

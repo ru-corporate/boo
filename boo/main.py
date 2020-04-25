@@ -46,6 +46,7 @@ def download(year: int, force=False, directory=None):
 
 
 def download_direct(url: str, year: int, force=False, directory=None):
+    """Download file directly from Rosstat website."""
     raw_file = RawFile(year, directory)
     path = raw_file.path
     conditional_delete(path, force)

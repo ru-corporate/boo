@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>boo.dataframe.test.test_canonic API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>boo.dataframe.test.test_canonic</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import pytest
+import pandas as pd
+import numpy as np
+
+
+from boo.dataframe.canonic import (
+    canonic_df,
+    rename_rows,
+    UnclassifiableCodeError,
+    split_okved,
+    fst,
+)
+
+
+STRINGS = [&#34;title&#34;, &#34;org&#34;, &#34;okpo&#34;, &#34;okopf&#34;, &#34;okfs&#34;, &#34;okved&#34;, &#34;inn&#34;, &#34;unit&#34;]
+
+
+def test_fst():
+    assert fst(&#34;123&#34;) == 12
+    assert fst(1) == 0
+
+
+df1 = pd.DataFrame(
+    {
+        &#34;cash&#34;: {227693: 5118911, 1134038: 176492735},
+        &#34;cash_lag&#34;: {227693: 4415161, 1134038: 97254253},
+        &#34;cf&#34;: {227693: 731457, 1134038: 79238482},
+        &#34;cf_fin&#34;: {227693: -8381375, 1134038: 0},
+        &#34;cf_fin_in&#34;: {227693: 45710000, 1134038: 0},
+        &#34;cf_fin_out&#34;: {227693: 54091375, 1134038: 0},
+        &#34;cf_inv&#34;: {227693: -9562988, 1134038: 94133337},
+        &#34;cf_inv_in&#34;: {227693: 462649, 1134038: 227215065},
+        &#34;cf_inv_out&#34;: {227693: 10025637, 1134038: 133081728},
+        &#34;cf_oper&#34;: {227693: 18675820, 1134038: -14894855},
+        &#34;cf_oper_in&#34;: {227693: 141458070, 1134038: 126623931},
+        &#34;cf_oper_in_sales&#34;: {227693: 139059783, 1134038: 76596031},
+        &#34;cf_oper_out&#34;: {227693: 122782250, 1134038: 141518786},
+        &#34;date_published&#34;: {227693: &#34;20180522&#34;, 1134038: &#34;20180420&#34;},
+        &#34;debt_long&#34;: {227693: 48710000, 1134038: 0},
+        &#34;debt_long_lag&#34;: {227693: 24110000, 1134038: 0},
+        &#34;debt_short&#34;: {227693: 135225, 1134038: 0},
+        &#34;debt_short_lag&#34;: {227693: 32225249, 1134038: 0},
+        &#34;exp_interest&#34;: {227693: 4772743, 1134038: 0},
+        &#34;exp_interest_lag&#34;: {227693: 4578533, 1134038: 0},
+        &#34;inn&#34;: {227693: &#34;2607018122&#34;, 1134038: &#34;7702038150&#34;},
+        &#34;name&#34;: {
+            227693: &#39;ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО &#34;ВТОРАЯ ГЕНЕРИРУЮЩАЯ КОМПАНИЯ ОПТОВОГО РЫНКА ЭЛЕКТРОЭНЕРГИИ&#34;&#39;,
+            1134038: &#39;ГОСУДАРСТВЕННОЕ УНИТАРНОЕ ПРЕДПРИЯТИЕ ГОРОДА МОСКВЫ &#34;МОСКОВСКИЙ ОРДЕНА ЛЕНИНА И ОРДЕНА ТРУДОВОГО КРАСНОГО ЗНАМЕНИ МЕТРОПОЛИТЕН ИМЕНИ В.И.ЛЕНИНА&#34;&#39;,
+        },
+        &#34;of&#34;: {227693: 157893868, 1134038: 1177451866},
+        &#34;of_lag&#34;: {227693: 159580634, 1134038: 1176481475},
+        &#34;okfs&#34;: {227693: &#34;16&#34;, 1134038: &#34;13&#34;},
+        &#34;okopf&#34;: {227693: &#34;12247&#34;, 1134038: &#34;65242&#34;},
+        &#34;okpo&#34;: {227693: &#34;76851389&#34;, 1134038: &#34;03324364&#34;},
+        &#34;okved&#34;: {227693: &#34;35.11.1&#34;, 1134038: &#34;49.31.24&#34;},
+        &#34;paid_fa_investment&#34;: {227693: 8151560, 1134038: 75846216},
+        &#34;paid_interest&#34;: {227693: 4263663, 1134038: 0},
+        &#34;paid_other_costs&#34;: {227693: 10533749, 1134038: 49285848},
+        &#34;paid_profit_tax&#34;: {227693: 1194945, 1134038: 1334091},
+        &#34;paid_to_supplier&#34;: {227693: 101635288, 1134038: 36403948},
+        &#34;paid_to_worker&#34;: {227693: 5154605, 1134038: 54494899},
+        &#34;profit_after_tax&#34;: {227693: 6653155, 1134038: -2941167},
+        &#34;profit_after_tax_lag&#34;: {227693: 3496694, 1134038: 478499},
+        &#34;profit_before_tax&#34;: {227693: 9565794, 1134038: -1264096},
+        &#34;profit_before_tax_lag&#34;: {227693: 5568938, 1134038: 1499730},
+        &#34;profit_oper&#34;: {227693: 18777329, 1134038: -3824454},
+        &#34;profit_oper_lag&#34;: {227693: 14148372, 1134038: -2933568},
+        &#34;report_type&#34;: {227693: &#34;2&#34;, 1134038: &#34;2&#34;},
+        &#34;sales&#34;: {227693: 139613447, 1134038: 108266266},
+        &#34;sales_lag&#34;: {227693: 134284652, 1134038: 93793008},
+        &#34;ta&#34;: {227693: 199987631, 1134038: 1976579092},
+        &#34;ta_fix&#34;: {227693: 168086888, 1134038: 1790840290},
+        &#34;ta_fix_lag&#34;: {227693: 170327660, 1134038: 1646655499},
+        &#34;ta_lag&#34;: {227693: 201623040, 1134038: 1752602357},
+        &#34;ta_nonfix&#34;: {227693: 31900743, 1134038: 185738802},
+        &#34;ta_nonfix_lag&#34;: {227693: 31295380, 1134038: 105946858},
+        &#34;tp&#34;: {227693: 199987631, 1134038: 1976579092},
+        &#34;tp_capital&#34;: {227693: 120149020, 1134038: 1321233565},
+        &#34;tp_capital_lag&#34;: {227693: 114235134, 1134038: 1316041991},
+        &#34;tp_lag&#34;: {227693: 201623040, 1134038: 1752602357},
+        &#34;tp_long&#34;: {227693: 60118904, 1134038: 816784},
+        &#34;tp_long_lag&#34;: {227693: 38310705, 1134038: 753699},
+        &#34;tp_short&#34;: {227693: 19719707, 1134038: 654528743},
+        &#34;tp_short_lag&#34;: {227693: 49077201, 1134038: 435806667},
+        &#34;unit&#34;: {227693: &#34;384&#34;, 1134038: &#34;384&#34;},
+    },
+    index=None,
+)
+
+# FIXME Tests do not work for df1 - need new fixture.
+
+# def test_rename_complete():
+#     assert canonic_df(df1).title[&#34;7702038150&#34;] == &#34;Московский метрополитен&#34;
+
+
+# def test_substitute_complete():
+#     assert canonic_df(df1).title[&#34;2607018122&#34;] == &#34;ВТОРАЯ ОГК&#34;
+
+
+def test_rename_rows():
+    df2 = pd.DataFrame(
+        {
+            &#34;title&#34;: {
+                1134038: &#34;МОСКОВСКИЙ ОРДЕНА ЛЕНИНА И ОРДЕНА ТРУДОВОГО КРАСНОГО ЗНАМЕНИ МЕТРОПОЛИТЕН ИМЕНИ В.И.ЛЕНИНА&#34;
+            },
+            &#34;inn&#34;: {1134038: &#34;7702038150&#34;},
+        }
+    ).set_index(&#34;inn&#34;)
+    assert rename_rows(df2).loc[&#34;7702038150&#34;, &#34;title&#34;] == &#34;Московский метрополитен&#34;
+
+
+def test_okved3():
+    with pytest.raises(UnclassifiableCodeError):
+        split_okved(&#34;1.2.3...&#34;)
+
+
+if __name__ == &#34;__main__&#34;:
+    pytest.main()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="boo.dataframe.test.test_canonic.test_fst"><code class="name flex">
+<span>def <span class="ident">test_fst</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_fst():
+    assert fst(&#34;123&#34;) == 12
+    assert fst(1) == 0</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.test.test_canonic.test_okved3"><code class="name flex">
+<span>def <span class="ident">test_okved3</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_okved3():
+    with pytest.raises(UnclassifiableCodeError):
+        split_okved(&#34;1.2.3...&#34;)</code></pre>
+</details>
+</dd>
+<dt id="boo.dataframe.test.test_canonic.test_rename_rows"><code class="name flex">
+<span>def <span class="ident">test_rename_rows</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_rename_rows():
+    df2 = pd.DataFrame(
+        {
+            &#34;title&#34;: {
+                1134038: &#34;МОСКОВСКИЙ ОРДЕНА ЛЕНИНА И ОРДЕНА ТРУДОВОГО КРАСНОГО ЗНАМЕНИ МЕТРОПОЛИТЕН ИМЕНИ В.И.ЛЕНИНА&#34;
+            },
+            &#34;inn&#34;: {1134038: &#34;7702038150&#34;},
+        }
+    ).set_index(&#34;inn&#34;)
+    assert rename_rows(df2).loc[&#34;7702038150&#34;, &#34;title&#34;] == &#34;Московский метрополитен&#34;</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="boo.dataframe.test" href="index.html">boo.dataframe.test</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="boo.dataframe.test.test_canonic.test_fst" href="#boo.dataframe.test.test_canonic.test_fst">test_fst</a></code></li>
+<li><code><a title="boo.dataframe.test.test_canonic.test_okved3" href="#boo.dataframe.test.test_canonic.test_okved3">test_okved3</a></code></li>
+<li><code><a title="boo.dataframe.test.test_canonic.test_rename_rows" href="#boo.dataframe.test.test_canonic.test_rename_rows">test_rename_rows</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

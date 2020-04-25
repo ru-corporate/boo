@@ -81,6 +81,7 @@ def download(year: int, force=False, directory=None):
 
 
 def download_direct(url: str, year: int, force=False, directory=None):
+    &#34;&#34;&#34;Download file directly from Rosstat website.&#34;&#34;&#34;
     raw_file = RawFile(year, directory)
     path = raw_file.path
     conditional_delete(path, force)
@@ -185,12 +186,13 @@ def inspect(year: int, directory=None):
 <span>def <span class="ident">download_direct</span></span>(<span>url: str, year: int, force=False, directory=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Download file directly from Rosstat website.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def download_direct(url: str, year: int, force=False, directory=None):
+    &#34;&#34;&#34;Download file directly from Rosstat website.&#34;&#34;&#34;
     raw_file = RawFile(year, directory)
     path = raw_file.path
     conditional_delete(path, force)

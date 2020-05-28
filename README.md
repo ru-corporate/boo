@@ -43,7 +43,7 @@ print(df.head())
 [nes2020]: https://colab.research.google.com/drive/1ndEekNo9V2rjNuLWdeWfT9b4pdJqjlWk#scrollTo=UsdxxSKTP7Io
 
 
-### Documentation
+### Documentation (experimental)
 
 <https://ru-corporate.github.io/boo/>
 

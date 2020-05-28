@@ -3,7 +3,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/ru-corporate/boo/badge.svg?branch=master&service=github)](https://coveralls.io/github/ru-corporate/boo?branch=master)
 [![на русском](https://img.shields.io/badge/README-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-blue)](README.ru.md)
 
-
 # boo
 
 `boo` is a Python client to download and transform annual corporate reports of 2.5 million Russian firms.
@@ -36,17 +35,17 @@ df = read_dataframe(2012)
 print(df.head())
 ```
 
-### Colab examples [![colab](https://img.shields.io/badge/colab-launch-blue.svg)]
+### Colab example 
 
-Please refer to Google Colab link above for examples.
+ [The following ![colab](https://img.shields.io/badge/colab-launch-blue.svg) notebook][nes2020]
+ was used in NES corportae banking course in spring 2020.
 
-1. [Data access](https://colab.research.google.com/drive/11g70BD78BnM6PqVrT4uZ27zrNBQ2ae3s)
-2. [Usage discussion](https://colab.research.google.com/drive/1lpB2jIPyQDZvri13DOpgyD5_NWRWqi-H)
+[nes2020]: https://colab.research.google.com/drive/1ndEekNo9V2rjNuLWdeWfT9b4pdJqjlWk#scrollTo=UsdxxSKTP7Io
+
 
 ### Documentation
 
 <https://ru-corporate.github.io/boo/>
-
 
 
 ## Files

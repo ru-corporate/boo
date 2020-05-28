@@ -38,7 +38,7 @@ print(df.head())
 ### Colab example 
 
  [The following ![colab](https://img.shields.io/badge/colab-launch-blue.svg) notebook][nes2020]
- was used in NES corportae banking course in spring 2020.
+ was used in NES corporate banking course in spring 2020.
 
 [nes2020]: https://colab.research.google.com/drive/1ndEekNo9V2rjNuLWdeWfT9b4pdJqjlWk#scrollTo=UsdxxSKTP7Io
 

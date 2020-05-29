@@ -17,5 +17,5 @@ def test_whatis_returns_on_shorthand():
     assert whatis("p") == "Прибыль (убыток) до налогообложения"
 
 
-def test_whatis_is_confused():
-    assert whatis("aha!") is None
+def test_whatis_is_confused_and_returns_empty_string():
+    assert whatis("aha!") == ''

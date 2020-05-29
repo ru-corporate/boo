@@ -1,6 +1,8 @@
 """Availabale years and URLs for them."""
 from boo.errors import WrongYearError
 
+from typing import List
+
 # Note: must manually hardcode new timestamps when new version of data arrives.
 
 TIMESTAMPS = {
@@ -14,7 +16,7 @@ TIMESTAMPS = {
 }
 
 
-def available_years():
+def available_years() -> List[int]:
     """List available years with datasets."""
     return list(TIMESTAMPS.keys())
 

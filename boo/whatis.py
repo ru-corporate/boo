@@ -2,6 +2,8 @@
    http://www.consultant.ru/document/cons_doc_LAW_103394/c8c663513ad32e5a0eb8ca96753ea3e0911415db/)
 """
 
+from typing import Optional
+
 ACCOUNT_NAMES_TEXT = """БУХГАЛТЕРСКИЙ БАЛАНС	1000
 Итого внеоборотных активов	1100
 Нематериальные активы	1110
@@ -140,10 +142,10 @@ def items_from_doc(doc: str):
             raise ValueError(y)
 
 
-def code_to_description(code: str, doc=ACCOUNT_NAMES_TEXT):
+def code_to_description(code: str, doc=ACCOUNT_NAMES_TEXT) -> str:
     """Return account text description by code."""
     acc_names = dict(items_from_doc(doc))
-    return acc_names.get(code)
+    return acc_names.get(code, "")
 
 
 def okv(text):
@@ -172,11 +174,11 @@ def unlag(x):
 
 def whatis(varname: str, additional_codes: dict = ADDITIONAL_DICT):
     """Return text description for *varname*."""
-    from boo.columns import MAPPER
-
-    reverse = {v: k for k, v in MAPPER.items()}
     varname = unlag(varname)
     try:
         return additional_codes[varname]
     except KeyError:
-        return code_to_description(reverse.get(varname))
+        from boo.columns import MAPPER
+
+        reverse = {v: k for k, v in MAPPER.items()}
+        return code_to_description(reverse.get(varname, ""))

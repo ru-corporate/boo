@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     # Gazprom will be on top of list
     df = source_df[ix].sort_values("ta", ascending=False).dropna()
-    
+
     if must_overwrite:
         print("Saving files...")
         df1 = change_unit(df, divide_by=1_000_000, digits=3).query("ta>1")

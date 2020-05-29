@@ -1,5 +1,7 @@
 """Custom error types."""
 
+from typing import List
+
 
 class UnclassifiableCodeError(ValueError):
     pass
@@ -10,7 +12,7 @@ def commas(xs):
 
 
 class WrongYearError(ValueError):
-    def __init__(self, year: int, allowed: [int]):
+    def __init__(self, year: int, allowed: List[int]):
         super().__init__(
             "Year not supported.\n"
             f"Provided year: {year}.\n"

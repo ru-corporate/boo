@@ -1,5 +1,5 @@
 ---
-title: 'boo: A Python client for Russian firms financial statements archive (2012-2018)'
+title: 'boo: A Python client to get financial statements for 2.5 million Russian firms (2012-2018)'
 tags:
   - Python
   - economics
@@ -12,7 +12,7 @@ authors:
     orcid: 0000-0003-3914-9665
     affiliation: 1
 affiliations:
- - name: Dean, Finance and Economics Department, Moscow State Institute of International Relations
+ - name: Dean, Finance and Economics Department, Moscow State Institute of International Relations (Finec MGIMO)
    index: 1
 date: 20 December 2020
 bibliography: paper.bib
@@ -85,16 +85,14 @@ archived to Zenodo with the linked DOI: [@zenodo]
 
 # Acknowledgements
 
-Daniil Chizhevskij supported the release of this package to PyPI. 
-Without him `pip install boo` would not be possible.
+Daniil Chizhevskij supported the release of this package at PyPI. Without him `pip install boo` would not be possible.
 
 [New Economic School](https://www.nes.ru) students were first to deal with this dataset 
-in a classroom setting in spring 2020 "Corporate bank financing". Their questions helped 
-shape this package.
+in a classroom setting in spring 2020 "Corporate bank financing" course. Their challenging questions 
+helped shape this package.
 
 # References
 
-
 - [A Realistic Guide to Making Data Available Alongside Code toImprove Reproducibility.]()
 - (https://www.datafoundation.org/xbrl-report-2017)
-- https://github.com/SimFin is an attempt 
+

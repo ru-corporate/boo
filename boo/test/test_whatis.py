@@ -18,4 +18,4 @@ def test_whatis_returns_on_shorthand():
 
 
 def test_whatis_is_confused_and_returns_empty_string():
-    assert whatis("aha!") == ''
+    assert whatis("aha!") == ""

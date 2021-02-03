@@ -29,7 +29,7 @@ def is_alive(df):
 
 def change_numeraire(df, unit):
     """Change unit of account (numeraire), eg thousands to billion.
-       Assumes *df* units are thousand rubles.
+    Assumes *df* units are thousand rubles.
     """
     text_cols, num_cols, all_cols = split_columns(df)
     return df.loc[:, num_cols].divide(unit).round(1).join(df[text_cols])[all_cols]

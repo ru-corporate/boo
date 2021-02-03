@@ -1,5 +1,6 @@
 from .main import download, download_direct, read_dataframe, inspect
 from .whatis import whatis
+from .year import available_years
 
 # must revise below:
 from .okved import all_codes_v2, name_v2

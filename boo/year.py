@@ -5,42 +5,36 @@ from typing import List
 
 # Note: must manually hardcode new timestamps when new version of data arrives.
 
-TIMESTAMPS = {
-    2012: 20190329,
-    2013: 20190411,
-    2014: 20190411,
-    2015: 20190411,
-    2016: 20190411,
-    2017: 20190423,
-    2018: 20191029,
+
+def mk_url(year, timestamp):
+    return (
+        "https://rosstat.gov.ru/opendata/"
+        f"7708234640-bdboo{year}/"
+        f"data-{timestamp}-structure-{year}1231.zip"
+    )
+
+
+URLs = {
+    2012: mk_url(2012, "20200331"),
+    2013: mk_url(2013, "20200331"),
+    2014: mk_url(2014, "20200327"),
+    2015: mk_url(2015, "20200327"),
+    2016: mk_url(2016, "20200327"),
+    2017: mk_url(2017, "20200327"),
+    2018: "https://rosstat.gov.ru/opendata/7708234640-7708234640bdboo2018/data-20200327-structure-20181231.zip",
 }
 
 
 def available_years() -> List[int]:
     """List available years with datasets."""
-    return list(TIMESTAMPS.keys())
+    return list(URLs.keys())
 
 
-def get_timestamp(year: int, timestamps=TIMESTAMPS):
+def rosstat_url(year: int, urls=URLs):
     try:
-        return timestamps[year]
+        return URLs[year]
     except KeyError:
-        raise WrongYearError(year, allowed=available_years())
-
-
-def rosstat_url(year: int, timestamps=TIMESTAMPS):
-    """
-    Construct URL similar to
-    http://www.gks.ru/opendata/storage/7708234640-bdboo2012/data-20181029t000000-structure-20121231t000000.csv
-    using timestamps.
-    """
-    timestamp = get_timestamp(year)
-    return (
-        "http://www.gks.ru/opendata/storage/"
-        f"7708234640-bdboo{year}/"
-        f"data-{timestamp}t000000-structure-"
-        f"{year}1231t000000.csv"
-    )
+        raise WrongYearError(year)
 
 
 def testing_url(year: int):

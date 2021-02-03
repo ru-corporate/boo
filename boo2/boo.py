@@ -7,7 +7,7 @@ from urllib.request import urlopen
 from pathlib import Path
 import pandas as pd
 from dataclasses import dataclass
-from boo.columns import INDEX, NAMES
+#from boo.columns import INDEX, NAMES
 from zipfile import ZipFile
 from typing import Optional
 
@@ -145,8 +145,7 @@ class RemoteZipFile:
            self._size = url_content_length(self.url)
         return self._size  
     
-    def download(self, folder=None):
-        
+    def download(self, folder=None):        
         return curl(path_zip(self.year), mk_url(self.year))
     
     def is_valid_size(self):
@@ -168,12 +167,17 @@ class LocalFile:
     def size(self):
         return self.path.stat().st_size
 
-    def size_mb(self, precision=0):
-        return round(self.size() / 2 ** (10 * 2), precision)
+    def size_mb(self):
+        return to_megabytes(self.size())
 
     def exists(self):
         return self.path.exists()
 
+
+def to_megabytes(b: int, precision: int = 1):
+    return round(b / 2 ** (10 * 2), precision)
+    
+    
 @dataclass    
 class LocalZipFile(LocalFile):
    
@@ -200,7 +204,7 @@ class LocalCSVFile(LocalFile):
     def path(self):
         return path_csv(self.year, self.folder)
 
-def download(year, folder=None): 
+def _download(year, folder=None): 
     remote = RemoteZipFile(year)
     assert remote.is_valid_size()
     print(year, "file size is", remote.size())
@@ -219,18 +223,90 @@ import click
 
 @click.group()
 def cli():
+    """Download 2012-2018 corporate annual financial statements from Rosstat.""" 
     pass
 
 @cli.command()
 @click.argument('year')
 def url(year: str):
+    """Show URL for remote zipfile."""
+    year = accept_year(year)
+    click.echo(RemoteZipFile(year).url, nl=False)
+
+def accept_year(year):
     year = int(year)
     if year in available_years():
-       click.echo(RemoteZipFile(int(year)).url)
+       return year
+    else:       
+       msg = f"{year} is not a valid YEAR, must be in 2012..2018 range."
+       click.echo(msg, err=True)
+       raise ValueError(year)
+    
 
 @cli.command()
-def dropdb():
-    click.echo('Dropped the database')
+@click.argument('year')
+@click.option('--mb', is_flag=True)
+def size(year, mb):
+    """Show zipfile size in bytes or Mb."""
+    year = accept_year(year)
+    x = required_file_size(year)
+    if mb:
+        x = to_megabytes(x)
+    click.echo(x)
+
+
+@cli.command()
+@click.argument('year')
+def download(year):
+    """Download zipfile to local computer."""
+    year = accept_year(year)
+    remote = RemoteZipFile(year)
+    assert remote.is_valid_size()
+    click.echo(f"{year} file size is {remote.size()}")
+    local = LocalZipFile(year)
+    if local.size() != remote.size():
+        click.echo("Found local file of wrong size, delete recommended")
+        return
+    if local.exists():
+        click.echo(f"{year} file already exists")
+    else:    
+        click.echo(f"Downloading {year}")
+        remote.download()
+
+
+@cli.command()
+@click.argument('year')
+def unpack(year):    
+    """Unpack local zipfile as local CSV file."""
+    click.echo("Unpacking {year}")
+    year = accept_year(year)
+    files = LocalZipFile().unpack()
+    click.echo("\n".join(files))
+
     
+@cli.command()
+@click.argument('year')
+@click.option('--csv', 'filetype', flag_value=LocalCSVFile)
+@click.option('--zip', 'filetype', flag_value=LocalZipFile)
+def path(year, filetype):        
+    """Show path to local files."""
+    year = accept_year(year)
+    if filetype:
+      click.echo(filetype(year).path, file=click.get_text_stream('stdout'))
+    else:
+      click.echo(default_data_folder(), file=click.get_text_stream('stdout'))
+
+def data(year, nrows):
+    pass
+    
+# Ideas:
+# one info command for path, size and url
+# less boilerlplate with year = accept_year(year)
+# restore test option - read from github years 0 and 1
+# data year --nrows
+# --directory or --dir
+# setuptools entry point
+# DOI for code
+       
 if __name__ == "__main__":    
     cli()

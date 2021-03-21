@@ -1,5 +1,4 @@
 from boo.columns import NAMES
-from boo.errors import UnclassifiableCodeError
 
 QUOTE_CHAR = '"'
 EMPTY = int(0)
@@ -75,11 +74,11 @@ def rename_rows(df):
 def split_okved(code_string: str):
     """Get 3 levels of OKVED codes from *code_string*."""
     if code_string.count(".") > 2:
-        raise UnclassifiableCodeError(code_string)
+        raise ValueError(code_string)
     try:
         codes = [int(x) for x in code_string.split(".")]
     except ValueError:
-        raise UnclassifiableCodeError(code_string)
+        raise ValueError(code_string)
     return codes + [0] * (3 - len(codes))
 
 

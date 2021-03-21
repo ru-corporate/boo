@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from boo.dataframe.canonic import (UnclassifiableCodeError, canonic_df, fst,
+from boo.dataframe.canonic import (canonic_df, fst,
                                    rename_rows, split_okved)
 
 STRINGS = ["title", "org", "okpo", "okopf", "okfs", "okved", "inn", "unit"]
@@ -80,16 +80,6 @@ df1 = pd.DataFrame(
     index=None,
 )
 
-# FIXME Tests do not work for df1 - need new fixture.
-
-# def test_rename_complete():
-#     assert canonic_df(df1).title["7702038150"] == "Московский метрополитен"
-
-
-# def test_substitute_complete():
-#     assert canonic_df(df1).title["2607018122"] == "ВТОРАЯ ОГК"
-
-
 def test_rename_rows():
     df2 = pd.DataFrame(
         {
@@ -103,7 +93,7 @@ def test_rename_rows():
 
 
 def test_okved3():
-    with pytest.raises(UnclassifiableCodeError):
+    with pytest.raises(ValueError):
         split_okved("1.2.3...")
 
 

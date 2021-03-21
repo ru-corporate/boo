@@ -1,11 +1,17 @@
-from columns import INDEX, NAMES
 import pandas as pd
-from downloader import path_csv
 
+from boo.downloader import path_csv
+from boo.dataframe import canonic_df
+from boo.columns import INDEX, NAMES
 
 def read_intermediate_df(year, directory=None, **user_args):
-    # can use read_intermediate_df(year, nrows=100) for small example
+    """Read intermeiate data for *year* as dataframe.
 
+    You can use read_intermediate_df(year, nrows=100) for small example.
+
+    Returns:
+        pandas.DataFrame
+    """
     kwargs = dict(
         encoding="windows-1251",
         sep=";",

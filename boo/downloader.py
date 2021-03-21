@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Union
 from urllib.request import urlopen
 from zipfile import ZipFile
 
@@ -17,7 +17,7 @@ def timestamps(year: int):
     return {
         2012: ("7708234640-", "20200331"),  # different
         2013: ("7708234640-", "20200331"),  # different
-        2014: ("7708234640-", "20200327"),  #  similar
+        2014: ("7708234640-", "20200327"),  # similar
         2015: ("7708234640-", "20200327"),  # similar
         2016: ("7708234640-", "20200327"),  # similar
         2017: ("7708234640-", "20200327"),  # similar
@@ -27,6 +27,7 @@ def timestamps(year: int):
 
 def required_file_size(year):
     return {
+        0: 4_501,
         2012: 88_169_551,
         2013: 195_986_142,
         2014: 225_816_835,
@@ -50,19 +51,18 @@ def is_valid_size(path, year):
 
 
 def filename(year):
+    if year == 0:
+        return "sample"
     _, timestamp = timestamps(year)
     return f"data-{timestamp}-structure-{year}1231"
 
 
-def csv_filename(year):
+def csv_filename(year):    
     return filename(year) + ".csv"
 
 
 def zip_filename(year):
     return filename(year) + ".zip"
-
-
-assert csv_filename(2012) == "data-20200331-structure-20121231.csv"
 
 
 def mk_url_pure(year):
@@ -71,15 +71,9 @@ def mk_url_pure(year):
 
 
 def mk_url(year):
-    if year in (0, 1):  # for testing
-        return str(year)
+    if year == 0:  # for testing
+        return "https://github.com/ru-corporate/boo/blob/master/assets/sample.zip?raw=true"
     return mk_url_pure(year)
-
-
-assert (
-    mk_url(2018)
-    == "https://rosstat.gov.ru/opendata/7708234640-7708234640bdboo2018/data-20200327-structure-20181231.zip"
-)
 
 
 def available_years() -> List[int]:
@@ -124,14 +118,15 @@ def unzip(path, folder=None):
         return zf.namelist()
 
 
-def path_zip(year: int, folder: Optional[Path] = None) -> Path:
-    folder = folder if folder else default_data_folder()
-    return folder / f"{year}.zip"
+def persist(folder: Union[Path,str, None]) -> Path:
+    return Path(folder) if folder else default_data_folder()
+
+def path_zip(year: int, folder: Optional[Path] = None) -> Path:    
+    return persist(folder) / f"{year}.zip"
 
 
 def path_csv(year: int, folder: Optional[Path] = None) -> Path:
-    folder = folder if folder else default_data_folder()
-    return folder / csv_filename(year)
+    return persist(folder) / csv_filename(year)
 
 
 @dataclass
@@ -163,11 +158,11 @@ class RemoteZipFile:
         return size(local_file) == self.size()
 
 
-def download(year, folder: Optional[str]=None, echo=print):
-    folder = Path(folder) if folder else default_data_folder()
+def download(year, directory: Optional[str]=None, echo=print):
+    folder = persist(directory)
     remote_zip = RemoteZipFile(year)
     remote_zip.validate_size()
-    echo(year, "remote file size is", remote_zip.size())
+    echo("Year", year, "remote file size is", remote_zip.size())
     local_zip = path_zip(year, folder)   
     if local_zip.exists() and remote_zip.is_same_size(local_zip):
         echo("File already downloaded:", local_zip)
@@ -179,12 +174,18 @@ def download(year, folder: Optional[str]=None, echo=print):
     return str(local_zip)
 
 
-def unpack(year, folder: Optional[str]=None, echo=print):  
-    folder = Path(folder) if folder else default_data_folder()
-    local_zip = path_zip(year, folder)  
-    echo("Unpacking local zip file for year", year, "to folder", folder)
-    files = unzip(local_zip, folder)    
-    if files[0] == csv_filename(year):
-       echo("Unpacked", path_csv(year, folder))     
-    else:
-       echo("Unpacked", " ".join(files))
+def unpack(year, directory: Optional[str]=None, echo=print):  
+    folder = persist(directory)
+    local_csv = path_csv(year, folder)
+    if local_csv.exists():
+        echo("File", local_csv, "already exists")
+    else:     
+        local_zip = path_zip(year, folder)
+        echo("Unpacking local zip file for year", year, "to folder", folder)
+        files = unzip(local_zip, folder)    
+        if files[0] == csv_filename(year):
+           local_csv = path_csv(year, folder)
+           echo("Unpacked", local_csv)    
+           echo("Size", local_csv)
+        else:
+           echo("Unpacked several files:", " ".join(files))

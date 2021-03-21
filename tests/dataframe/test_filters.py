@@ -19,7 +19,7 @@ def dataframe():
     return pd.read_csv(StringIO(doc_)).set_index("inn")
 
 
-def the_dict():
+def reference_dict():
     return {
         "region": {2983009240: 29, 7713725683: 77, 5256083213: 52},
         "ok1": {2983009240: 52, 7713725683: 33, 5256083213: 45},
@@ -38,4 +38,4 @@ def the_dict():
 
 def test_large_companies_and_less_columns():
     x = minimal_columns(large_companies(dataframe()))
-    assert x.head(3).to_dict() == the_dict()
+    assert x.head(3).to_dict() == reference_dict()

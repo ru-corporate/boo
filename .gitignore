@@ -2,6 +2,7 @@
 !0.csv
 !raw0.csv
 *.zip
+!sample.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

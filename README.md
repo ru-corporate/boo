@@ -11,8 +11,6 @@
 `boo` is an acronym for _'accounting reports of organisations'_ (in Russian 'бухгалтерская отчетность организаций'),
 a term Rosstat uses for original datasets.
 
-There is a [README in Russian](README.ru.md) for this package too.
-
 
 ## Install
 
@@ -31,10 +29,11 @@ pip install git+https://github.com/ru-corporate/boo.git@master
 ### Download and read full dataframe
 
 ```python
-from boo import download, read_dataframe
+from boo import download, unpack, read_dataframe
 
 download(2012)
-df = read_dataframe(2012)
+unpack(2012)
+df = read_dataframe(2012, nrows(100))
 print(df.head())
 ```
 
@@ -45,26 +44,11 @@ print(df.head())
 
 [nes2020]: https://colab.research.google.com/drive/1ndEekNo9V2rjNuLWdeWfT9b4pdJqjlWk#scrollTo=UsdxxSKTP7Io
 
-
-### Documentation (experimental)
-
-<https://ru-corporate.github.io/boo/>
-
-
 ## Files
 
-CSV files are located at `~/.boo` folder. Function `boo.locate(year)` will show exactly where they are.
+CSV files are located at `~/.boo` folder. 
 
-
-File name     | Description  | Column count |  Created by 
---------------|--------------|:------------:|:------------:
-`raw<year>.csv` | Original CSV file from Rosstat website. No header row.    | 266 | `download(year)`
-`<year>.csv` | CSV file with column names in header row.  | 58 | `build(year)`
-
-`boo.build()` takes `raw<year>.csv` and creates a local CSV file `<year>.csv` with column names.  `<year>.csv` is importable as pandas dataframe. 
-
-`df = read_dataframe(year)` returns a reference ("canonic") dataset, that is suggested as a starting point for analysis. 
-`read_dataframe(year)` reads `<year>.csv`, transforms some columns (for example, extracts `region` from `inn`) and applies filters to remove erroneous rows. Tax identificator (`inn`) used as an index.
+`df = read_dataframe(year)` returns a reference ("canonic") dataset, that is suggested as a starting point for analysis. `read_dataframe(year)` reads `<year>.csv`, transforms some columns (for example, extracts `region` from `inn`) and applies filters to remove erroneous rows. Tax identificator (`inn`) used as an index.
 
 If you want to see `<year>.csv` raw content without transformation or corrections, use `read_intermediate_df(year)`. 
 
@@ -82,15 +66,12 @@ Suported years are listed below. Raw file sizes are from 500Mb to 1.6Gb.
 |   2017 |        1594 |
 |   2018 |        1549 |
 
-You can use `boo.file_length(year)` and `boo.file_length_mb(year)` to retrieve raw file sizes from Rosstat website. 
+You can use `boo.file_length(year)` to check raw file sizes from Rosstat website. 
 
 ```python
->> from boo import file_length, file_length_mb
+>> from boo import file_length
 >> file_length(2017) # size in bytes
 1671752977
-
->> file_length_mb(2017) # size in Mb
-1594
 ```
 
 ## Variables
@@ -157,15 +138,13 @@ The Rosstat dataset contains balance sheet, profit and loss and cash flow statem
 
 #### Developper
 
-- `boo.path.default_data_folder` shows where the CSV files are on a computer.
+- `boo.default_data_folder()` shows where the ZIP and CSV files are on a computer.
 - `boo.columns` controls CSV column selection and naming.
-- `boo.dataframe.canonic` makes canonic CSV. By coincidence the outputhas same number of columns as `<year>.csv`, but the columns are slightly different as some columns are added and some removed.
-- `boo.year.TIMESTAMPS` help to find proper URLs, which change along with Rosstat website updates. 
-- New annual dataset released around September-October.
+- `boo.dataframe.canonic` makes canonic CSV. By coincidence the output has same number of columns as `<year>.csv`, but the columns are indeed different as some columns are added and some removed.
 
 ## Script
 
-Rosstat publishes CSV files without column headers. 
+Rosstat published CSV files without column headers. 
 When preparing a readable CSV file we assign a name to columns
 with variables of interest and cut away the rest of the columns. 
 
@@ -176,7 +155,7 @@ For illustration, batch script below creates `2012.csv` file with column names.
 
 ```bat
 set url=http://www.gks.ru/opendata/storage/7708234640-bdboo2012/data-20190329t000000-structure-20121231t000000.csv
-set index=1,2,3,4,5,6,7,8,17,18,27,28,37,38,41,42,43,44,57,58,59,60,67,68,69,70,79,80,81,82,83,84,93,94,99,100,105,106,117,118,204,205,209,210,211,212,213,214,215,216,222,223,228,229,235,240,241,266 
+set  index=1,2,3,4,5,6,7,8,17,18,27,28,37,38,41,42,43,44,57,58,59,60,67,68,69,70,79,80,81,82,83,84,93,94,99,100,105,106,117,118,204,205,209,210,211,212,213,214,215,216,222,223,228,229,235,240,241,266 
 set colnames=name,okpo,okopf,okfs,okved,inn,unit,report_type,of,of_lag,ta_fix,ta_fix_lag,cash,cash_lag,ta_nonfix,ta_nonfix_lag,ta,ta_lag,tp_capital,tp_capital_lag,debt_long,debt_long_lag,tp_long,tp_long_lag,debt_short,debt_short_lag,tp_short,tp_short_lag,tp,tp_lag,sales,sales_lag,profit_oper,profit_oper_lag,exp_interest,exp_interest_lag,profit_before_tax,profit_before_tax_lag,profit_after_tax,profit_after_tax_lag,cf_oper_in,cf_oper_in_sales,cf_oper_out,paid_to_supplier,paid_to_worker,paid_interest,paid_profit_tax,paid_other_costs,cf_oper,cf_inv_in,cf_inv_out,paid_fa_investment,cf_inv,cf_fin_in,cf_fin_out,cf_fin,cf,date_published
 
 curl %url% > raw2012.csv
@@ -194,7 +173,7 @@ Batch file result is similar to running:
 ```python 
 from boo import download, build
 download(2012)
-build(2012)
+unpack(2012)
 ```
 
 ## Limitations
@@ -215,6 +194,6 @@ print(df2.head())
 
 ## Contributors
 
-The package is maintained by [Evgeniy Pogrebnyak](https://github.com/epogrebnyak).
+The package was created by [Evgeniy Pogrebnyak](https://github.com/epogrebnyak).
 
 Special thanks to [Daniil Chizhevskij](https://daniilchizhevskij.ml/) for PyPI collaboration. Without his support `pip install boo` would not be possible.

@@ -2,8 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from boo.dataframe.canonic import (canonic_df, fst,
-                                   rename_rows, split_okved)
+from boo.dataframe.canonic import canonic_df, fst, rename_rows, split_okved
 
 STRINGS = ["title", "org", "okpo", "okopf", "okfs", "okved", "inn", "unit"]
 
@@ -79,6 +78,7 @@ df1 = pd.DataFrame(
     },
     index=None,
 )
+
 
 def test_rename_rows():
     df2 = pd.DataFrame(

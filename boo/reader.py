@@ -4,6 +4,7 @@ from boo.downloader import path_csv
 from boo.dataframe import canonic_df
 from boo.columns import INDEX, NAMES
 
+
 def read_intermediate_df(year, directory=None, **user_args):
     """Read intermeiate data for *year* as dataframe.
 
@@ -29,4 +30,4 @@ def read_dataframe(year: int, directory=None, **kwargs):
     Returns:
         pandas.DataFrame
     """
-    return canonic_df(read_intermediate_df(year, directory, **kwargs))    
+    return canonic_df(read_intermediate_df(year, directory, **kwargs))

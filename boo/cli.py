@@ -44,17 +44,17 @@ def to_terminal(*args):
 def download(year):
     """Download zip file to local computer."""
     year = accept_year(year)
-    if year: 
-       downloader.download(year, folder=None, echo=to_terminal)
-        
+    if year:
+        downloader.download(year, folder=None, echo=to_terminal)
+
 
 @cli.command()
 @click.argument("year")
 def unpack(year):
     """Unpack local zip file to get csv file."""
     year = accept_year(year)
-    if year: 
-       downloader.unpack(year, folder=None, echo=to_terminal)
+    if year:
+        downloader.unpack(year, folder=None, echo=to_terminal)
 
 
 @cli.command()
@@ -67,9 +67,9 @@ def years():
 @click.argument("year", nargs=-1)
 def files(year):
     """Show default paths to local zip and csv file by year."""
-    click.echo(downloader.default_data_folder())     
+    click.echo(downloader.default_data_folder())
     if year:
-        year = accept_year(year[0]) # check again nargs=-1 makes input a tuple
+        year = accept_year(year[0])  # check again nargs=-1 makes input a tuple
         if year:
             click.echo(downloader.path_zip(year))
             click.echo(downloader.path_csv(year))

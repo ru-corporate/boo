@@ -57,7 +57,7 @@ def filename(year):
     return f"data-{timestamp}-structure-{year}1231"
 
 
-def csv_filename(year):    
+def csv_filename(year):
     return filename(year) + ".csv"
 
 
@@ -72,7 +72,9 @@ def mk_url_pure(year):
 
 def mk_url(year):
     if year == 0:  # for testing
-        return "https://github.com/ru-corporate/boo/blob/master/assets/sample.zip?raw=true"
+        return (
+            "https://github.com/ru-corporate/boo/blob/master/assets/sample.zip?raw=true"
+        )
     return mk_url_pure(year)
 
 
@@ -118,10 +120,11 @@ def unzip(path, folder=None):
         return zf.namelist()
 
 
-def persist(folder: Union[Path,str, None]) -> Path:
+def persist(folder: Union[Path, str, None]) -> Path:
     return Path(folder) if folder else default_data_folder()
 
-def path_zip(year: int, folder: Optional[Path] = None) -> Path:    
+
+def path_zip(year: int, folder: Optional[Path] = None) -> Path:
     return persist(folder) / f"{year}.zip"
 
 
@@ -158,15 +161,15 @@ class RemoteZipFile:
         return size(local_file) == self.size()
 
 
-def download(year, directory: Optional[str]=None, echo=print):
+def download(year, directory: Optional[str] = None, echo=print):
     folder = persist(directory)
     remote_zip = RemoteZipFile(year)
     remote_zip.validate_size()
     echo("Year", year, "remote file size is", remote_zip.size())
-    local_zip = path_zip(year, folder)   
+    local_zip = path_zip(year, folder)
     if local_zip.exists() and remote_zip.is_same_size(local_zip):
         echo("File already downloaded:", local_zip)
-    else:    
+    else:
         echo("Downloading for year", year)
         remote_zip.download(folder)
         echo("Downloaded zip file", local_zip)
@@ -174,18 +177,18 @@ def download(year, directory: Optional[str]=None, echo=print):
     return str(local_zip)
 
 
-def unpack(year, directory: Optional[str]=None, echo=print):  
+def unpack(year, directory: Optional[str] = None, echo=print):
     folder = persist(directory)
     local_csv = path_csv(year, folder)
     if local_csv.exists():
         echo("File", local_csv, "already exists")
-    else:     
+    else:
         local_zip = path_zip(year, folder)
         echo("Unpacking local zip file for year", year, "to folder", folder)
-        files = unzip(local_zip, folder)    
+        files = unzip(local_zip, folder)
         if files[0] == csv_filename(year):
-           local_csv = path_csv(year, folder)
-           echo("Unpacked", local_csv)    
-           echo("Size", local_csv)
+            local_csv = path_csv(year, folder)
+            echo("Unpacked", local_csv)
+            echo("Size", local_csv)
         else:
-           echo("Unpacked several files:", " ".join(files))
+            echo("Unpacked several files:", " ".join(files))

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "boo"
-version = "0.1.5"
+version = "0.2.0"
 description = "Russian corporate financial reports 2012-2018."
 authors = ["Evgeniy Pogrebnyak <e.pogrebnyak@gmail.com>"]
 

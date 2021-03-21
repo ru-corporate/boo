@@ -1,10 +1,9 @@
-from boo.columns import INDEX, NAMES
-from boo.columns import ask
-from boo.columns import is_lagged
+from boo.columns import INDEX, NAMES, ask, is_lagged
 
 
 def test_Int64Dtype_falls_to_NA_on_missing_values():
     import io
+
     import pandas as pd
 
     source_ = io.StringIO("region,x,y\n77,,20")

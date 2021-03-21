@@ -1,7 +1,8 @@
-import pytest
-from shutil import copyfile
 from pathlib import Path
+from shutil import copyfile
 from tempfile import TemporaryDirectory
+
+import pytest
 
 DATA_FOLDER = Path(__file__).parent / "data"
 

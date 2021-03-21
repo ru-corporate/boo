@@ -4,8 +4,8 @@ from urllib.request import urlopen
 import requests
 from tqdm import tqdm
 
-from boo.year import make_url
 from boo.helper import as_mb
+from boo.year import make_url
 
 
 def curl(path: str, url: str, max_chunk=None):

@@ -1,14 +1,13 @@
-from shutil import copyfile
 from pathlib import Path
+from shutil import copyfile
 from tempfile import TemporaryDirectory
-import pytest
 
-from requests.exceptions import ConnectionError
 import pandas as pd
+import pytest
+from requests.exceptions import ConnectionError
 
-from boo.main import download, read_dataframe, inspect
+from boo.main import download, inspect, read_dataframe
 from boo.path import RawFile
-
 
 DATA_FOLDER = Path(__file__).parent / "data"
 

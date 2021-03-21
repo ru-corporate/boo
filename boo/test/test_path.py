@@ -1,6 +1,7 @@
-import pytest
 import os
 from pathlib import Path
+
+import pytest
 
 from boo.path import RawFile, get_folder
 

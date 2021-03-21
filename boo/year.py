@@ -1,7 +1,7 @@
 """Availabale years and URLs for them."""
-from boo.errors import WrongYearError
-
 from typing import List
+
+from boo.errors import WrongYearError
 
 # Note: must manually hardcode new timestamps when new version of data arrives.
 

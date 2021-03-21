@@ -1,11 +1,12 @@
-from boo import available_years, download, unpack #read_intermediate_df
+from boo import available_years, download, unpack  # read_intermediate_df
 
+dfs = dict()
 for year in available_years():
     download(year)
     unpack(year)
-    #read_intermediate_df(year, nrows=100)
-    
-    
+    dfs[year] = read_intermediate_df(year, nrows=100)
+
+
 """
 pip install boo
 mkdir boo_data

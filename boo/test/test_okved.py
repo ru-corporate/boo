@@ -1,5 +1,6 @@
 import pytest
-from boo.okved import name_v2, all_codes_v2
+
+from boo.okved import all_codes_v2, name_v2
 
 
 def test_name_v2():

@@ -2,11 +2,11 @@
 
 import pandas as pd
 
-from boo.year import make_url
-from boo.path import RawFile
-from boo.curl import curl
 from boo.columns import INDEX, NAMES
+from boo.curl import curl
 from boo.dataframe.canonic import canonic_df
+from boo.path import RawFile
+from boo.year import make_url
 
 
 def conditional_delete(path, force: bool):

@@ -1,16 +1,16 @@
 """Availabale years and URLs for them."""
 
+from dataclasses import dataclass
+from pathlib import Path
+from typing import List, Optional
+from urllib.request import urlopen
+from zipfile import ZipFile
+
+import pandas as pd
 import requests
 from tqdm import tqdm
-from typing import List
-from urllib.request import urlopen
-from pathlib import Path
-import pandas as pd
-from dataclasses import dataclass
-from boo.columns import INDEX, NAMES
-from zipfile import ZipFile
-from typing import Optional
 
+from boo.columns import INDEX, NAMES
 
 # Note: must manually hardcode new timestamps when new version of data arrives.
 
@@ -216,6 +216,7 @@ def inspect(year):
 
 
 import click
+
 
 @click.group()
 def cli():

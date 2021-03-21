@@ -1,4 +1,5 @@
 import pytest
+
 from boo.year import make_url
 
 

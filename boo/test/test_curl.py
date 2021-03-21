@@ -1,6 +1,7 @@
-import pytest
 from pathlib import Path
 from tempfile import NamedTemporaryFile
+
+import pytest
 
 from boo.curl import curl, file_length, file_length_mb
 from boo.year import make_url

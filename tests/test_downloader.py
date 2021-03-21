@@ -39,7 +39,7 @@ def test_download_unpack_read():
  '2703005461',
  '2312031047',
  '2420002597']
-            assert df.iloc[:1,:].to_csv() == reference_csv()
+            assert df.iloc[:1,:].to_csv(line_terminator="\r\n") == reference_csv()
     # test passes if no internet connection available
     except ConnectionError:
         pass

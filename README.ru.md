@@ -61,9 +61,10 @@ pip install git+https://github.com/ru-corporate/sandbox.git@master
 Вы можете начать работу с коротким образцом данных:
 
 ```python
-from boo import download, read_dataframe
+from boo import download, unpack, read_dataframe
 
 download(0)
+unpack(0)
 df_0 = read_dataframe(0)
 print(df_0)
 ```
@@ -71,15 +72,11 @@ print(df_0)
 
 ### б) Фактические данные
 
-[`example.py`](example.py) содержит следующий пример:
-
 ```python
-from boo import download, read_dataframe
+from boo import download, unpack, read_dataframe
 
-# download raw file from Rosstat
 download(2012)
-
-# read trimmed version as dataframe
+unpack(2012)
 df = read_dataframe(2012)
 ```
 
@@ -89,13 +86,10 @@ df = read_dataframe(2012)
 ### в) Справочная информация
 
 ```python 
-from boo import inspect, whatis
+from boo import whatis
 
 # Variable description
 print(whatis('of'))
-
-# File locations 
-print(inspect(2017))
 ```
 
 ## Обзначения переменных

@@ -1,5 +1,6 @@
 import pytest
-from boo.downloader import file_length, available_years
+
+from boo.downloader import available_years, file_length
 
 
 @pytest.mark.skip

@@ -1,8 +1,8 @@
 import pandas as pd
 
-from boo.downloader import path_csv
-from boo.dataframe import canonic_df
 from boo.columns import INDEX, NAMES
+from boo.dataframe import canonic_df
+from boo.downloader import path_csv
 
 
 def read_intermediate_df(year, directory=None, **user_args):

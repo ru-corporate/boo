@@ -1,8 +1,7 @@
 from pathlib import Path
 
-from setuptools import find_packages, setup
-
 from changelog import version_str
+from setuptools import find_packages, setup
 
 # Use script/upload.bat to update pipy package.
 

@@ -1,5 +1,5 @@
 [![PyPI](https://img.shields.io/pypi/v/boo.svg)](https://pypi.python.org/pypi/boo/#history)
-[![Build Status](https://travis-ci.com/ru-corporate/boo.svg?branch=master)](https://travis-ci.com/ru-corporate/boo)
+[![Python package](https://github.com/ru-corporate/boo/actions/workflows/.action.yml/badge.svg)](https://github.com/ru-corporate/boo/actions/workflows/.action.yml)
 [![Coverage Status](https://coveralls.io/repos/github/ru-corporate/boo/badge.svg?branch=master&service=github)](https://coveralls.io/github/ru-corporate/boo?branch=master)
 [![Downloads](https://pepy.tech/badge/boo)](https://pepy.tech/project/boo)
 [![на русском](https://img.shields.io/badge/README-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-blue)](README.ru.md)
@@ -11,6 +11,7 @@
 `boo` is an acronym for _'accounting reports of organisations'_ (in Russian 'бухгалтерская отчетность организаций'),
 a term Rosstat uses for original datasets.
 
+The dataset is limited to 2012-2018, as later years now require paid subscription.
 
 ## Install
 
@@ -26,14 +27,14 @@ pip install git+https://github.com/ru-corporate/boo.git@master
 
 ## Usage
 
-### Download and read full dataframe
+### Download and read dataframe
 
 ```python
 from boo import download, unpack, read_dataframe
 
 download(2012)
 unpack(2012)
-df = read_dataframe(2012, nrows(100))
+df = read_dataframe(2012, nrows=100)
 print(df.head())
 ```
 
